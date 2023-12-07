@@ -2,6 +2,19 @@ String html_template = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <title>ESP32 GPIO State</title>
+  <style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+</style>
   <script>
     var ws;
     function initWebSocket() {
@@ -22,4 +35,3 @@ String html_template = R"rawliteral(
 <body>
   <h1>ESP32 GPIO Monitor</h1>
 )rawliteral";
-

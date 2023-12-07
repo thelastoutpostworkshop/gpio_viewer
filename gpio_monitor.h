@@ -53,16 +53,42 @@ private:
     String generateIndexHTML()
     {
         String html = html_template;
-        // Add GPIO lines dynamically
+
+        // Start of the table
+        html += "<table>\n";
+
+        // Add GPIO lines dynamically in two columns
         for (int i = 0; i < numPins; i++)
         {
-            html += "<p id='gpio" + String(gpioPins[i]) + "'>GPIO " + String(gpioPins[i]) + ": Waiting for updates...</p>\n";
+            // Assign the GPIO to a column (odd pins in one column, even in another, for example)
+            int column = gpioPins[i] % 2;
+
+            // Start a new row for the first column
+            if (column == 0)
+            {
+                html += "<tr>\n";
+            }
+
+            // Add the GPIO pin and state fields
+            html += "<td>GPIO " + String(gpioPins[i]) + "</td>";
+            html += "<td id='gpio" + String(gpioPins[i]) + "'>Waiting for updates...</td>\n";
+
+            // End the row after the second column
+            if (column == 1)
+            {
+                html += "</tr>\n";
+            }
         }
 
+        // Close any open table row and end the table
+        html += "</table>\n";
+
+        // Closing tags for HTML
         html += R"rawliteral(
 </body>
 </html>
 )rawliteral";
+
         return html;
     }
 
