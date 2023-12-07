@@ -74,16 +74,31 @@ private:
     {
         while (1)
         {
+            String jsonMessage = "{";
+            bool hasChanges = false;
+
             for (int i = 0; i < numPins; i++)
             {
                 int currentState = readGPIORegister(gpioPins[i]);
-                // Serial.printf("gpio #%d = %d\n", gpioPins[i], currentState);
                 if (currentState != lastPinStates[i])
                 {
-                    sendGPIOState(gpioPins[i], currentState);
+                    if (hasChanges)
+                    {
+                        jsonMessage += ", ";
+                    }
+                    jsonMessage += "\"" + String(gpioPins[i]) + "\": " + (currentState ? "1" : "0");
                     lastPinStates[i] = currentState;
+                    hasChanges = true;
                 }
             }
+
+            jsonMessage += "}";
+
+            if (hasChanges)
+            {
+                sendGPIOStates(jsonMessage);
+            }
+
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
         }
     }
@@ -102,11 +117,9 @@ private:
         }
     }
 
-    void sendGPIOState(int gpio, int state)
+    void sendGPIOStates(const String &states)
     {
-        String message = "{\"gpio\": " + String(gpio) + ", \"state\": " + String(state) + "}";
-        // Serial.printf("Sending %s\n", message.c_str());
-        ws.textAll(message);
+        ws.textAll(states);
     }
 
     void onWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
