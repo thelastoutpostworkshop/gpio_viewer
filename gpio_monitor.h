@@ -5,6 +5,11 @@
 #include <freertos/task.h>
 #include "html.h"
 
+const int leftColumnPins[] = {36, 39, 34, 35, 32, 33, 25, 26, 27, 14, 12, 13, 9, 10, 11};
+const int rightColumnPins[] = {23, 22, 1, 3, 21, 18, 18, 5, 17, 16, 4, 0, 2, 15};
+const int numLeftColumnPins = sizeof(leftColumnPins) / sizeof(leftColumnPins[0]);
+const int numRightColumnPins = sizeof(rightColumnPins) / sizeof(rightColumnPins[0]);
+
 class GPIOMonitor
 {
 public:
@@ -54,33 +59,47 @@ private:
     {
         String html = html_template;
 
+        // Calculate the maximum number of rows needed
+        int maxRows = max(numLeftColumnPins, numRightColumnPins);
+
         // Start of the table
         html += "<table>\n";
 
         // Add GPIO lines dynamically in two columns
-        for (int i = 0; i < numPins; i++)
+        for (int i = 0; i < maxRows; i++)
         {
-            // Assign the GPIO to a column (odd pins in one column, even in another, for example)
-            int column = gpioPins[i] % 2;
+            html += "<tr>\n"; // Start a new row
 
-            // Start a new row for the first column
-            if (column == 0)
+            // Left column
+            if (i < numLeftColumnPins)
             {
-                html += "<tr>\n";
+                int pin = leftColumnPins[i];
+                html += "<td>GPIO " + String(pin) + "</td>";
+                html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>\n";
+            }
+            else
+            {
+                html += "<td class='unmonitored'>-</td>";
+                html += "<td class='unmonitored'></td>\n"; // Grayed out cells if no pin
             }
 
-            // Add the GPIO pin and state fields
-            html += "<td>GPIO " + String(gpioPins[i]) + "</td>";
-            html += "<td id='gpio" + String(gpioPins[i]) + "'>Waiting for updates...</td>\n";
-
-            // End the row after the second column
-            if (column == 1)
+            // Right column
+            if (i < numRightColumnPins)
             {
-                html += "</tr>\n";
+                int pin = rightColumnPins[i];
+                html += "<td>GPIO " + String(pin) + "</td>";
+                html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>\n";
             }
+            else
+            {
+                html += "<td class='unmonitored'>-</td>";
+                html += "<td class='unmonitored'></td>\n"; // Grayed out cells if no pin
+            }
+
+            html += "</tr>\n"; // End the row
         }
 
-        // Close any open table row and end the table
+        // End the table
         html += "</table>\n";
 
         // Closing tags for HTML
