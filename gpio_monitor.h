@@ -12,10 +12,6 @@ public:
         : gpioPins(pins), numPins(numPins), samplingInterval(samplingInterval), server(80), ws("/ws")
     {
         lastPinStates = new int[numPins];
-        for (int i = 0; i < numPins; i++)
-        {
-            lastPinStates[i] = -1; // Initialize with an invalid state
-        }
     }
 
     ~GPIOMonitor()
@@ -68,6 +64,14 @@ private:
 </html>
 )rawliteral";
         return html;
+    }
+
+    void resetStatePins(void)
+    {
+        for (int i = 0; i < numPins; i++)
+        {
+            lastPinStates[i] = -1; // Initialize with an invalid state
+        }
     }
 
     void monitorTask()
@@ -128,6 +132,7 @@ private:
         if (type == WS_EVT_CONNECT)
         {
             Serial.println("WebSocket client connected");
+            resetStatePins();
         }
         else if (type == WS_EVT_DISCONNECT)
         {
