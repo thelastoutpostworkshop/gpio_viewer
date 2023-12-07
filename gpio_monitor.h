@@ -3,6 +3,7 @@
 #include <AsyncTCP.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include "html.h"
 
 class GPIOMonitor
 {
@@ -52,29 +53,6 @@ private:
     unsigned long samplingInterval;
     AsyncWebServer server;
     AsyncWebSocket ws;
-
-    const char *index_html = R"rawliteral(
-        <!DOCTYPE HTML><html>
-        <head>
-          <title>ESP32 GPIO State</title>
-          <script>
-            var ws;
-            function initWebSocket() {
-              ws = new WebSocket('ws://' + window.location.hostname + '/ws');
-              ws.onmessage = function(event) {
-                var data = JSON.parse(event.data);
-                document.getElementById("gpioState").innerHTML = "GPIO " + data.gpio + ": " + (data.state ? "HIGH" : "LOW");
-              };
-            }
-            window.addEventListener('load', initWebSocket);
-          </script>
-        </head>
-        <body>
-          <h1>ESP32 GPIO Monitor</h1>
-          <p>GPIO State: <span id="gpioState">Waiting for updates...</span></p>
-        </body>
-        </html>
-    )rawliteral";
 
     void monitorTask()
     {
