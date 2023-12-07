@@ -1,9 +1,6 @@
 #include <WiFi.h>
 #include "gpio_monitor.h"
-
-const char *ssid = "cgnet";
-const char *password = "frederique est la plus belle";
-
+#include "secrets.h"
 
 // Define the GPIO pins to monitor
 const int gpioPins[] = {5, 17, 16}; // Example GPIO pins
