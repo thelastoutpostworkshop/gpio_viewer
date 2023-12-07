@@ -34,7 +34,7 @@ public:
 
         // Serve Web Page
         server.on("/", [this](AsyncWebServerRequest *request)
-                  { request->send_P(200, "text/html", index_html); });
+                  { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
         server.begin();
         // Create a task for monitoring GPIOs
@@ -53,6 +53,22 @@ private:
     unsigned long samplingInterval;
     AsyncWebServer server;
     AsyncWebSocket ws;
+
+    String generateIndexHTML()
+    {
+        String html = html_template;
+        // Add GPIO lines dynamically
+        for (int i = 0; i < numPins; i++)
+        {
+            html += "<p id='gpio" + String(gpioPins[i]) + "'>GPIO " + String(gpioPins[i]) + ": Waiting for updates...</p>\n";
+        }
+
+        html += R"rawliteral(
+</body>
+</html>
+)rawliteral";
+        return html;
+    }
 
     void monitorTask()
     {
