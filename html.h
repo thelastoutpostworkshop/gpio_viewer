@@ -20,7 +20,7 @@ String html_template = R"rawliteral(
     }
     table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
       height: 100%;
     }
     td {
