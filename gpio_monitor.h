@@ -60,7 +60,7 @@ private:
 
         // Left column table
         html += "<div class='grid-item'>\n";
-        html += "<table style='margin-top: " + margin_top + "; margin-bottom: " + margin_bottom + ";'>\n";
+        html += "<table style='margin-top: " + margin_top + "; margin-bottom: " + margin_bottom + ";'"+cell_border_spacing+">\n";
 
         for (int i = 0; i < numLeftColumnPins; i++)
         {

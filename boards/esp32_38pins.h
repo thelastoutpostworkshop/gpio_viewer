@@ -4,3 +4,4 @@ const int numLeftColumnPins = sizeof(leftColumnPins) / sizeof(leftColumnPins[0])
 const int numRightColumnPins = sizeof(rightColumnPins) / sizeof(rightColumnPins[0]);
 String margin_top = "50px";
 String margin_bottom = "50px";
+String cell_border_spacing = "'border_spacing: 0px 6px';";
