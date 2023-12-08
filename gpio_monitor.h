@@ -102,7 +102,7 @@ private:
         }
         else
         {
-            html += "<td class='unmonitored'>-</td>";
+            html += "<td class='unmonitored'></td>";
             // html += "<td class='unmonitored'>Unmonitored</td>";
         }
     }
