@@ -59,7 +59,7 @@ private:
         html += "<div class='image-container'>\n";
 
         // Image
-        html += "<img src='" + esp32.getImage() + "' alt='Board Image'></div>\n";
+        html += "<img src='" + esp32.getImage() + "' alt='Board Image'>\n";
 
         for (int i = 0; i < esp32.getGPIOsCount(); i++)
         {
@@ -73,7 +73,7 @@ private:
             }
         }
 
-        html += "</body></html>";
+        html += "</div></body></html>";
         return html;
     }
 
