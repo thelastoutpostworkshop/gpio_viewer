@@ -40,7 +40,7 @@ String html_template = R"rawliteral(
       }
       .indicator-off {
         position: absolute;
-          background-color: gray;
+          background-color: lightgreen;
           width: 20px;
           height: 20px;
           border-radius: 50%;
