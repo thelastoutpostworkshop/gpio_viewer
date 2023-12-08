@@ -60,10 +60,10 @@ private:
         String html = html_template;
 
         // Start of the flex container
-        html += "<div class='flex-container'>\n";
+        html += "<div class='grid-container'>\n";
 
         // Left column table
-        html += "<div class='flex-item'>\n<table>\n";
+        html += "<div class='grid-item'>\n<table>\n";
         for (int i = 0; i < numLeftColumnPins; i++)
         {
             html += "<tr>\n";
@@ -73,19 +73,18 @@ private:
         html += "</table>\n</div>\n";
 
         // Image
-        html += "<div class='flex-item'>\n";
+        html += "<div class='grid-item'>\n";
         html += "<img src='http://192.168.1.90/images/esp32_38pins.png' alt='ESP32 Image'>\n";
         html += "</div>\n";
 
         // Right column table
-        html += "<div class='flex-item'>\n<table>\n";
+        html += "<div class='grid-item'>\n<table>\n";
         for (int i = 0; i < numRightColumnPins; i++)
         {
             html += "<tr>\n";
             addPinToHTML(html, rightColumnPins[i]);
             html += "</tr>\n";
         }
-        html += "</table>\n</div>\n";
 
         // End of the flex container
         html += "</div>\n";
