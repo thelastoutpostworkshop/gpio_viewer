@@ -60,7 +60,7 @@ private:
 
         // Left column table
         html += "<div class='grid-item'>\n";
-        html += "<table style=" + table_margins+table_border_spacing+">\n";
+        html += "<table style='" + table_margins+table_border_spacing+"'>\n";
 
         for (int i = 0; i < numLeftColumnPins; i++)
         {
@@ -77,7 +77,7 @@ private:
 
         // Right column table
         html += "<div class='grid-item'>\n";
-        html += "<table style=" + table_margins+table_border_spacing+">\n";
+        html += "<table style='" + table_margins+table_border_spacing+"'>\n";
         for (int i = 0; i < numRightColumnPins; i++)
         {
             html += "<tr>\n";
