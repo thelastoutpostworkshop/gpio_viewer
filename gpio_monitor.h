@@ -55,6 +55,7 @@ private:
     {
         String html = html_template;
 
+        html +="<body>";
         html += "<div class='image-container'>\n";
 
 
@@ -83,13 +84,13 @@ private:
         if (pin != -1 && isPinMonitored(pin))
         {
             // html += "<td>GPIO " + String(pin) + "</td>";
-            html += "<div class-'indicator' style='top: 5%; right: 5%' id='gpio" + String(pin) + "'></div>";
+            html += "<div class-'indicator' style='top: 25%; right: 25%' id='gpio" + String(pin) + "'>GPIO</div>";
         }
-        else
-        {
-            html += "<div class='indicator'></div>";
-            // html += "<td class='unmonitored'>Unmonitored</td>";
-        }
+        // else
+        // {
+        //     html += "<div class='indicator'></div>";
+        //     // html += "<td class='unmonitored'>Unmonitored</td>";
+        // }
     }
 
     bool isPinMonitored(int pin)

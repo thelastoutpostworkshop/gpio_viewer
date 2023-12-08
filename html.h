@@ -59,9 +59,4 @@ String html_template = R"rawliteral(
   window.addEventListener('load', initWebSocket);
 </script>
 </head>
-<body>
-  <h1>ESP32 GPIO Monitor</h1>
-
-</body>
-</html>
 )rawliteral";
