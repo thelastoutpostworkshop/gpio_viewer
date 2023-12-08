@@ -19,7 +19,7 @@ void setup()
     Serial.print(".");
   }
   Serial.println("Connected to WiFi");
-  Serial.print("IP Address: ");
+  Serial.print("URL : ");
   Serial.println(WiFi.localIP());
 
   pinMode(5, OUTPUT);
@@ -29,8 +29,8 @@ void setup()
 
 void loop()
 {
-  digitalWrite(5, HIGH);
+  digitalWrite(27, HIGH);
   delay(500);
-  digitalWrite(5, LOW);
+  digitalWrite(27, LOW);
   delay(500);
 }
