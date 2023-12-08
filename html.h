@@ -32,12 +32,19 @@ String html_template = R"rawliteral(
       .indicator-on {
         position: absolute;
         background-color: red;
+                  width: 20px;
+          height: 20px;
+          border-radius: 50%;
         padding: 5px;
         transform: translate(-50%, -50%);
       }
       .indicator-off {
         position: absolute;
-        background-color: gray;
+          background-color: gray;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
         padding: 5px;
         transform: translate(-50%, -50%);
       }

@@ -2,8 +2,8 @@
 typedef struct BoardGPIO
 {
     int gpio;
-    int topPosition;
-    int leftPosition;
+    float topPosition;
+    float leftPosition;
 };
 
 typedef struct BoardDetail

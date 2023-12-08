@@ -67,7 +67,7 @@ private:
             if (pin != -1 && isPinMonitored(pin))
             {
                 // html += "<td>GPIO " + String(pin) + "</td>";
-                html += "<div class='indicator-off' style='top:" + String(esp32.getGPIOs()[pin].topPosition) + "%; right: " + String(esp32.getGPIOs()[pin].leftPosition) + "%' id='gpio" + String(pin) + "'></div>";
+                html += "<div class='indicator-off' style='top:" + String(esp32.getGPIOs()[pin].topPosition) + "%; left: " + String(esp32.getGPIOs()[pin].leftPosition) + "%' id='gpio" + String(pin) + "'></div>";
             }
         }
 
