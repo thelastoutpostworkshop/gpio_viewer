@@ -68,7 +68,6 @@ private:
             float left = esp32.getGPIOs()[i].leftPosition;
             if (pin != -1 && isPinMonitored(pin))
             {
-                Serial.printf("topPosition = %f, leftPosition=%f\n",top,left);
                 html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
             }
         }
