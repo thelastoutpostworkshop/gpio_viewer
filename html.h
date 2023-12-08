@@ -37,4 +37,5 @@ String html_template = R"rawliteral(
 </head>
 <body>
   <h1>ESP32 GPIO Monitor</h1>
+  <img src="http://192.168.1.90/images/esp32_38pins.png" alt="Descriptive Text">
 )rawliteral";
