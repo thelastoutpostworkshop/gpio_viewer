@@ -14,9 +14,12 @@ String html_template = R"rawliteral(
   tr:nth-child(even) {
     background-color: #f2f2f2;
   }
-      .unmonitored {
-      color: gray;
-    }
+.unmonitored {
+  color: gray;
+  background-color: #f0f0f0; /* Light gray background */
+  text-decoration: line-through; /* Strikethrough effect */
+}
+
 </style>
   <script>
     var ws;
