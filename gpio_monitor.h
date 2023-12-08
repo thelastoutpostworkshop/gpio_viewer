@@ -78,7 +78,7 @@ private:
     {
         if (pin != -1 && isPinMonitored(pin))
         {
-            html += "<td>GPIO " + String(pin) + "</td>";
+            html += "<td>" + String(pin) + "</td>";
             html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>";
         }
         else
