@@ -2,44 +2,40 @@ String html_template = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <title>ESP32 GPIO State</title>
-  <style>
-    .grid-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr; /* Three equal-width columns */
-      gap: 10px; /* Space between columns */
-    }
-    .grid-item {
-      display: flex;
-      flex-direction: column; /* Stack child elements vertically */
-      align-items: center; /* Center items horizontally */
-    }
-    .grid-item img {
-      max-width: 100%; /* Limit width to parent's width */
-      height: auto; /* Maintain aspect ratio */
-      object-fit: contain; /* Scale the image to fit */
-    }
-    table {
-      width: 100%;
-      border-collapse: separate;
-      height: 100%;
-    }
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    .unmonitored {
-      color: gray;
-      background-color: #f0f0f0;
-      text-decoration: line-through;
-    }
-    .high {
-    background-color: red;
-  }
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Minimum height to fill the viewport */
+        background-color: #f0f0f0; /* For better visibility */
+      }
 
-  .low {
-    background-color: transparent;
-  }
-  </style>
+      .image-container {
+        position: relative;
+        display: inline-block;
+        max-width: 100%; /* Ensure container doesn't overflow */
+        max-height: 100vh; /* Max height to fit in viewport */
+        overflow: hidden; /* Hide any overflow */
+      }
+
+      .image-container img {
+        max-width: 100%; /* Max width to fit in container */
+        max-height: 100vh; /* Max height to fit in viewport */
+        height: auto; /* Maintain aspect ratio */
+        display: block; /* Remove any default inline spacing */
+      }
+
+      .indicator {
+        position: absolute;
+        background-color: yellow;
+        padding: 5px;
+        transform: translate(-50%, -50%);
+      }
+    </style>
 <script>
   var ws;
   function initWebSocket() {
