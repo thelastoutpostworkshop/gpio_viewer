@@ -98,13 +98,13 @@ private:
     {
         if (pin != -1 && isPinMonitored(pin))
         {
-            html += "<td>GPIO " + String(pin) + "</td>";
+            // html += "<td>GPIO " + String(pin) + "</td>";
             html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>";
         }
         else
         {
             html += "<td class='unmonitored'>-</td>";
-            html += "<td class='unmonitored'>Unmonitored</td>";
+            // html += "<td class='unmonitored'>Unmonitored</td>";
         }
     }
 

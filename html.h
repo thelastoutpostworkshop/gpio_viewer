@@ -5,14 +5,22 @@ String html_template = R"rawliteral(
   <style>
     .flex-container {
       display: flex;
-      align-items: stretch; /* Aligns children (table and image) vertically */
+      align-items: stretch; /* Stretch items to fill the container height */
     }
     .flex-item {
-      flex: 1; /* Allows the item to grow to fill available space */
+      flex: 1; /* Flex items share the container space */
+      display: flex;
+      flex-direction: column; /* Stack child elements vertically */
+    }
+    .flex-item img {
+      width: auto; /* Maintain aspect ratio */
+      height: 100%; /* Stretch to fill the parent height */
+      object-fit: scale-down; /* Scale down if needed to fit in the container */
     }
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-bottom: auto; /* Push the table to the top */
     }
     td {
       border: 1px solid #ddd;
@@ -22,10 +30,6 @@ String html_template = R"rawliteral(
       color: gray;
       background-color: #f0f0f0;
       text-decoration: line-through;
-    }
-    img {
-      max-height: 100%; /* Resize image to fit the height of the table */
-      width: auto; /* Maintain aspect ratio */
     }
   </style>
  <script>
