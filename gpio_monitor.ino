@@ -1,5 +1,5 @@
 #include <WiFi.h>
-#include "gpio_monitor.h"
+#include "src/gpio_monitor.h"
 #include "secrets.h"
 
 // Define the GPIO pins to monitor
