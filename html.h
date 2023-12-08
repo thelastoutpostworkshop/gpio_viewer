@@ -30,7 +30,7 @@ String html_template = R"rawliteral(
         for (var gpio in states) {
           var gpioElement = document.getElementById("gpio" + gpio);
           if (gpioElement) {
-            gpioElement.innerHTML = "GPIO " + gpio + ": " + (states[gpio] ? "HIGH" : "LOW");
+            gpioElement.innerHTML =(states[gpio] ? "HIGH" : "LOW");
           }
         }
       };
