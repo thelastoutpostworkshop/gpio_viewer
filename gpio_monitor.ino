@@ -19,10 +19,10 @@ void setup()
     Serial.print(".");
   }
   Serial.println("Connected to WiFi");
-  Serial.print("URL : ");
+  Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
-  pinMode(5, OUTPUT);
+  pinMode(27, OUTPUT);
 
   gpio_monitor.begin();
 }
