@@ -55,18 +55,16 @@ private:
     {
         String html = html_template;
 
-        html +="<body>";
+        html += "<body>";
         html += "<div class='image-container'>\n";
 
         // Image
-        html += "<img src='"+board_image+"' alt='Board Image'>\n";
+        html += "<img src='" + esp32.getImage() + "' alt='Board Image'>\n";
 
         for (int i = 0; i < numLeftColumnPins; i++)
         {
             addPinToHTML(html, leftColumnPins[i]);
         }
-
-
 
         // Right column table
         for (int i = 0; i < numRightColumnPins; i++)
