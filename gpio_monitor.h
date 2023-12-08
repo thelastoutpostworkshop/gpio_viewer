@@ -4,11 +4,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include "html.h"
-
-const int leftColumnPins[] = {36, 39, 34, 35, 32, 33, 25, 26, 27, 14, 12, 13, 9, 10, 11};
-const int rightColumnPins[] = {23, 22, 1, 3, 21, 18, 18, 5, 17, 16, 4, 0, 2, 15};
-const int numLeftColumnPins = sizeof(leftColumnPins) / sizeof(leftColumnPins[0]);
-const int numRightColumnPins = sizeof(rightColumnPins) / sizeof(rightColumnPins[0]);
+#include "boards/esp32_38pins.h"
 
 class GPIOMonitor
 {
@@ -63,7 +59,9 @@ private:
         html += "<div class='grid-container'>\n";
 
         // Left column table
-        html += "<div class='grid-item'>\n<table>\n";
+        html += "<div class='grid-item'>\n";
+        html += "<table style='margin-top: " + margin_top + "; margin-bottom: " + margin_bottom + ";'>\n";
+
         for (int i = 0; i < numLeftColumnPins; i++)
         {
             html += "<tr>\n";
@@ -78,7 +76,8 @@ private:
         html += "</div>\n";
 
         // Right column table
-        html += "<div class='grid-item'>\n<table>\n";
+        html += "<div class='grid-item'>\n";
+        html += "<table style='margin-top: " + margin_top + "; margin-bottom: " + margin_bottom + ";'>\n";
         for (int i = 0; i < numRightColumnPins; i++)
         {
             html += "<tr>\n";
