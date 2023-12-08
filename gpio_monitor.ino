@@ -3,7 +3,7 @@
 #include "secrets.h"
 
 // Define the GPIO pins to monitor
-const int gpioPins[] = {34,35}; // Example GPIO pins
+const int gpioPins[] = {34,35,32,33,25,26,27,14,12,13,9,10,11}; // Example GPIO pins
 const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
 
 GPIOMonitor gpio_monitor(gpioPins, numPins);
