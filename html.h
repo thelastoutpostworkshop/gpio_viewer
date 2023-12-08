@@ -29,9 +29,15 @@ String html_template = R"rawliteral(
         display: block; /* Remove any default inline spacing */
       }
 
-      .indicator {
+      .indicator-on {
         position: absolute;
-        background-color: yellow;
+        background-color: red;
+        padding: 5px;
+        transform: translate(-50%, -50%);
+      }
+      .indicator-off {
+        position: absolute;
+        background-color: gray;
         padding: 5px;
         transform: translate(-50%, -50%);
       }
@@ -46,10 +52,10 @@ String html_template = R"rawliteral(
         var gpioElement = document.getElementById("gpio" + gpio);
         if (gpioElement) {
           if (states[gpio]) {
-            gpioElement.className = 'high';
+            gpioElement.className = 'indicator-on';
             gpioElement.innerHTML = "";
           } else {
-            gpioElement.className = 'low';
+            gpioElement.className = 'indicator-off';
             gpioElement.innerHTML = "";
           }
         }

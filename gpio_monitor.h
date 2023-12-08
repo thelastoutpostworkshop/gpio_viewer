@@ -85,7 +85,7 @@ private:
         if (pin != -1 && isPinMonitored(pin))
         {
             // html += "<td>GPIO " + String(pin) + "</td>";
-            html += "<div class='indicator' style='top: 25%; right: 25%' id='gpio" + String(pin) + "'>GPIO</div>";
+            html += "<div class='indicator-off' style='top: 25%; right: 25%' id='gpio" + String(pin) + "'>GPIO</div>";
         }
         // else
         // {
