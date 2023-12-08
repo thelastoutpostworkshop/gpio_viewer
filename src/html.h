@@ -32,8 +32,8 @@ String html_template = R"rawliteral(
       .indicator-on {
         position: absolute;
         background-color: red;
-        width: 2vw;
-        height: 2vw;
+        width: 1.5vw;
+        height: 1.5vw;
           border-radius: 50%;
         padding: 5px;
         transform: translate(-50%, -50%);
