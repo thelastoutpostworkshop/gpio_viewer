@@ -58,18 +58,38 @@ private:
     String generateIndexHTML()
     {
         String html = html_template;
-        html += "<table>\n";
-        int maxRows = max(numLeftColumnPins, numRightColumnPins);
 
-        for (int i = 0; i < maxRows; i++)
+        // Start of the flex container
+        html += "<div class='flex-container'>\n";
+
+        // Left column table
+        html += "<div class='flex-item'>\n<table>\n";
+        for (int i = 0; i < numLeftColumnPins; i++)
         {
             html += "<tr>\n";
-            addPinToHTML(html, i < numLeftColumnPins ? leftColumnPins[i] : -1);
-            addPinToHTML(html, i < numRightColumnPins ? rightColumnPins[i] : -1);
+            addPinToHTML(html, leftColumnPins[i]);
             html += "</tr>\n";
         }
+        html += "</table>\n</div>\n";
 
-        html += "</table>\n";
+        // Image
+        html += "<div class='flex-item'>\n";
+        html += "<img src='http://192.168.1.90/images/esp32_38pins.png' alt='ESP32 Image'>\n";
+        html += "</div>\n";
+
+        // Right column table
+        html += "<div class='flex-item'>\n<table>\n";
+        for (int i = 0; i < numRightColumnPins; i++)
+        {
+            html += "<tr>\n";
+            addPinToHTML(html, rightColumnPins[i]);
+            html += "</tr>\n";
+        }
+        html += "</table>\n</div>\n";
+
+        // End of the flex container
+        html += "</div>\n";
+
         html += "</body></html>";
         return html;
     }
@@ -78,13 +98,13 @@ private:
     {
         if (pin != -1 && isPinMonitored(pin))
         {
-            // html += "<td>" + String(pin) + "</td>";
+            html += "<td>GPIO " + String(pin) + "</td>";
             html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>";
         }
         else
         {
             html += "<td class='unmonitored'>-</td>";
-            // html += "<td class='unmonitored'></td>";
+            html += "<td class='unmonitored'>Unmonitored</td>";
         }
     }
 
