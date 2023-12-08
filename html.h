@@ -3,35 +3,36 @@ String html_template = R"rawliteral(
 <head>
   <title>ESP32 GPIO State</title>
   <style>
-    .flex-container {
-      display: flex;
-      align-items: stretch; /* Stretch items to fill the container height */
-    }
-    .flex-item {
-      flex: 1; /* Flex items share the container space */
-      display: flex;
-      flex-direction: column; /* Stack child elements vertically */
-    }
-    .flex-item img {
-      width: auto; /* Maintain aspect ratio */
-      height: 100%; /* Stretch to fill the parent height */
-      object-fit: scale-down; /* Scale down if needed to fit in the container */
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: auto; /* Push the table to the top */
-    }
-    td {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    .unmonitored {
-      color: gray;
-      background-color: #f0f0f0;
-      text-decoration: line-through;
-    }
-  </style>
+  .flex-container {
+    display: flex;
+    align-items: stretch; /* Align items vertically */
+  }
+  .flex-item {
+    flex: 1; /* Flex items share the container space */
+    display: flex;
+    flex-direction: column; /* Stack child elements vertically */
+  }
+  .flex-item img {
+    max-width: 100%; /* Limit width to parent's width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100%; /* Limit height to parent's height */
+    object-fit: contain; /* Do not stretch the image */
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: auto; /* Push the table to the top */
+  }
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  .unmonitored {
+    color: gray;
+    background-color: #f0f0f0;
+    text-decoration: line-through;
+  }
+</style>
  <script>
     var ws;
     function initWebSocket() {
