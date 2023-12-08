@@ -64,10 +64,12 @@ private:
         for (int i = 0; i < esp32.getGPIOsCount(); i++)
         {
             int pin = esp32.getGPIOs()[i].gpio;
+            float top = esp32.getGPIOs()[i].topPosition;
+            float left = esp32.getGPIOs()[i].leftPosition;
             if (pin != -1 && isPinMonitored(pin))
             {
-                // html += "<td>GPIO " + String(pin) + "</td>";
-                html += "<div class='indicator-off' style='top:" + String(esp32.getGPIOs()[pin].topPosition) + "%; left: " + String(esp32.getGPIOs()[pin].leftPosition) + "%' id='gpio" + String(pin) + "'></div>";
+                Serial.printf("topPosition = %f, leftPosition=%f\n",top,left);
+                html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
             }
         }
 
