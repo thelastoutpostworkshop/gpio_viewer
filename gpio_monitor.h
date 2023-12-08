@@ -59,31 +59,20 @@ private:
         html += "<div class='image-container'>\n";
 
         // Image
-        Serial.printf("image=%s\n",esp32.getImage().c_str());
         html += "<img src='" + esp32.getImage() + "' alt='Board Image'></div>\n";
-        
-        Serial.printf("gpio Count=%d\n",esp32.getGPIOsCount());
+
         for (int i = 0; i < esp32.getGPIOsCount(); i++)
         {
-            addPinToHTML(html, esp32.getGPIOs()[i].gpio);
+            int pin = esp32.getGPIOs()[i].gpio;
+            if (pin != -1 && isPinMonitored(pin))
+            {
+                // html += "<td>GPIO " + String(pin) + "</td>";
+                html += "<div class='indicator-off' style='top:" + String(esp32.getGPIOs()[pin].topPosition) + "%; right: " + String(esp32.getGPIOs()[pin].leftPosition) + "%' id='gpio" + String(pin) + "'></div>";
+            }
         }
 
         html += "</body></html>";
         return html;
-    }
-
-    void addPinToHTML(String &html, int pin)
-    {
-        if (pin != -1 && isPinMonitored(pin))
-        {
-            // html += "<td>GPIO " + String(pin) + "</td>";
-            html += "<div class='indicator-off' style='top:" + String(esp32.getGPIOs()[pin].topPosition) + "%; right: " + String(esp32.getGPIOs()[pin].leftPosition) + "%' id='gpio" + String(pin) + "'></div>";
-        }
-        // else
-        // {
-        //     html += "<div class='indicator'></div>";
-        //     // html += "<td class='unmonitored'>Unmonitored</td>";
-        // }
     }
 
     bool isPinMonitored(int pin)
