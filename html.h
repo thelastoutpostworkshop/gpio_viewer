@@ -2,26 +2,25 @@ String html_template = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <title>ESP32 GPIO State</title>
-  <style>
+<style>
   .flex-container {
     display: flex;
-    align-items: stretch; /* Align items vertically */
+    align-items: flex-start; /* Align items to the start of the container */
   }
   .flex-item {
     flex: 1; /* Flex items share the container space */
     display: flex;
     flex-direction: column; /* Stack child elements vertically */
+    align-items: center; /* Align items in the center for each flex-item */
   }
   .flex-item img {
     max-width: 100%; /* Limit width to parent's width */
     height: auto; /* Maintain aspect ratio */
-    max-height: 100%; /* Limit height to parent's height */
     object-fit: contain; /* Do not stretch the image */
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: auto; /* Push the table to the top */
   }
   td {
     border: 1px solid #ddd;
@@ -33,6 +32,7 @@ String html_template = R"rawliteral(
     text-decoration: line-through;
   }
 </style>
+
  <script>
     var ws;
     function initWebSocket() {
