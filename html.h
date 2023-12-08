@@ -32,23 +32,36 @@ String html_template = R"rawliteral(
       background-color: #f0f0f0;
       text-decoration: line-through;
     }
+    .high {
+    background-color: red;
+  }
+
+  .low {
+    background-color: transparent;
+  }
   </style>
 <script>
-    var ws;
-    function initWebSocket() {
-      ws = new WebSocket('ws://' + window.location.hostname + '/ws');
-      ws.onmessage = function(event) {
-        var states = JSON.parse(event.data);
-        for (var gpio in states) {
-          var gpioElement = document.getElementById("gpio" + gpio);
-          if (gpioElement) {
-            gpioElement.innerHTML =(states[gpio] ? "HIGH" : "LOW");
+  var ws;
+  function initWebSocket() {
+    ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+    ws.onmessage = function(event) {
+      var states = JSON.parse(event.data);
+      for (var gpio in states) {
+        var gpioElement = document.getElementById("gpio" + gpio);
+        if (gpioElement) {
+          if (states[gpio]) {
+            gpioElement.className = 'high';
+            gpioElement.innerHTML = "HIGH";
+          } else {
+            gpioElement.className = 'low';
+            gpioElement.innerHTML = "LOW";
           }
         }
-      };
-    }
-    window.addEventListener('load', initWebSocket);
-  </script>
+      }
+    };
+  }
+  window.addEventListener('load', initWebSocket);
+</script>
 </head>
 <body>
   <h1>ESP32 GPIO Monitor</h1>
