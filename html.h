@@ -15,8 +15,10 @@ String html_template = R"rawliteral(
   }
   .flex-item img {
     max-width: 100%; /* Limit width to parent's width */
+    max-height: 100%; /* Limit height to parent's height */
     height: auto; /* Maintain aspect ratio */
     object-fit: contain; /* Do not stretch the image */
+    align-self: stretch; /* Allow the image to stretch to fill the flex item */
   }
   table {
     width: 100%;
@@ -32,6 +34,7 @@ String html_template = R"rawliteral(
     text-decoration: line-through;
   }
 </style>
+
 
  <script>
     var ws;
