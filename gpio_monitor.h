@@ -57,7 +57,7 @@ private:
 
         html +="<body>";
         html += "<div class='image-container'>\n";
-        
+
         // Image
         html += "<img src='"+board_image+"' alt='Board Image'>\n";
 
@@ -85,7 +85,7 @@ private:
         if (pin != -1 && isPinMonitored(pin))
         {
             // html += "<td>GPIO " + String(pin) + "</td>";
-            html += "<div class-'indicator' style='top: 25%; right: 25%' id='gpio" + String(pin) + "'>GPIO</div>";
+            html += "<div class='indicator' style='top: 25%; right: 25%' id='gpio" + String(pin) + "'>GPIO</div>";
         }
         // else
         // {
