@@ -59,20 +59,14 @@ private:
         html += "<div class='image-container'>\n";
 
         // Image
-        html += "<img src='" + esp32.getImage() + "' alt='Board Image'>\n";
-
-        for (int i = 0; i < numLeftColumnPins; i++)
+        Serial.printf("image=%s\n",esp32.getImage().c_str());
+        html += "<img src='" + esp32.getImage() + "' alt='Board Image'></div>\n";
+        
+        Serial.printf("gpio Count=%d\n",esp32.getGPIOsCount());
+        for (int i = 0; i < esp32.getGPIOsCount(); i++)
         {
-            addPinToHTML(html, leftColumnPins[i]);
+            addPinToHTML(html, esp32.getGPIOs()[i].gpio);
         }
-
-        // Right column table
-        for (int i = 0; i < numRightColumnPins; i++)
-        {
-            addPinToHTML(html, rightColumnPins[i]);
-        }
-
-        html += "</div>\n";
 
         html += "</body></html>";
         return html;
@@ -83,7 +77,7 @@ private:
         if (pin != -1 && isPinMonitored(pin))
         {
             // html += "<td>GPIO " + String(pin) + "</td>";
-            html += "<div class='indicator-off' style='top: 25%; right: 25%' id='gpio" + String(pin) + "'>GPIO</div>";
+            html += "<div class='indicator-off' style='top:" + String(esp32.getGPIOs()[pin].topPosition) + "%; right: " + String(esp32.getGPIOs()[pin].leftPosition) + "%' id='gpio" + String(pin) + "'></div>";
         }
         // else
         // {

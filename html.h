@@ -65,4 +65,8 @@ String html_template = R"rawliteral(
   window.addEventListener('load', initWebSocket);
 </script>
 </head>
+<body>
+
+</body>
+</html>
 )rawliteral";
