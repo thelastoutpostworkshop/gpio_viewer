@@ -51,10 +51,8 @@ String html_template = R"rawliteral(
         if (gpioElement) {
           if (states[gpio]) {
             gpioElement.className = 'high';
-            gpioElement.innerHTML = "HIGH";
           } else {
             gpioElement.className = 'low';
-            gpioElement.innerHTML = "LOW";
           }
         }
       }
