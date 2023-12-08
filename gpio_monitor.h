@@ -55,37 +55,23 @@ private:
     {
         String html = html_template;
 
-        // Start of the flex container
-        html += "<div class='grid-container'>\n";
+        html += "<div class='image-container'>\n";
 
-        // Left column table
-        html += "<div class='grid-item'>\n";
-        html += "<table style='" + table_margins+table_border_spacing+"'>\n";
 
         for (int i = 0; i < numLeftColumnPins; i++)
         {
-            html += "<tr>\n";
             addPinToHTML(html, leftColumnPins[i]);
-            html += "</tr>\n";
         }
-        html += "</table>\n</div>\n";
 
         // Image
-        html += "<div class='grid-item'>\n";
-        html += "<img src='"+board_image+"' alt='ESP32 Image'>\n";
-        html += "</div>\n";
+        html += "<img src='"+board_image+"' alt='Board Image'>\n";
 
         // Right column table
-        html += "<div class='grid-item'>\n";
-        html += "<table style='" + table_margins+table_border_spacing+"'>\n";
         for (int i = 0; i < numRightColumnPins; i++)
         {
-            html += "<tr>\n";
             addPinToHTML(html, rightColumnPins[i]);
-            html += "</tr>\n";
         }
 
-        // End of the flex container
         html += "</div>\n";
 
         html += "</body></html>";
@@ -97,11 +83,11 @@ private:
         if (pin != -1 && isPinMonitored(pin))
         {
             // html += "<td>GPIO " + String(pin) + "</td>";
-            html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>";
+            html += "<div class-'indicator' style='top: 5%; right: 5%' id='gpio" + String(pin) + "'></div>";
         }
         else
         {
-            html += "<td class='unmonitored'></td>";
+            html += "<div class='indicator'></div>";
             // html += "<td class='unmonitored'>Unmonitored</td>";
         }
     }
