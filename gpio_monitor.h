@@ -58,57 +58,46 @@ private:
     String generateIndexHTML()
     {
         String html = html_template;
-
-        // Calculate the maximum number of rows needed
+        html += "<table>\n";
         int maxRows = max(numLeftColumnPins, numRightColumnPins);
 
-        // Start of the table
-        html += "<table>\n";
-
-        // Add GPIO lines dynamically in two columns
         for (int i = 0; i < maxRows; i++)
         {
-            html += "<tr>\n"; // Start a new row
-
-            // Left column
-            if (i < numLeftColumnPins)
-            {
-                int pin = leftColumnPins[i];
-                html += "<td>GPIO " + String(pin) + "</td>";
-                html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>\n";
-            }
-            else
-            {
-                html += "<td class='unmonitored'>-</td>";
-                html += "<td class='unmonitored'></td>\n"; // Grayed out cells if no pin
-            }
-
-            // Right column
-            if (i < numRightColumnPins)
-            {
-                int pin = rightColumnPins[i];
-                html += "<td>GPIO " + String(pin) + "</td>";
-                html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>\n";
-            }
-            else
-            {
-                html += "<td class='unmonitored'>-</td>";
-                html += "<td class='unmonitored'></td>\n"; // Grayed out cells if no pin
-            }
-
-            html += "</tr>\n"; // End the row
+            html += "<tr>\n";
+            addPinToHTML(html, i < numLeftColumnPins ? leftColumnPins[i] : -1);
+            addPinToHTML(html, i < numRightColumnPins ? rightColumnPins[i] : -1);
+            html += "</tr>\n";
         }
 
-        // End the table
         html += "</table>\n";
-
-        // Closing tags for HTML
-        html += R"rawliteral(
-</body>
-</html>
-)rawliteral";
-
+        html += "</body></html>";
         return html;
+    }
+
+    void addPinToHTML(String &html, int pin)
+    {
+        if (pin != -1 && isPinMonitored(pin))
+        {
+            html += "<td>GPIO " + String(pin) + "</td>";
+            html += "<td id='gpio" + String(pin) + "'>Waiting for updates...</td>";
+        }
+        else
+        {
+            html += "<td class='unmonitored'>-</td>";
+            html += "<td class='unmonitored'></td>";
+        }
+    }
+
+    bool isPinMonitored(int pin)
+    {
+        for (int i = 0; i < numPins; i++)
+        {
+            if (gpioPins[i] == pin)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void resetStatePins(void)
