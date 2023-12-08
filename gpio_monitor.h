@@ -57,15 +57,16 @@ private:
 
         html +="<body>";
         html += "<div class='image-container'>\n";
-
+        
+        // Image
+        html += "<img src='"+board_image+"' alt='Board Image'>\n";
 
         for (int i = 0; i < numLeftColumnPins; i++)
         {
             addPinToHTML(html, leftColumnPins[i]);
         }
 
-        // Image
-        html += "<img src='"+board_image+"' alt='Board Image'>\n";
+
 
         // Right column table
         for (int i = 0; i < numRightColumnPins; i++)
