@@ -72,7 +72,7 @@ private:
 
         // Image
         html += "<div class='grid-item'>\n";
-        html += "<img src='http://192.168.1.90/images/esp32_38pins.png' alt='ESP32 Image'>\n";
+        html += "<img src='"+board_image+"' alt='ESP32 Image'>\n";
         html += "</div>\n";
 
         // Right column table

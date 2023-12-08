@@ -4,3 +4,4 @@ const int numLeftColumnPins = sizeof(leftColumnPins) / sizeof(leftColumnPins[0])
 const int numRightColumnPins = sizeof(rightColumnPins) / sizeof(rightColumnPins[0]);
 String table_margins = "margin-top: 50px; margin-bottom: 50px;";
 String table_border_spacing = "border-spacing: 0px 6px;";
+String board_image = "http://192.168.1.90/images/esp32_38pins.png";
