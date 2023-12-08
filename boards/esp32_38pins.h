@@ -1,4 +1,4 @@
-#include "borards_def.h"
+#include "boards_def.h"
 
 const String image = "http://192.168.1.90/images/esp32_38pins.png";
 
