@@ -5,7 +5,7 @@
 #include <freertos/task.h>
 #include "html.h"
 #include "script.h"
-#include "boards/esp32_38pins.h"
+#include "boards/esp32_S3_wroom-1.h"
 
 class GPIOViewer
 {
