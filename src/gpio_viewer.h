@@ -8,6 +8,11 @@
 #include "boards/esp32_S3_wroom_1.h"
 #include "boards/esp32_38pins.h"
 
+enum BoardType {
+    ESP32_S3_WROOM_1,
+    ESP32_38PINS,
+};
+
 ESPBoard board_models[] = {esp32_S3_wroom_1, esp32_38pins};
 
 class GPIOViewer
