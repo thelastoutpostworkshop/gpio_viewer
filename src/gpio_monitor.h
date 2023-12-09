@@ -9,16 +9,16 @@
 class GPIOMonitor
 {
 public:
-    GPIOMonitor(unsigned long samplingInterval = 50)
-        : samplingInterval(samplingInterval), server(80), ws("/ws")
+    GPIOMonitor(unsigned long samplingInterval = 50, uint16_t port = 8080)
+        : samplingInterval(samplingInterval), server(port), ws("/ws")
     {
         // All pins monitored
         numPins = esp32.getGPIOsCount();
         lastPinStates = new int[numPins];
         gpioPins = esp32.getGPIOsPins();
     }
-    GPIOMonitor(const int *pins, int numPins, unsigned long samplingInterval = 50)
-        : gpioPins(pins), numPins(numPins), samplingInterval(samplingInterval), server(80), ws("/ws")
+    GPIOMonitor(const int *pins, int numPins, unsigned long samplingInterval = 50, uint16_t port = 8080)
+        : gpioPins(pins), numPins(numPins), samplingInterval(samplingInterval), server(port), ws("/ws")
     {
         lastPinStates = new int[numPins];
     }
