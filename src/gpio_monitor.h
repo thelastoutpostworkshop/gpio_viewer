@@ -66,9 +66,7 @@ private:
     {
         if (WiFi.status() == WL_CONNECTED)
         {
-            Serial.println("ESP32 is connected to WiFi.");
-            // Construct and print the full URL
-            Serial.print("Web application available at: http://");
+            Serial.print("Monitoring Web application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
