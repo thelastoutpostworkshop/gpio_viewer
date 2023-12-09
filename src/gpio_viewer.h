@@ -19,7 +19,7 @@ public:
         gpioPins = esp32.getGPIOsPins();
     }
     GPIOViewer(const int *pins, int numPins, unsigned long samplingInterval = 50, uint16_t port = 8080)
-        : gpioPins(pins), numPins(numPins), samplingInterval(samplingInterval), server(port), ws("/ws")
+        : gpioPins(pins), numPins(numPins), port(port),samplingInterval(samplingInterval), server(port), ws("/ws")
     {
         lastPinStates = new int[numPins];
     }
