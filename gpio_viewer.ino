@@ -2,12 +2,16 @@
 #include "src/gpio_viewer.h"
 #include "secrets.h"
 
-// Define the GPIO pins to monitor
-const int gpioPins[] = {34,35,32,33,25,26,27,14,12,13,9,10,11}; // Example GPIO pins
-const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
+//All GPIO Pins monitored using 100ms interval and showed on port 5555
+//GPIOViewer gpio_viewer(100,5555);
 
-//All GPIO Pins monitored at 50ms interval on showed on port 8080
-GPIOViewer gpio_viewer(50,8080);
+// You can view GPIO pins of choice using defaults:  50ms interval and showed on port 8080
+// const int gpioPins[] = {13,9,10,11}; // Example GPIO pins
+// const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
+// GPIOViewer gpio_viewer(gpioPins,4);
+
+//All GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
+GPIOViewer gpio_viewer;
 
 void setup()
 {
