@@ -48,7 +48,7 @@ String html_template = R"rawliteral(
         padding: 5px;
         transform: translate(-50%, -50%);
       }
-            .centered-text {
+      .centered-text {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -56,9 +56,10 @@ String html_template = R"rawliteral(
         color: #f9f5f5; /* Text color */
         font-size: 1vw; /* Responsive font size */
         text-align: center;
-        background-color: rgba(8, 145, 213, 0.9); /* Grey background with 50% opacity */
+        background-color: rgba(8, 145, 213, 0.9); /* Blue background with 90% opacity */
         padding: 10px; /* Padding around the text */
-        border-radius: 5px; /* Optional: for rounded corners */
+        border-radius: px; /* Rounded corners */
+        border: 5px solid darkblue; /* Red border */
         font-weight: bold;
         font-family: Arial, sans-serif; /* Arial font */
       }
