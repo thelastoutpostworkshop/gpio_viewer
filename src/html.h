@@ -48,6 +48,20 @@ String html_template = R"rawliteral(
         padding: 5px;
         transform: translate(-50%, -50%);
       }
+            .centered-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #f9f5f5; /* Text color */
+        font-size: 1vw; /* Responsive font size */
+        text-align: center;
+        background-color: rgba(8, 145, 213, 0.9); /* Grey background with 50% opacity */
+        padding: 10px; /* Padding around the text */
+        border-radius: 5px; /* Optional: for rounded corners */
+        font-weight: bold;
+        font-family: Arial, sans-serif; /* Arial font */
+      }
     </style>
 </head>
 <body>
