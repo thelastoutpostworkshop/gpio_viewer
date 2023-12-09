@@ -49,28 +49,6 @@ String html_template = R"rawliteral(
         transform: translate(-50%, -50%);
       }
     </style>
-<script>
-  var ws;
-  function initWebSocket() {
-    ws = new WebSocket('ws://' + window.location.hostname + '/ws');
-    ws.onmessage = function(event) {
-      var states = JSON.parse(event.data);
-      for (var gpio in states) {
-        var gpioElement = document.getElementById("gpio" + gpio);
-        if (gpioElement) {
-          if (states[gpio]) {
-            gpioElement.className = 'indicator-on';
-            gpioElement.innerHTML = "";
-          } else {
-            gpioElement.className = 'indicator-off';
-            gpioElement.innerHTML = "";
-          }
-        }
-      }
-    };
-  }
-  window.addEventListener('load', initWebSocket);
-</script>
 </head>
 <body>
 

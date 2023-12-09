@@ -4,13 +4,14 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include "html.h"
+#include "script.h"
 #include "boards/esp32_38pins.h"
 
 class GPIOMonitor
 {
 public:
     GPIOMonitor(unsigned long samplingInterval = 50, uint16_t port = 8080)
-        : samplingInterval(samplingInterval), server(port), ws("/ws")
+        : samplingInterval(samplingInterval),port(port), server(port), ws("/ws")
     {
         // All pins monitored
         numPins = esp32.getGPIOsCount();
@@ -55,6 +56,7 @@ private:
     const int *gpioPins;
     int *lastPinStates;
     int numPins;
+    uint16_t port;
     unsigned long samplingInterval;
     AsyncWebServer server;
     AsyncWebSocket ws;
@@ -79,6 +81,13 @@ private:
                 html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
             }
         }
+
+        // Append the port script
+        String portScript = "<script>var serverPort = " + String(port) + ";</script>";
+        html += portScript;
+
+        // Append the WebSocket script
+        html += html_script;
 
         html += "</div></body></html>";
         return html;
