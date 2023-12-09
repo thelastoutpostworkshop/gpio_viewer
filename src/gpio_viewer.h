@@ -36,6 +36,8 @@ public:
 
     ~GPIOViewer()
     {
+        ws->closeAll();
+        server->end();
         delete[] lastPinStates;
     }
 
@@ -110,6 +112,7 @@ private:
         html += "<body>";
         html += "<div class='image-container'>\n";
 
+        html += "<div class='centered-text' id='sampbox'>Sampling Interval is "+String(samplingInterval)+"ms\n"+board->getBoardModelName()+"</div>";
         // Image
         html += "<img src='" + board->getImage() + "' alt='Board Image'>\n";
 
