@@ -4,6 +4,7 @@
 
 const String image2 = "http://192.168.1.90/images/esp32-s3-wroom-1.png";
 
+//GPIO List and position on the image
 BoardGPIO gpios2[] = {
     {4, 24.7, 4},
     {5, 28.7, 4},

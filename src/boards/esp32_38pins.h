@@ -4,6 +4,7 @@
 
 const String image = "http://192.168.1.90/images/esp32_38pins.png";
 
+//GPIO List and position on the image
 BoardGPIO gpios[] = {
     {35, 31.5, 6.2},
     {32, 36.5, 6.2},
