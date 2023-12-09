@@ -41,6 +41,10 @@ public:
         return boardDef.board_name;
     }
 
+    float getIndicatorSize(void) {
+        return boardDef.indicatorSize;
+    }
+
     int getGPIOsCount(void) {
         return boardDef.numberOfGpios;
     }

@@ -1,8 +1,4 @@
-String html_template = R"rawliteral(
-<!DOCTYPE HTML><html>
-<head>
-  <title>ESP32 GPIO State</title>
-    <style>
+String css_template = R"rawliteral(
       body,
       html {
         margin: 0;
@@ -32,8 +28,8 @@ String html_template = R"rawliteral(
       .indicator-on {
         position: absolute;
         background-color: red;
-        width: 1.2vw;
-        height: 1.2vw;
+        width: var(--indicator-size);
+        height: var(--indicator-size);
           border-radius: 50%;
         padding: 5px;
         transform: translate(-50%, -50%);
@@ -41,8 +37,8 @@ String html_template = R"rawliteral(
       .indicator-off {
         position: absolute;
           background-color: lightgreen;
-        width: 1.2vw;
-        height: 1.2vw;
+        width: var(--indicator-size);
+        height: var(--indicator-size);
           border-radius: 50%;
           transform: translate(-50%, -50%);
         padding: 5px;
@@ -63,10 +59,4 @@ String html_template = R"rawliteral(
         font-weight: bold;
         font-family: Arial, sans-serif; /* Arial font */
       }
-    </style>
-</head>
-<body>
-
-</body>
-</html>
 )rawliteral";

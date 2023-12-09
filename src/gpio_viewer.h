@@ -3,7 +3,7 @@
 #include <AsyncTCP.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include "html.h"
+#include "css.h"
 #include "script.h"
 #include "boards/esp32_S3_wroom_1.h"
 #include "boards/esp32_38pins.h"
@@ -123,10 +123,12 @@ private:
 
     String generateIndexHTML()
     {
-        String html = html_template;
+        String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title><style>";
+        html += ":root {--indicator-size:" + String(board->getIndicatorSize()) + "vw;}";
+        html += css_template;
+        html += "</style></head>";
 
-        html += "<body>";
-        html += "<div class='image-container'>\n";
+        html += "<body><div class='image-container'>\n";
 
         html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
         // Image
