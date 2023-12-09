@@ -17,16 +17,18 @@ void setup()
 {
   Serial.begin(115200);
 
-  // If your code aleady include connection to Wifi, you can comment the next line
-  gpio_viewer.connectToWifi(ssid,password);
+  
+  gpio_viewer.connectToWifi(ssid,password); // If your code aleady include connection to Wifi, you can comment this line
+  // gpio_viewer.setPort(5555);             // You can set the http port
+  gpio_viewer.setSamplingInterval(100);     // You can set the sampling interval in ms
+  gpio_viewer.begin();
 
+
+  //Your own setup code start here
   pinMode(test_pin, OUTPUT);
   pinMode(test_pin36, OUTPUT);
   digitalWrite(test_pin36, LOW);
 
-  // gpio_viewer.setPort(5555);         // You can set the http port
-  gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
-  gpio_viewer.begin();
 }
 
 void loop()
