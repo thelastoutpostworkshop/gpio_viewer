@@ -31,7 +31,8 @@ void setup()
   pinMode(test_pin36, OUTPUT);
   digitalWrite(test_pin36, LOW);
 
-  // gpio_viewer.setPort(5555); // You can set the http port
+  // gpio_viewer.setPort(5555);         // You can set the http port
+  gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
   gpio_viewer.begin();
 }
 

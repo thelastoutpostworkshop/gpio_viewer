@@ -199,7 +199,7 @@ private:
     {
         if (type == WS_EVT_CONNECT)
         {
-            Serial.println("GPIO View Activated...");
+            Serial.printf("GPIO View Activated, sampling interval is %ums\n",samplingInterval);
             resetStatePins();
         }
         else if (type == WS_EVT_DISCONNECT)
