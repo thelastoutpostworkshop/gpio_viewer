@@ -1,4 +1,6 @@
+#ifndef boards_definitions
 #include "boards_def.h"
+#endif
 
 const String image = "http://192.168.1.90/images/esp32_38pins.png";
 
@@ -39,4 +41,4 @@ BoardGPIO gpios[] = {
 };
 const int numGpios = sizeof(gpios) / sizeof(gpios[0]);
 
-ESPBoard esp32(gpios, numGpios, image);
+ESPBoard esp32_38pins(gpios, numGpios, image);

@@ -1,8 +1,10 @@
+#ifndef boards_definitions
 #include "boards_def.h"
+#endif
 
-const String image = "http://192.168.1.90/images/esp32-s3-wroom-1.png";
+const String image2 = "http://192.168.1.90/images/esp32-s3-wroom-1.png";
 
-BoardGPIO gpios[] = {
+BoardGPIO gpios2[] = {
     {4, 24.7, 4},
     {5, 28.7, 4},
     {6, 32.7, 4},
@@ -42,6 +44,6 @@ BoardGPIO gpios[] = {
     {19, 88.7, 96},
  
 };
-const int numGpios = sizeof(gpios) / sizeof(gpios[0]);
+const int numGpios = sizeof(gpios2) / sizeof(gpios2[0]);
 
-ESPBoard esp32(gpios, numGpios, image);
+ESPBoard esp32_S3_wroom_1(gpios2, numGpios, image2);

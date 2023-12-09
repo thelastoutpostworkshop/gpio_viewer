@@ -1,3 +1,4 @@
+#define boards_definitions
 
 typedef struct BoardGPIO
 {

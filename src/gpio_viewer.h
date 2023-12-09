@@ -5,17 +5,20 @@
 #include <freertos/task.h>
 #include "html.h"
 #include "script.h"
-#include "boards/esp32_S3_wroom-1.h"
+#include "boards/esp32_S3_wroom_1.h"
+#include "boards/esp32_38pins.h"
+
+ESPBoard board_models[] = {esp32_S3_wroom_1, esp32_38pins};
 
 class GPIOViewer
 {
 public:
-    GPIOViewer() 
+    GPIOViewer()
     {
         // All pins monitored
-        numPins = esp32.getGPIOsCount();
+        numPins = board->getGPIOsCount();
         lastPinStates = new int[numPins];
-        gpioPins = esp32.getGPIOsPins();
+        gpioPins = board->getGPIOsPins();
     }
     GPIOViewer(const int *pins, int numPins)
         : gpioPins(pins), numPins(numPins)
@@ -47,13 +50,13 @@ public:
 
         // Setup WebSocket
         ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
-                          AwsEventType type, void *arg, uint8_t *data, size_t len)
-                   { onWebSocketEvent(server, client, type, arg, data, len); });
+                           AwsEventType type, void *arg, uint8_t *data, size_t len)
+                    { onWebSocketEvent(server, client, type, arg, data, len); });
         server->addHandler(ws);
 
         // Serve Web Page
         server->on("/", [this](AsyncWebServerRequest *request)
-                  { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
+                   { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
         server->begin();
 
@@ -74,6 +77,7 @@ private:
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
     AsyncWebSocket *ws;
+    ESPBoard *board;
 
     void checkWifiStatus(void)
     {
@@ -98,13 +102,13 @@ private:
         html += "<div class='image-container'>\n";
 
         // Image
-        html += "<img src='" + esp32.getImage() + "' alt='Board Image'>\n";
+        html += "<img src='" + board->getImage() + "' alt='Board Image'>\n";
 
-        for (int i = 0; i < esp32.getGPIOsCount(); i++)
+        for (int i = 0; i < board->getGPIOsCount(); i++)
         {
-            int pin = esp32.getGPIOs()[i].gpio;
-            float top = esp32.getGPIOs()[i].topPosition;
-            float left = esp32.getGPIOs()[i].leftPosition;
+            int pin = board->getGPIOs()[i].gpio;
+            float top = board->getGPIOs()[i].topPosition;
+            float left = board->getGPIOs()[i].leftPosition;
             if (pin != -1 && isPinMonitored(pin))
             {
                 html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
@@ -199,7 +203,7 @@ private:
     {
         if (type == WS_EVT_CONNECT)
         {
-            Serial.printf("GPIO View Activated, sampling interval is %ums\n",samplingInterval);
+            Serial.printf("GPIO View Activated, sampling interval is %ums\n", samplingInterval);
             resetStatePins();
         }
         else if (type == WS_EVT_DISCONNECT)
