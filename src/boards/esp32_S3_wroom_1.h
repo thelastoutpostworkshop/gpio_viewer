@@ -44,6 +44,6 @@ BoardGPIO gpios2[] = {
     {19, 88.7, 96},
  
 };
-const int numGpios = sizeof(gpios2) / sizeof(gpios2[0]);
+const int numGpios2 = sizeof(gpios2) / sizeof(gpios2[0]);
 
-ESPBoard esp32_S3_wroom_1(gpios2, numGpios, image2);
+ESPBoard esp32_S3_wroom_1(gpios2, numGpios2, image2);

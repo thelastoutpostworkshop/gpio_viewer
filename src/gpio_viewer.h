@@ -8,9 +8,10 @@
 #include "boards/esp32_S3_wroom_1.h"
 #include "boards/esp32_38pins.h"
 
-enum BoardType {
-    ESP32_S3_WROOM_1,
-    ESP32_38PINS,
+enum BoardType
+{
+    ESP32_S3_WROOM_1 = 0,
+    ESP32_38PINS = 1,
 };
 
 ESPBoard board_models[] = {esp32_S3_wroom_1, esp32_38pins};
@@ -18,16 +19,18 @@ ESPBoard board_models[] = {esp32_S3_wroom_1, esp32_38pins};
 class GPIOViewer
 {
 public:
-    GPIOViewer()
+    GPIOViewer(BoardType boardModel)
     {
         // All pins monitored
+        board = &board_models[boardModel];
         numPins = board->getGPIOsCount();
         lastPinStates = new int[numPins];
         gpioPins = board->getGPIOsPins();
     }
-    GPIOViewer(const int *pins, int numPins)
+    GPIOViewer(const int *pins, int numPins, BoardType boardModel)
         : gpioPins(pins), numPins(numPins)
     {
+        board = &board_models[boardModel];
         lastPinStates = new int[numPins];
     }
 

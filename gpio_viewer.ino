@@ -8,7 +8,7 @@
 // GPIOViewer gpio_viewer(gpioPins,4);
 
 // All GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
-GPIOViewer gpio_viewer;
+GPIOViewer gpio_viewer(ESP32_S3_WROOM_1);
 
 #define test_pin 48
 #define test_pin36 36 // Blinking when 48 is used
