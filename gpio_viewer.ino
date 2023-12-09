@@ -6,6 +6,7 @@
 const int gpioPins[] = {34,35,32,33,25,26,27,14,12,13,9,10,11}; // Example GPIO pins
 const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
 
+//All GPIO Pins monitored at 50ms interval on showed on port 8080
 GPIOViewer gpio_viewer(50,8080);
 
 void setup()
