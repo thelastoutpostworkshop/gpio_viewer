@@ -53,6 +53,20 @@ public:
         this->samplingInterval = samplingInterval;
     }
 
+    void connectToWifi(const char *ssid, const char *password)
+    {
+        WiFi.begin(ssid, password);
+        Serial.println("Connecting to WiFi...");
+        while (WiFi.status() != WL_CONNECTED)
+        {
+            delay(500);
+            Serial.print(".");
+        }
+        Serial.println("Connected to WiFi");
+        Serial.print("IP Address: ");
+        Serial.println(WiFi.localIP());
+    }
+
     void begin()
     {
         checkWifiStatus();
@@ -99,7 +113,7 @@ private:
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
-            Serial.printf("Board model is: %s\n",board->getBoardModelName().c_str());
+            Serial.printf("Board model is: %s\n", board->getBoardModelName().c_str());
         }
         else
         {
@@ -114,7 +128,7 @@ private:
         html += "<body>";
         html += "<div class='image-container'>\n";
 
-        html += "<div class='centered-text' id='sampbox'>Sampling Interval is "+String(samplingInterval)+"ms\n"+board->getBoardModelName()+"</div>";
+        html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
         // Image
         html += "<img src='" + board->getImage() + "' alt='Board Image'>\n";
 

@@ -16,16 +16,9 @@ GPIOViewer gpio_viewer(ESP32_S3_WROOM_1);
 void setup()
 {
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
-  Serial.println("Connecting to WiFi...");
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("Connected to WiFi");
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
+
+  // If your code aleady include connection to Wifi, you can comment the next line
+  gpio_viewer.connectToWifi(ssid,password);
 
   pinMode(test_pin, OUTPUT);
   pinMode(test_pin36, OUTPUT);
