@@ -66,7 +66,7 @@ private:
     {
         if (WiFi.status() == WL_CONNECTED)
         {
-            Serial.print("Monitoring Web application URL is: http://");
+            Serial.print("GPIO View Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
@@ -186,12 +186,12 @@ private:
     {
         if (type == WS_EVT_CONNECT)
         {
-            Serial.println("Monitoring activated...");
+            Serial.println("GPIO View Activated...");
             resetStatePins();
         }
         else if (type == WS_EVT_DISCONNECT)
         {
-            Serial.println("Monitoring stopped");
+            Serial.println("GPIO View Stopped");
         }
     }
 };
