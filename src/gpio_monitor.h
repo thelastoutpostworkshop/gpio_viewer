@@ -11,7 +11,7 @@ class GPIOMonitor
 {
 public:
     GPIOMonitor(unsigned long samplingInterval = 50, uint16_t port = 8080)
-        : samplingInterval(samplingInterval),port(port), server(port), ws("/ws")
+        : samplingInterval(samplingInterval), port(port), server(port), ws("/ws")
     {
         // All pins monitored
         numPins = esp32.getGPIOsCount();
@@ -31,6 +31,7 @@ public:
 
     void begin()
     {
+        checkWifiStatus();
 
         // Setup WebSocket
         ws.onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
@@ -60,6 +61,23 @@ private:
     unsigned long samplingInterval;
     AsyncWebServer server;
     AsyncWebSocket ws;
+
+    void checkWifiStatus(void)
+    {
+        if (WiFi.status() == WL_CONNECTED)
+        {
+            Serial.println("ESP32 is connected to WiFi.");
+            // Construct and print the full URL
+            Serial.print("Web application available at: http://");
+            Serial.print(WiFi.localIP());
+            Serial.print(":");
+            Serial.println(port);
+        }
+        else
+        {
+            Serial.println("ESP32 is not connected to WiFi.");
+        }
+    }
 
     String generateIndexHTML()
     {
