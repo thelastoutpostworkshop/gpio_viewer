@@ -186,12 +186,12 @@ private:
     {
         if (type == WS_EVT_CONNECT)
         {
-            Serial.println("WebSocket client connected");
+            Serial.println("Monitoring activated...");
             resetStatePins();
         }
         else if (type == WS_EVT_DISCONNECT)
         {
-            Serial.println("WebSocket client disconnected");
+            Serial.println("Monitoring stopped");
         }
     }
 };
