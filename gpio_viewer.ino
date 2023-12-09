@@ -31,7 +31,7 @@ void setup()
   pinMode(test_pin36, OUTPUT);
   digitalWrite(test_pin36, LOW);
 
-  gpio_viewer.setPort(5555); // You can set the http port
+  // gpio_viewer.setPort(5555); // You can set the http port
   gpio_viewer.begin();
 }
 
