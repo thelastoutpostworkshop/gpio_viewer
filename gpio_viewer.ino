@@ -1,12 +1,12 @@
 #include <WiFi.h>
-#include "src/gpio_monitor.h"
+#include "src/gpio_viewer.h"
 #include "secrets.h"
 
 // Define the GPIO pins to monitor
 const int gpioPins[] = {34,35,32,33,25,26,27,14,12,13,9,10,11}; // Example GPIO pins
 const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
 
-GPIOMonitor gpio_monitor(50,8080);
+GPIOViewer gpio_viewer(50,8080);
 
 void setup()
 {
@@ -24,7 +24,7 @@ void setup()
 
   pinMode(27, OUTPUT);
 
-  gpio_monitor.begin();
+  gpio_viewer.begin();
 }
 
 void loop()

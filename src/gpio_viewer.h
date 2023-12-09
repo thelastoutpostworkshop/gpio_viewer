@@ -7,10 +7,10 @@
 #include "script.h"
 #include "boards/esp32_38pins.h"
 
-class GPIOMonitor
+class GPIOViewer
 {
 public:
-    GPIOMonitor(unsigned long samplingInterval = 50, uint16_t port = 8080)
+    GPIOViewer(unsigned long samplingInterval = 50, uint16_t port = 8080)
         : samplingInterval(samplingInterval), port(port), server(port), ws("/ws")
     {
         // All pins monitored
@@ -18,13 +18,13 @@ public:
         lastPinStates = new int[numPins];
         gpioPins = esp32.getGPIOsPins();
     }
-    GPIOMonitor(const int *pins, int numPins, unsigned long samplingInterval = 50, uint16_t port = 8080)
+    GPIOViewer(const int *pins, int numPins, unsigned long samplingInterval = 50, uint16_t port = 8080)
         : gpioPins(pins), numPins(numPins), samplingInterval(samplingInterval), server(port), ws("/ws")
     {
         lastPinStates = new int[numPins];
     }
 
-    ~GPIOMonitor()
+    ~GPIOViewer()
     {
         delete[] lastPinStates;
     }
@@ -45,12 +45,12 @@ public:
 
         server.begin();
         // Create a task for monitoring GPIOs
-        xTaskCreate(&GPIOMonitor::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
+        xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
     }
     // Create a task for monitoring GPIOs
     static void monitorTaskStatic(void *pvParameter)
     {
-        static_cast<GPIOMonitor *>(pvParameter)->monitorTask();
+        static_cast<GPIOViewer *>(pvParameter)->monitorTask();
     }
 
 private:
