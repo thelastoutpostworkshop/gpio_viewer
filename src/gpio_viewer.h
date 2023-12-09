@@ -10,16 +10,16 @@
 class GPIOViewer
 {
 public:
-    GPIOViewer(unsigned long samplingInterval = 50, uint16_t port = 8080)
-        : samplingInterval(samplingInterval), port(port), server(port), ws("/ws")
+    GPIOViewer()
+        : server(port), ws("/ws")
     {
         // All pins monitored
         numPins = esp32.getGPIOsCount();
         lastPinStates = new int[numPins];
         gpioPins = esp32.getGPIOsPins();
     }
-    GPIOViewer(const int *pins, int numPins, unsigned long samplingInterval = 50, uint16_t port = 8080)
-        : gpioPins(pins), numPins(numPins), port(port),samplingInterval(samplingInterval), server(port), ws("/ws")
+    GPIOViewer(const int *pins, int numPins)
+        : gpioPins(pins), numPins(numPins), server(port), ws("/ws")
     {
         lastPinStates = new int[numPins];
     }
@@ -27,6 +27,16 @@ public:
     ~GPIOViewer()
     {
         delete[] lastPinStates;
+    }
+
+    void setPort(uint16_t port)
+    {
+        port = port;
+    }
+
+    void setSamplingInterval(unsigned long samplingInterval)
+    {
+        samplingInterval = samplingInterval;
     }
 
     void begin()
@@ -44,7 +54,7 @@ public:
                   { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
         server.begin();
-                
+
         // Create a task for monitoring GPIOs
         xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
     }
@@ -58,8 +68,8 @@ private:
     const int *gpioPins;
     int *lastPinStates;
     int numPins;
-    uint16_t port;
-    unsigned long samplingInterval;
+    uint16_t port = 8080;
+    unsigned long samplingInterval = 50;
     AsyncWebServer server;
     AsyncWebSocket ws;
 
