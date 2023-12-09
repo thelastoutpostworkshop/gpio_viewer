@@ -13,7 +13,9 @@
 //All GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
 GPIOViewer gpio_viewer;
 
-#define test_pin 13
+#define test_pin 48
+#define test_pin36 36 // Blinking when 48 is used
+
 
 void setup()
 {
@@ -30,6 +32,8 @@ void setup()
   Serial.println(WiFi.localIP());
 
   pinMode(test_pin, OUTPUT);
+  pinMode(test_pin36, OUTPUT);
+  digitalWrite(test_pin36,LOW);
 
   gpio_viewer.begin();
 }
