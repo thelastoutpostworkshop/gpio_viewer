@@ -6,12 +6,14 @@
 //GPIOViewer gpio_viewer(100,5555);
 
 // You can view GPIO pins of choice using defaults:  50ms interval and showed on port 8080
-// const int gpioPins[] = {13,9,10,11}; // Example GPIO pins
-// const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
-// GPIOViewer gpio_viewer(gpioPins,4);
+const int gpioPins[] = {13,9,10,11}; // Example GPIO pins
+const int numPins = sizeof(gpioPins) / sizeof(gpioPins[0]);
+GPIOViewer gpio_viewer(gpioPins,4);
 
 //All GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
-GPIOViewer gpio_viewer;
+// GPIOViewer gpio_viewer;
+
+#define test_pin 13
 
 void setup()
 {
@@ -27,15 +29,15 @@ void setup()
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
-  pinMode(27, OUTPUT);
+  pinMode(test_pin, OUTPUT);
 
   gpio_viewer.begin();
 }
 
 void loop()
 {
-  digitalWrite(27, HIGH);
+  digitalWrite(test_pin, HIGH);
   delay(500);
-  digitalWrite(27, LOW);
+  digitalWrite(test_pin, LOW);
   delay(500);
 }
