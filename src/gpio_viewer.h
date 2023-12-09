@@ -10,8 +10,7 @@
 class GPIOViewer
 {
 public:
-    GPIOViewer()
-        : server(port), ws("/ws")
+    GPIOViewer() 
     {
         // All pins monitored
         numPins = esp32.getGPIOsCount();
@@ -19,7 +18,7 @@ public:
         gpioPins = esp32.getGPIOsPins();
     }
     GPIOViewer(const int *pins, int numPins)
-        : gpioPins(pins), numPins(numPins), server(port), ws("/ws")
+        : gpioPins(pins), numPins(numPins)
     {
         lastPinStates = new int[numPins];
     }
@@ -31,29 +30,32 @@ public:
 
     void setPort(uint16_t port)
     {
-        port = port;
+        this->port = port;
     }
 
     void setSamplingInterval(unsigned long samplingInterval)
     {
-        samplingInterval = samplingInterval;
+        this->samplingInterval = samplingInterval;
     }
 
     void begin()
     {
         checkWifiStatus();
 
+        server = new AsyncWebServer(port); // Create a new AsyncWebServer instance with the specified port
+        ws = new AsyncWebSocket("/ws");
+
         // Setup WebSocket
-        ws.onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
+        ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
                           AwsEventType type, void *arg, uint8_t *data, size_t len)
                    { onWebSocketEvent(server, client, type, arg, data, len); });
-        server.addHandler(&ws);
+        server->addHandler(ws);
 
         // Serve Web Page
-        server.on("/", [this](AsyncWebServerRequest *request)
+        server->on("/", [this](AsyncWebServerRequest *request)
                   { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
-        server.begin();
+        server->begin();
 
         // Create a task for monitoring GPIOs
         xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
@@ -70,8 +72,8 @@ private:
     int numPins;
     uint16_t port = 8080;
     unsigned long samplingInterval = 50;
-    AsyncWebServer server;
-    AsyncWebSocket ws;
+    AsyncWebServer *server;
+    AsyncWebSocket *ws;
 
     void checkWifiStatus(void)
     {
@@ -189,7 +191,7 @@ private:
 
     void sendGPIOStates(const String &states)
     {
-        ws.textAll(states);
+        ws->textAll(states);
     }
 
     void onWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
