@@ -41,4 +41,4 @@ BoardGPIO gpios[] = {
 };
 const int numGpios = sizeof(gpios) / sizeof(gpios[0]);
 
-ESPBoard esp32_38pins(gpios, numGpios, image);
+ESPBoard esp32_38pins(gpios, numGpios, image,"ESP32-38pins");

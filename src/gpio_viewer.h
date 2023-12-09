@@ -95,6 +95,7 @@ private:
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
+            Serial.printf("Board model is: %s\n",board->getBoardModelName().c_str());
         }
         else
         {

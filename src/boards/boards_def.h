@@ -12,6 +12,7 @@ typedef struct BoardDetail
     BoardGPIO *gpios;
     int numberOfGpios;
     String board_image;
+    String board_name;
 };
 
 class ESPBoard
@@ -20,10 +21,11 @@ private:
     BoardDetail boardDef;
 
 public:
-    ESPBoard(BoardGPIO *gpioArray, int numGpios,String image) {
+    ESPBoard(BoardGPIO *gpioArray, int numGpios,String image,String name) {
         boardDef.gpios = gpioArray;
         boardDef.numberOfGpios = numGpios;
         boardDef.board_image = image;
+        boardDef.board_name = name;
     }
     String getImage(void) {
         return(boardDef.board_image);
@@ -31,6 +33,10 @@ public:
 
     BoardGPIO* getGPIOs(void) {
         return(boardDef.gpios);
+    }
+
+    String getBoardModelName(void) {
+        return boardDef.board_name;
     }
 
     int getGPIOsCount(void) {
