@@ -172,7 +172,7 @@ private:
         }
         else
         {
-            // GPIOs 32-39 are read from GPIO_IN1_REG
+            // GPIOs over 32 are read from GPIO_IN1_REG
             return (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
         }
     }
