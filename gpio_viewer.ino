@@ -25,7 +25,7 @@ void setup()
   // Your own setup code start here
   for (int i = 0; i < testPinsCount; i++)
   {
-    pinMode(i, OUTPUT);
+    pinMode(test_pins[i], OUTPUT);
   }
 }
 
