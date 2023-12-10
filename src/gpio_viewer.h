@@ -18,7 +18,7 @@ enum BoardType
 };
 
 // Boards Definitions (must be in the same order as BoardType)
-ESPBoard board_models[] = {esp32_S3_wroom_1, esp32_38pins,esp32_D1_R32};
+ESPBoard board_models[] = {board_esp32_S3_wroom_1, board_esp32_38pins,board_esp32_d1_r32};
 
 class GPIOViewer
 {

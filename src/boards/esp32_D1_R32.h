@@ -38,4 +38,4 @@ BoardGPIO gpios3[] = {
 };
 const int numGpios3 = sizeof(gpios3) / sizeof(gpios3[0]);
 
-ESPBoard esp32_D1_R32(gpios3, numGpios3, image3,"ESP32-D1-R32",1);
+ESPBoard board_esp32_d1_r32(gpios3, numGpios3, image3,"ESP32-D1-R32",1);
