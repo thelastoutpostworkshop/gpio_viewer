@@ -2,7 +2,7 @@
 #include "boards_def.h"
 #endif
 
-const String image3 = "http://192.168.1.90/images/ESP32_D1_R32.png";
+const String image3 = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/devboards_images/ESP32_D1_R32.png";
 
 //GPIO List and position on the image
 BoardGPIO gpios3[] = {
