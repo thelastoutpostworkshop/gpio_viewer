@@ -21,7 +21,7 @@ enum BoardType
 };
 
 // Boards Definitions (must be in the same order as BoardType)
-ESPBoard board_models[] = {board_esp32_S3_wroom_1, board_esp32_38pins,board_esp32_d1_r32};
+ESPBoard board_models[] = {board_esp32_S3_wroom_1, board_esp32_38pins, board_esp32_d1_r32};
 
 class GPIOViewer
 {
@@ -128,10 +128,13 @@ private:
 
     String generateIndexHTML()
     {
-        String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title><style>";
-        html += ":root {--indicator-size:" + String(board->getIndicatorSize()) + "vw;}";
-        html += css_template;
-        html += "</style></head>";
+        String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title>";
+
+        html += "<base href ='" + baseURL + "'>";
+        html += "<link rel='stylesheet' href='" + defaultCSS + "'>";
+        html += "<link rel='stylesheet' href='css/esp32_d1_r32.css'>";
+
+        html += "</head>";
 
         html += "<body><div class='image-container'>\n";
 
