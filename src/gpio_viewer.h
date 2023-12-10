@@ -132,7 +132,7 @@ private:
 
         html += "<base href ='" + baseURL + "'>";
         html += "<link rel='stylesheet' href='" + defaultCSS + "'>";
-        html += "<link rel='stylesheet' href='css/esp32_d1_r32.css'>";
+        html += "<link id='boardStyleSheet' rel='stylesheet' href='css/esp32_default.css'>";
 
         html += "</head>";
 
@@ -140,7 +140,7 @@ private:
 
         html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
         // Image
-        html += "<img src='" + board->getImage() + "' alt='Board Image'>\n";
+        html += "<img id='boardImage' src='devboards_images/default.png' alt='Board Image'>\n";
 
         for (int i = 0; i < board->getGPIOsCount(); i++)
         {
@@ -153,14 +153,18 @@ private:
             }
         }
 
+        html += "</div>";
+
         // Append the port script
         String portScript = "<script>var serverPort = " + String(port) + ";</script>";
         html += portScript;
 
-        // Append the WebSocket script
-        html += html_script;
+        // Append the scripts
 
-        html += "</div></body></html>";
+        html += "<script src='" + String("script/webSocket.js'></script>");
+        html += "<script src='" + String("script/boardSwitcher.js'></script>");
+
+        html += "</body></html>";
         return html;
     }
 
