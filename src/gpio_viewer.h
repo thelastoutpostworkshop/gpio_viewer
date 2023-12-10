@@ -9,6 +9,9 @@
 #include "boards/esp32_38pins.h"
 #include "boards/esp32_D1_R32.h"
 
+const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/";
+const String defaultCSS = "css/default.css";
+
 // Boards supported
 enum BoardType
 {
