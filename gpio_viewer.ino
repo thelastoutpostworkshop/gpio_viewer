@@ -10,7 +10,7 @@
 // All GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
 GPIOViewer gpio_viewer(ESP32_D1_R32);
 
-int test_pins[] = {18, 2};
+int test_pins[] = {5,4};
 const int testPinsCount = sizeof(test_pins) / sizeof(test_pins[0]);
 
 void setup()
@@ -33,12 +33,12 @@ void loop()
 {
   for (int i = 0; i < testPinsCount; i++)
   {
-    digitalWrite(i, HIGH);
+    digitalWrite(test_pins[i], HIGH);
   }
   delay(500);
   for (int i = 0; i < testPinsCount; i++)
   {
-    digitalWrite(i, LOW);
+    digitalWrite(test_pins[i], LOW);
   }
   delay(500);
 }
