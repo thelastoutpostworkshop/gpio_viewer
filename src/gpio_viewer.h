@@ -142,7 +142,7 @@ private:
         html += "<body><div class='grid-container'>\n";
 
         html += "<header class='header'>";
-        html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms</div>";
+        html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + " ms</div>";
         html += "</header>";
 
         // Image
