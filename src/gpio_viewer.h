@@ -139,14 +139,15 @@ private:
         html += "<script src='" + String("script/boardSwitcher.js'></script>");
         html += "</head>";
 
-
         html += "<body><div class='grid-container'>\n";
 
-        html+= "<header class='header'></header>";
+        html += "<header class='header'>";
+        html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
+        html += "</header>";
 
-        // html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
         // Image
         html += "<div class='image-container'>\n";
+        html += "<div class='image-wrapper'>";
         html += "<img id='boardImage' src='devboards_images/default.png' alt='Board Image'>\n";
 
         for (int i = 0; i < board->getGPIOsCount(); i++)
@@ -160,7 +161,7 @@ private:
             }
         }
 
-        html += "</div></div>";
+        html += "</div></div></div>";
 
         // Append the port script
         String portScript = "<script>var serverPort = " + String(port) + ";</script>";
