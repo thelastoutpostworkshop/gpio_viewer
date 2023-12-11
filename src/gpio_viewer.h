@@ -133,13 +133,20 @@ private:
         html += "<base href ='" + baseURL + "'>";
         html += "<link rel='stylesheet' href='" + defaultCSS + "'>";
         html += "<link id='boardStyleSheet' rel='stylesheet' href='css/esp32_default.css'>";
+        // Append the scripts
 
+        html += "<script src='" + String("script/webSocket.js'></script>");
+        html += "<script src='" + String("script/boardSwitcher.js'></script>");
         html += "</head>";
 
-        html += "<body><div class='image-container'>\n";
 
-        html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
+        html += "<body><div class='grid-container'>\n";
+
+        html+= "<header class='header'></header>";
+
+        // html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + "ms\n" + board->getBoardModelName() + "</div>";
         // Image
+        html += "<div class='image-container'>\n";
         html += "<img id='boardImage' src='devboards_images/default.png' alt='Board Image'>\n";
 
         for (int i = 0; i < board->getGPIOsCount(); i++)
@@ -153,16 +160,11 @@ private:
             }
         }
 
-        html += "</div>";
+        html += "</div></div>";
 
         // Append the port script
         String portScript = "<script>var serverPort = " + String(port) + ";</script>";
         html += portScript;
-
-        // Append the scripts
-
-        html += "<script src='" + String("script/webSocket.js'></script>");
-        html += "<script src='" + String("script/boardSwitcher.js'></script>");
 
         html += "</body></html>";
         return html;
