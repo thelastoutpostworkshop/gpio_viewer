@@ -33,7 +33,7 @@ public:
         // All pins monitored
         // board = &board_models[boardModel];
         // numPins = board->getGPIOsCount();
-        
+
         // lastPinStates = new int[numPins];
         // gpioPins = board->getGPIOsPins();
     }
@@ -153,6 +153,7 @@ private:
         html += "<div id='imageWrapper' class='image-wrapper'>";
         html += "<img id='boardImage' src='' alt='Board Image'>\n";
 
+        html += "<div id='indicators'></div>";
         // for (int i = 0; i < maxPins; i++)
         // {
         //     // int pin = board->getGPIOs()[i].gpio;
