@@ -3,8 +3,6 @@
 #include <AsyncTCP.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include "css.h"
-#include "script.h"
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 const String defaultCSS = "css/default.css";
