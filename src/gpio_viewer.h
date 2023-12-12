@@ -5,9 +5,6 @@
 #include <freertos/task.h>
 #include "css.h"
 #include "script.h"
-#include "boards/esp32_S3_wroom_1.h"
-#include "boards/esp32_38pins.h"
-#include "boards/esp32_D1_R32.h"
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 const String defaultCSS = "css/default.css";
@@ -21,9 +18,6 @@ enum BoardType
     ESP32_38PINS = 1,
     ESP32_D1_R32 = 2
 };
-
-// Boards Definitions (must be in the same order as BoardType)
-ESPBoard board_models[] = {board_esp32_S3_wroom_1, board_esp32_38pins, board_esp32_d1_r32};
 
 class GPIOViewer
 {
