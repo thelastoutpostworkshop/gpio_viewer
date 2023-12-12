@@ -30,25 +30,12 @@ class GPIOViewer
 public:
     GPIOViewer()
     {
-        // All pins monitored
-        // board = &board_models[boardModel];
-        // numPins = board->getGPIOsCount();
-
-        // lastPinStates = new int[numPins];
-        // gpioPins = board->getGPIOsPins();
     }
-    // GPIOViewer(const int *pins, int numPins, BoardType boardModel)
-    //     : gpioPins(pins), numPins(numPins)
-    // {
-    //     board = &board_models[boardModel];
-    //     lastPinStates = new int[numPins];
-    // }
 
     ~GPIOViewer()
     {
         ws->closeAll();
         server->end();
-        // delete[] lastPinStates;
     }
 
     void setPort(uint16_t port)
@@ -79,16 +66,14 @@ public:
     {
         checkWifiStatus();
 
-        server = new AsyncWebServer(port); // Create a new AsyncWebServer instance with the specified port
+        server = new AsyncWebServer(port); 
         ws = new AsyncWebSocket("/ws");
 
-        // Setup WebSocket
         ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
                            AwsEventType type, void *arg, uint8_t *data, size_t len)
                     { onWebSocketEvent(server, client, type, arg, data, len); });
         server->addHandler(ws);
 
-        // Serve Web Page
         server->on("/", [this](AsyncWebServerRequest *request)
                    { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
@@ -97,21 +82,18 @@ public:
         // Create a task for monitoring GPIOs
         xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
     }
-    // Create a task for monitoring GPIOs
+
     static void monitorTaskStatic(void *pvParameter)
     {
         static_cast<GPIOViewer *>(pvParameter)->monitorTask();
     }
 
 private:
-    // const int *gpioPins;
     int lastPinStates[maxPins];
-    // int numPins;
     uint16_t port = 8080;
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
     AsyncWebSocket *ws;
-    // ESPBoard *board;
 
     void checkWifiStatus(void)
     {
@@ -121,7 +103,6 @@ private:
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
-            // Serial.printf("Board model is: %s\n", board->getBoardModelName().c_str());
         }
         else
         {
@@ -136,7 +117,6 @@ private:
         html += "<base href ='" + baseURL + "'>";
         html += "<link rel='stylesheet' href='" + defaultCSS + "'>";
         html += "<link id='boardStyleSheet' rel='stylesheet' href='css/esp32_default.css'>";
-        // Append the scripts
 
         html += "<script src='" + String("script/webSocket.js'></script>");
         html += "<script src='" + String("script/boardSwitcher.js'></script>");
@@ -154,38 +134,16 @@ private:
         html += "<img id='boardImage' src='' alt='Board Image'>\n";
 
         html += "<div id='indicators'></div>";
-        // for (int i = 0; i < maxPins; i++)
-        // {
-        //     // int pin = board->getGPIOs()[i].gpio;
-        //     // float top = board->getGPIOs()[i].topPosition;
-        //     // float left = board->getGPIOs()[i].leftPosition;
-        //     if (i != -1 && isPinMonitored(i))
-        //     {
-        //         html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
-        //     }
-        // }
 
         html += "</div></div></div>";
 
-        // Append the port script
+        // Append the script variables
         String portScript = "<script>var serverPort = " + String(port) + ";</script>";
         html += portScript;
 
         html += "</body></html>";
         return html;
     }
-
-    // bool isPinMonitored(int pin)
-    // {
-    //     for (int i = 0; i < numPins; i++)
-    //     {
-    //         if (gpioPins[i] == pin)
-    //         {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
     void resetStatePins(void)
     {
