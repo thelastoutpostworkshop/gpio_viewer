@@ -151,7 +151,7 @@ private:
         // Image
         html += "<div class='image-container'>\n";
         html += "<div id='imageWrapper' class='image-wrapper'>";
-        html += "<img id='boardImage' src='devboards_images/default.png' alt='Board Image'>\n";
+        html += "<img id='boardImage' src='' alt='Board Image'>\n";
 
         // for (int i = 0; i < maxPins; i++)
         // {
