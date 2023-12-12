@@ -11,14 +11,6 @@ const String defaultCSS = "css/default.css";
 
 #define maxPins 49
 
-// Boards supported
-enum BoardType
-{
-    ESP32_S3_WROOM_1 = 0,
-    ESP32_38PINS = 1,
-    ESP32_D1_R32 = 2
-};
-
 class GPIOViewer
 {
 public:
