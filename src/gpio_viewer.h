@@ -12,6 +12,8 @@
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 const String defaultCSS = "css/default.css";
 
+#define maxPins 49
+
 // Boards supported
 enum BoardType
 {
@@ -26,26 +28,27 @@ ESPBoard board_models[] = {board_esp32_S3_wroom_1, board_esp32_38pins, board_esp
 class GPIOViewer
 {
 public:
-    GPIOViewer(BoardType boardModel)
+    GPIOViewer()
     {
         // All pins monitored
-        board = &board_models[boardModel];
-        numPins = board->getGPIOsCount();
-        lastPinStates = new int[numPins];
-        gpioPins = board->getGPIOsPins();
+        // board = &board_models[boardModel];
+        // numPins = board->getGPIOsCount();
+        
+        // lastPinStates = new int[numPins];
+        // gpioPins = board->getGPIOsPins();
     }
-    GPIOViewer(const int *pins, int numPins, BoardType boardModel)
-        : gpioPins(pins), numPins(numPins)
-    {
-        board = &board_models[boardModel];
-        lastPinStates = new int[numPins];
-    }
+    // GPIOViewer(const int *pins, int numPins, BoardType boardModel)
+    //     : gpioPins(pins), numPins(numPins)
+    // {
+    //     board = &board_models[boardModel];
+    //     lastPinStates = new int[numPins];
+    // }
 
     ~GPIOViewer()
     {
         ws->closeAll();
         server->end();
-        delete[] lastPinStates;
+        // delete[] lastPinStates;
     }
 
     void setPort(uint16_t port)
@@ -101,14 +104,14 @@ public:
     }
 
 private:
-    const int *gpioPins;
-    int *lastPinStates;
-    int numPins;
+    // const int *gpioPins;
+    int lastPinStates[maxPins];
+    // int numPins;
     uint16_t port = 8080;
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
     AsyncWebSocket *ws;
-    ESPBoard *board;
+    // ESPBoard *board;
 
     void checkWifiStatus(void)
     {
@@ -118,7 +121,7 @@ private:
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
-            Serial.printf("Board model is: %s\n", board->getBoardModelName().c_str());
+            // Serial.printf("Board model is: %s\n", board->getBoardModelName().c_str());
         }
         else
         {
@@ -147,19 +150,19 @@ private:
 
         // Image
         html += "<div class='image-container'>\n";
-        html += "<div class='image-wrapper'>";
+        html += "<div id='imageWrapper' class='image-wrapper'>";
         html += "<img id='boardImage' src='devboards_images/default.png' alt='Board Image'>\n";
 
-        for (int i = 0; i < board->getGPIOsCount(); i++)
-        {
-            int pin = board->getGPIOs()[i].gpio;
-            float top = board->getGPIOs()[i].topPosition;
-            float left = board->getGPIOs()[i].leftPosition;
-            if (pin != -1 && isPinMonitored(pin))
-            {
-                html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
-            }
-        }
+        // for (int i = 0; i < maxPins; i++)
+        // {
+        //     // int pin = board->getGPIOs()[i].gpio;
+        //     // float top = board->getGPIOs()[i].topPosition;
+        //     // float left = board->getGPIOs()[i].leftPosition;
+        //     if (i != -1 && isPinMonitored(i))
+        //     {
+        //         html += "<div class='indicator-off' style='top:" + String(top) + "%; left: " + String(left) + "%' id='gpio" + String(pin) + "'></div>";
+        //     }
+        // }
 
         html += "</div></div></div>";
 
@@ -171,21 +174,21 @@ private:
         return html;
     }
 
-    bool isPinMonitored(int pin)
-    {
-        for (int i = 0; i < numPins; i++)
-        {
-            if (gpioPins[i] == pin)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    // bool isPinMonitored(int pin)
+    // {
+    //     for (int i = 0; i < numPins; i++)
+    //     {
+    //         if (gpioPins[i] == pin)
+    //         {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     void resetStatePins(void)
     {
-        for (int i = 0; i < numPins; i++)
+        for (int i = 0; i < maxPins; i++)
         {
             lastPinStates[i] = -1; // Initialize with an invalid state
         }
@@ -198,16 +201,16 @@ private:
             String jsonMessage = "{";
             bool hasChanges = false;
 
-            for (int i = 0; i < numPins; i++)
+            for (int i = 0; i < maxPins; i++)
             {
-                int currentState = readGPIORegister(gpioPins[i]);
+                int currentState = readGPIORegister(i);
                 if (currentState != lastPinStates[i])
                 {
                     if (hasChanges)
                     {
                         jsonMessage += ", ";
                     }
-                    jsonMessage += "\"" + String(gpioPins[i]) + "\": " + (currentState ? "1" : "0");
+                    jsonMessage += "\"" + String(i) + "\": " + (currentState ? "1" : "0");
                     lastPinStates[i] = currentState;
                     hasChanges = true;
                 }

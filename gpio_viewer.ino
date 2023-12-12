@@ -8,7 +8,7 @@
 // GPIOViewer gpio_viewer(gpioPins,4);
 
 // All GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
-GPIOViewer gpio_viewer(ESP32_D1_R32);
+GPIOViewer gpio_viewer;
 
 int test_pins[] = {5,4};
 const int testPinsCount = sizeof(test_pins) / sizeof(test_pins[0]);

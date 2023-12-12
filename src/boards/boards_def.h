@@ -45,15 +45,15 @@ public:
         return boardDef.indicatorSize;
     }
 
-    int getGPIOsCount(void) {
-        return boardDef.numberOfGpios;
-    }
-    int* getGPIOsPins(void) {
-        int *pins = new int[boardDef.numberOfGpios];
-        for (int i = 0; i < boardDef.numberOfGpios; i++)
-        {
-            pins[i] = boardDef.gpios[i].gpio;
-        }
-        return pins;
-    }
+    // int getGPIOsCount(void) {
+    //     return boardDef.numberOfGpios;
+    // }
+    // int* getGPIOsPins(void) {
+    //     int *pins = new int[boardDef.numberOfGpios];
+    //     for (int i = 0; i < boardDef.numberOfGpios; i++)
+    //     {
+    //         pins[i] = boardDef.gpios[i].gpio;
+    //     }
+    //     return pins;
+    // }
 };
