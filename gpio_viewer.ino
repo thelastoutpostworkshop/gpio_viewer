@@ -5,8 +5,13 @@
 // GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
 GPIOViewer gpio_viewer;
 
-int test_pins[] = {5,4};
-const int testPinsCount = sizeof(test_pins) / sizeof(test_pins[0]);
+int test_digital_pins[] = {5, 4};
+const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
+
+const int ledChannel = 0;
+const int freq = 5000;
+const int resolution = 8;
+const int ledPin = 22;
 
 void setup()
 {
@@ -18,22 +23,27 @@ void setup()
   gpio_viewer.begin();
 
   // Your own setup code start here
-  for (int i = 0; i < testPinsCount; i++)
+  for (int i = 0; i < testDigitalPinsCount; i++)
   {
-    pinMode(test_pins[i], OUTPUT);
+    pinMode(test_digital_pins[i], OUTPUT);
   }
+
+  ledcSetup(ledChannel, freq, resolution);
+  ledcAttachPin(ledPin, ledChannel);
 }
 
 void loop()
 {
-  for (int i = 0; i < testPinsCount; i++)
+  for (int i = 0; i < testDigitalPinsCount; i++)
   {
-    digitalWrite(test_pins[i], HIGH);
+    digitalWrite(test_digital_pins[i], HIGH);
+  }
+  ledcWrite(ledChannel,255);
+  delay(500);
+  for (int i = 0; i < testDigitalPinsCount; i++)
+  {
+    digitalWrite(test_digital_pins[i], LOW);
   }
   delay(500);
-  for (int i = 0; i < testPinsCount; i++)
-  {
-    digitalWrite(test_pins[i], LOW);
-  }
-  delay(500);
+  ledcWrite(ledChannel,0);
 }
