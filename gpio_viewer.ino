@@ -44,6 +44,6 @@ void loop()
   {
     digitalWrite(test_digital_pins[i], LOW);
   }
-  delay(500);
   ledcWrite(ledChannel,0);
+  delay(500);
 }
