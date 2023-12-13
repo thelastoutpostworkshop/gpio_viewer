@@ -155,7 +155,7 @@ private:
 
             for (int i = 0; i < maxPins; i++)
             {
-                int currentState = readGPIORegister(i);
+                int currentState = readGPIO(i);
                 if (currentState != lastPinStates[i])
                 {
                     if (hasChanges)
@@ -190,7 +190,7 @@ private:
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
-    int readGPIORegister(int gpioNum)
+    int readGPIO(int gpioNum)
     {
         int channel = getLedcChannelForPin(gpioNum);
         if (channel != -1)
