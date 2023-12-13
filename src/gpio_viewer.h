@@ -9,6 +9,15 @@ const String defaultCSS = "css/default.css";
 
 #define maxPins 49
 
+const int maxChannels = 30;
+int ledcChannelPinPairs[maxChannels][2]; // Array to store channel and pin pairs
+int ledcPairCount = 0;                   // Counter to keep track of the number of pairs stored
+
+#define ledcAttachPin(pin, channel)                                                                                                         \
+    (ledcPairCount < maxChannels ? ledcChannelPinPairs[ledcPairCount][0] = (pin), ledcChannelPinPairs[ledcPairCount++][1] = (channel) : 0), \
+        Serial.printf("LEDC channel is %d for pin %d\n", (channel), (pin)),                                                                 \
+        ledcAttachPin((pin), (channel))
+
 class GPIOViewer
 {
 public:
@@ -50,7 +59,7 @@ public:
     {
         checkWifiStatus();
 
-        server = new AsyncWebServer(port); 
+        server = new AsyncWebServer(port);
         ws = new AsyncWebSocket("/ws");
 
         ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
@@ -170,8 +179,25 @@ private:
         }
     }
 
+    int getLedcChannelForPin(int pin)
+    {
+        for (int i = 0; i < ledcPairCount; i++)
+        {
+            if (ledcChannelPinPairs[i][0] == pin)
+            {                                     // Check if the pin matches
+                return ledcChannelPinPairs[i][1]; // Return the corresponding channel
+            }
+        }
+        return -1; // Pin not found, return -1 to indicate no channel is associated
+    }
     int readGPIORegister(int gpioNum)
     {
+        int channel = getLedcChannelForPin(gpioNum);
+        if (channel != -1)
+        {
+            // Serial.printf("Channel is %d for gpio %d\n", channel, gpioNum);
+            return ledcRead(channel);
+        }
         if (gpioNum < 32)
         {
             // GPIOs 0-31 are read from GPIO_IN_REG
@@ -182,7 +208,6 @@ private:
             // GPIOs over 32 are read from GPIO_IN1_REG
             return (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
         }
-        // return digitalRead(gpioNum);
     }
 
     void sendGPIOStates(const String &states)
