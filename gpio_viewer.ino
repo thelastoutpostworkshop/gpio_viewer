@@ -8,10 +8,17 @@ GPIOViewer gpio_viewer;
 int test_digital_pins[] = {5, 4};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 
-const int ledChannel = 0;
 const int freq = 5000;
 const int resolution = 8;
-const int ledPin = 22;
+
+struct PWM_PINS
+{
+  int pin;
+  int channel;
+};
+
+PWM_PINS test_pwm_pins[] = {{23, 0}, {22, 1}};
+const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 
 void setup()
 {
@@ -28,8 +35,11 @@ void setup()
     pinMode(test_digital_pins[i], OUTPUT);
   }
 
-  ledcSetup(ledChannel, freq, resolution);
-  ledcAttachPin(ledPin, ledChannel);
+  for (int i = 0; i < testPWMPinsCount; i++)
+  {
+    ledcSetup(test_pwm_pins[i].channel, freq, resolution);
+    ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
+  }
 }
 
 void loop()
@@ -38,12 +48,19 @@ void loop()
   {
     digitalWrite(test_digital_pins[i], HIGH);
   }
-  ledcWrite(ledChannel,255);
+  for (int i = 0; i < testPWMPinsCount; i++)
+  {
+    ledcWrite(test_pwm_pins[i].channel, 255);
+  }
+
   delay(500);
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
     digitalWrite(test_digital_pins[i], LOW);
   }
-  ledcWrite(ledChannel,0);
+  for (int i = 0; i < testPWMPinsCount; i++)
+  {
+    ledcWrite(test_pwm_pins[i].channel, 0);
+  }
   delay(500);
 }
