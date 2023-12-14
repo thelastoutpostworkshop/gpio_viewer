@@ -22,7 +22,6 @@
 #endif
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
-const String defaultCSS = "css/default.css";
 
 #define maxPins 49
 
@@ -147,8 +146,8 @@ private:
         String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title>";
 
         html += "<base href ='" + baseURL + "'>";
-        html += "<link rel='stylesheet' href='" + defaultCSS + "'>";
-        html += "<link id='boardStyleSheet' rel='stylesheet' href='css/esp32_default.css'>";
+        html += "<link id='defaultStyleSheet' rel='stylesheet' href=''>";
+        html += "<link id='boardStyleSheet' rel='stylesheet' href=''>";
 
         html += "<script src='" + String("script/webSocket.js'></script>");
         html += "<script src='" + String("script/boardSwitcher.js'></script>");
@@ -181,7 +180,7 @@ private:
     {
         for (int i = 0; i < maxPins; i++)
         {
-            lastPinStates[i] = -1; // Initialize with an invalid state
+            lastPinStates[i] = readGPIO(i); 
         }
     }
 
