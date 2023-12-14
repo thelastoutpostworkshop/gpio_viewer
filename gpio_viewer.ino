@@ -26,8 +26,6 @@ void setup()
 
   gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
   // gpio_viewer.setPort(5555);             // You can set the http port
-  gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
-  gpio_viewer.begin();
 
   // Your own setup code start here
   for (int i = 0; i < testDigitalPinsCount; i++)
@@ -40,6 +38,10 @@ void setup()
     ledcSetup(test_pwm_pins[i].channel, freq, resolution);
     ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
   }
+
+  // Must be at the end of your setup
+  gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
+  gpio_viewer.begin();
 }
 
 void loop()

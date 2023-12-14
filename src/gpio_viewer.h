@@ -27,19 +27,19 @@ const String defaultCSS = "css/default.css";
 #define maxPins 49
 
 const int maxChannels = 64;
-int ledcChannelPinPairs[maxChannels][2];        // Array to store channel and pin pairs
-int ledcPairCount = 0;                          // Counter to keep track of the number of pairs stored
-int ledcChannelResolutionPairs[maxChannels][2]; // Array to store channel and resolution
-int ledcResolutionCount = 0;                    // Counter to keep track of the number of pairs stored
+int ledcChannelPin[maxChannels][2];        // Array to store channel and pin pairs
+int ledcChannelPinCount = 0;               // Counter to keep track of the number of pairs stored
+int ledcChannelResolution[maxChannels][2]; // Array to store channel and resolution
+int ledcChannelResolutionCount = 0;        // Counter to keep track of the number of pairs stored
 
 // Macro to trap values pass to ledcAttachPin since there is no ESP32 API
 #define ledcAttachPin(pin, channel)                                                                                                         \
-    (ledcPairCount < maxChannels ? ledcChannelPinPairs[ledcPairCount][0] = (pin), ledcChannelPinPairs[ledcPairCount++][1] = (channel) : 0), \
+    (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (channel) : 0), \
         ledcAttachPin((pin), (channel))
 
 // Macro to trap values pass to ledcSetup since there is no ESP32 API
 #define ledcSetup(channel, freq, resolution)                                                                                                                                 \
-    (ledcPairCount < maxChannels ? ledcChannelResolutionPairs[ledcResolutionCount][0] = (channel), ledcChannelResolutionPairs[ledcResolutionCount++][1] = (resolution) : 0), \
+    (ledcChannelResolutionCount < maxChannels ? ledcChannelResolution[ledcChannelResolutionCount][0] = (channel), ledcChannelResolution[ledcChannelResolutionCount++][1] = (resolution) : 0), \
         ledcSetup((channel), (freq), (resolution))
 
 class GPIOViewer
@@ -81,6 +81,7 @@ public:
 
     void begin()
     {
+        printPWNTraps();
         checkWifiStatus();
 
         server = new AsyncWebServer(port);
@@ -124,6 +125,20 @@ private:
         else
         {
             Serial.println("ESP32 is not connected to WiFi.");
+        }
+    }
+
+    void printPWNTraps()
+    {
+        Serial.printf("%d pins are PWM\n", ledcChannelPinCount);
+        for (int i = 0; i < ledcChannelPinCount; i++)
+        {
+            Serial.printf("Pin %d is using channel %d\n", ledcChannelPin[i][0], ledcChannelPin[i][1]);
+        }
+        Serial.printf("%d channels are used\n", ledcChannelResolutionCount);
+        for (int i = 0; i < ledcChannelResolutionCount; i++)
+        {
+            Serial.printf("Channel %d resolutions is %d bits\n", ledcChannelResolution[i][0], ledcChannelResolution[i][1]);
         }
     }
 
@@ -205,22 +220,22 @@ private:
 
     int getLedcChannelForPin(int pin)
     {
-        for (int i = 0; i < ledcPairCount; i++)
+        for (int i = 0; i < ledcChannelPinCount; i++)
         {
-            if (ledcChannelPinPairs[i][0] == pin)
-            {                                     // Check if the pin matches
-                return ledcChannelPinPairs[i][1]; // Return the corresponding channel
+            if (ledcChannelPin[i][0] == pin)
+            {                                // Check if the pin matches
+                return ledcChannelPin[i][1]; // Return the corresponding channel
             }
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
     int getChannelResolution(int channel)
     {
-        for (int i = 0; i < ledcResolutionCount; i++)
+        for (int i = 0; i < ledcChannelResolutionCount; i++)
         {
-            if (ledcChannelResolutionPairs[i][0] == channel)
+            if (ledcChannelResolution[i][0] == channel)
             {
-                return ledcChannelResolutionPairs[i][1];
+                return ledcChannelResolution[i][1];
             }
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
