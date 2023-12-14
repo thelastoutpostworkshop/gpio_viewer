@@ -10,13 +10,20 @@ const String defaultCSS = "css/default.css";
 #define maxPins 49
 
 const int maxChannels = 30;
-int ledcChannelPinPairs[maxChannels][2]; // Array to store channel and pin pairs
-int ledcPairCount = 0;                   // Counter to keep track of the number of pairs stored
+int ledcChannelPinPairs[maxChannels][2];        // Array to store channel and pin pairs
+int ledcPairCount = 0;                          // Counter to keep track of the number of pairs stored
+int ledcChannelResolutionPairs[maxChannels][2]; // Array to store channel and resolution
+int ledcResolutionCount = 0;                    // Counter to keep track of the number of pairs stored
 
 #define ledcAttachPin(pin, channel)                                                                                                         \
     (ledcPairCount < maxChannels ? ledcChannelPinPairs[ledcPairCount][0] = (pin), ledcChannelPinPairs[ledcPairCount++][1] = (channel) : 0), \
         Serial.printf("LEDC channel is %d for pin %d\n", (channel), (pin)),                                                                 \
         ledcAttachPin((pin), (channel))
+
+#define ledcSetup(channel, freq, resolution)                                                                                                                                 \
+    (ledcPairCount < maxChannels ? ledcChannelResolutionPairs[ledcResolutionCount][0] = (channel), ledcChannelResolutionPairs[ledcResolutionCount++][1] = (resolution) : 0), \
+        Serial.printf("LEDC channel %d resolution is %d\n", (channel), (resolution)),                                                                                        \
+        ledcSetup((channel), (freq), (resolution))
 
 class GPIOViewer
 {
@@ -190,14 +197,30 @@ private:
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
+    int getChannelResolution(int channel)
+    {
+        for (int i = 0; i < ledcResolutionCount; i++)
+        {
+            if (ledcChannelResolutionPairs[i][0] == channel)
+            {
+                return ledcChannelResolutionPairs[i][1];
+            }
+        }
+        return -1; // Pin not found, return -1 to indicate no channel is associated
+    }
     int readGPIO(int gpioNum)
     {
         int channel = getLedcChannelForPin(gpioNum);
         if (channel != -1)
         {
-            // Serial.printf("Channel is %d for gpio %d\n", channel, gpioNum);
-            return ledcRead(channel);
+            // This is a PWM Pin
+            // uint32_t value = ledcRead(channel);
+            int mapValue = mapLedcReadTo8Bit(channel);
+            // Serial.printf("channel %d mapValue=%u\n", channel, mapValue);
+
+            return mapValue;
         }
+        // This is a digital pin
         if (gpioNum < 32)
         {
             // GPIOs 0-31 are read from GPIO_IN_REG
@@ -208,6 +231,15 @@ private:
             // GPIOs over 32 are read from GPIO_IN1_REG
             return (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
         }
+    }
+
+    int mapLedcReadTo8Bit(int channel)
+    {
+        uint32_t maxDutyCycle = (1 << getChannelResolution(channel)) - 1;
+        // Serial.printf("channel %d maxDutyCycle=%u\n",channel,maxDutyCycle);
+        uint32_t dutyCycle = ledcRead(channel);
+        // Serial.printf("channel %d dutyCycle=%u\n",channel,dutyCycle);
+        return map(dutyCycle, 0, maxDutyCycle, 0, 255);
     }
 
     void sendGPIOStates(const String &states)
