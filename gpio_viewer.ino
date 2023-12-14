@@ -41,7 +41,7 @@ void setup()
   }
 
   // Must be at the end of your setup
-  gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
+  // gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
   gpio_viewer.begin();
 }
 
