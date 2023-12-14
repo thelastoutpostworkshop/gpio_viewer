@@ -2,7 +2,6 @@
 #include "src/gpio_viewer.h"
 #include "secrets.h"
 
-// GPIO Pins monitored using defaults : 50ms interval and showed on port 8080
 GPIOViewer gpio_viewer;
 
 int test_digital_pins[] = {5, 4};
