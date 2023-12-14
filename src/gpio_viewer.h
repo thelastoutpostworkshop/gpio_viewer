@@ -1,15 +1,29 @@
+#ifndef _GPIOVIEWER_
+#define _GPIOVIEWER_
+
+#ifndef WiFi_h
 #include <WiFi.h>
+#endif
+#ifndef _ESPAsyncWebServer_H_
 #include <ESPAsyncWebServer.h>
+#endif
+#ifndef ASYNCTCP_H_
 #include <AsyncTCP.h>
+#endif
+#ifndef INC_FREERTOS_H
 #include <freertos/FreeRTOS.h>
+#endif
+#ifndef INC_TASK_H
 #include <freertos/task.h>
+#endif
+#endif
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 const String defaultCSS = "css/default.css";
 
 #define maxPins 49
 
-const int maxChannels = 30;
+const int maxChannels = 64;
 int ledcChannelPinPairs[maxChannels][2];        // Array to store channel and pin pairs
 int ledcPairCount = 0;                          // Counter to keep track of the number of pairs stored
 int ledcChannelResolutionPairs[maxChannels][2]; // Array to store channel and resolution
