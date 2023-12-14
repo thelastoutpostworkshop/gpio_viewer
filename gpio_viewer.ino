@@ -19,6 +19,7 @@ struct PWM_PINS
 
 PWM_PINS test_pwm_pins[] = {{23, 0}, {22, 1}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
+byte amount = 0;
 
 void setup()
 {
@@ -52,7 +53,7 @@ void loop()
   }
   for (int i = 0; i < testPWMPinsCount; i++)
   {
-    ledcWrite(test_pwm_pins[i].channel, 100);
+    ledcWrite(test_pwm_pins[i].channel, amount++);
   }
 
   delay(500);
