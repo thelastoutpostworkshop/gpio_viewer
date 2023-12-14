@@ -116,7 +116,7 @@ private:
     {
         if (WiFi.status() == WL_CONNECTED)
         {
-            Serial.print("GPIO View Web Application URL is: http://");
+            Serial.print("GPIOView Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
@@ -137,7 +137,7 @@ private:
         Serial.printf("%d channels are used\n", ledcChannelResolutionCount);
         for (int i = 0; i < ledcChannelResolutionCount; i++)
         {
-            Serial.printf("Channel %d resolutions is %d bits\n", ledcChannelResolution[i][0], ledcChannelResolution[i][1]);
+            Serial.printf("Channel %d resolution is %d bits\n", ledcChannelResolution[i][0], ledcChannelResolution[i][1]);
         }
     }
 
