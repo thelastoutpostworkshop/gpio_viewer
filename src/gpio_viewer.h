@@ -35,13 +35,11 @@ int ledcResolutionCount = 0;                    // Counter to keep track of the 
 // Macro to trap values pass to ledcAttachPin since there is no ESP32 API
 #define ledcAttachPin(pin, channel)                                                                                                         \
     (ledcPairCount < maxChannels ? ledcChannelPinPairs[ledcPairCount][0] = (pin), ledcChannelPinPairs[ledcPairCount++][1] = (channel) : 0), \
-        Serial.printf("LEDC channel is %d for pin %d\n", (channel), (pin)),                                                                 \
         ledcAttachPin((pin), (channel))
 
 // Macro to trap values pass to ledcSetup since there is no ESP32 API
 #define ledcSetup(channel, freq, resolution)                                                                                                                                 \
     (ledcPairCount < maxChannels ? ledcChannelResolutionPairs[ledcResolutionCount][0] = (channel), ledcChannelResolutionPairs[ledcResolutionCount++][1] = (resolution) : 0), \
-        Serial.printf("LEDC channel %d resolution is %d\n", (channel), (resolution)),                                                                                        \
         ledcSetup((channel), (freq), (resolution))
 
 class GPIOViewer
