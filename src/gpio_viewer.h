@@ -33,12 +33,12 @@ int ledcChannelResolution[maxChannels][2]; // Array to store channel and resolut
 int ledcChannelResolutionCount = 0;        // Counter to keep track of the number of pairs stored
 
 // Macro to trap values pass to ledcAttachPin since there is no ESP32 API
-#define ledcAttachPin(pin, channel)                                                                                                         \
+#define ledcAttachPin(pin, channel)                                                                                                                 \
     (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (channel) : 0), \
         ledcAttachPin((pin), (channel))
 
 // Macro to trap values pass to ledcSetup since there is no ESP32 API
-#define ledcSetup(channel, freq, resolution)                                                                                                                                 \
+#define ledcSetup(channel, freq, resolution)                                                                                                                                                  \
     (ledcChannelResolutionCount < maxChannels ? ledcChannelResolution[ledcChannelResolutionCount][0] = (channel), ledcChannelResolution[ledcChannelResolutionCount++][1] = (resolution) : 0), \
         ledcSetup((channel), (freq), (resolution))
 
@@ -201,7 +201,7 @@ private:
                     {
                         jsonMessage += ", ";
                     }
-                    jsonMessage += "\"" + String(i) + "\": " + (currentState ? "1" : "0");
+                    jsonMessage += "\"" + String(i) + "\": " + currentState;
                     lastPinStates[i] = currentState;
                     hasChanges = true;
                 }
@@ -243,26 +243,32 @@ private:
     int readGPIO(int gpioNum)
     {
         int channel = getLedcChannelForPin(gpioNum);
+        int value;
         if (channel != -1)
         {
             // This is a PWM Pin
             // uint32_t value = ledcRead(channel);
-            int mapValue = mapLedcReadTo8Bit(channel);
+            value = mapLedcReadTo8Bit(channel);
             // Serial.printf("channel %d mapValue=%u\n", channel, mapValue);
 
-            return mapValue;
+            return value;
         }
         // This is a digital pin
         if (gpioNum < 32)
         {
             // GPIOs 0-31 are read from GPIO_IN_REG
-            return (GPIO.in >> gpioNum) & 0x1;
+            value = (GPIO.in >> gpioNum) & 0x1;
         }
         else
         {
             // GPIOs over 32 are read from GPIO_IN1_REG
-            return (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
+            value = (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
         }
+        if (value == 1)
+        {
+            return 256;
+        }
+        return 0;
     }
 
     int mapLedcReadTo8Bit(int channel)
