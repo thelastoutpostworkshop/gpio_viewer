@@ -52,7 +52,7 @@ void loop()
   }
   for (int i = 0; i < testPWMPinsCount; i++)
   {
-    ledcWrite(test_pwm_pins[i].channel, 255);
+    ledcWrite(test_pwm_pins[i].channel, 100);
   }
 
   delay(500);
