@@ -1,12 +1,15 @@
 # GPIOViewer Arduino Library to see live GPIO Pins on ESP32 boards
-**Transforms the way you troubleshoot your microcontroller projects**. 
+
+**Transforms the way you troubleshoot your microcontroller projects**.
 
 ### Youtube Tutorial
 
 ### Installation
-Downnload the code and install the library in the Arduino IDE : Sketch > Include Library > Add ZIP Library... 
+
+Downnload the code and install the library in the Arduino IDE : Sketch > Include Library > Add ZIP Library...
 
 ### Usage
+
 ```c
 #include <gpio_viewer.h> // Must me the first include in your project
 GPIOViewer gpio_viewer;
@@ -15,7 +18,8 @@ void setup()
 {
   Serial.begin(115200);
 
-  gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
+  // Comment the next line, If your code aleady include connection to Wifi
+  gpio_viewer.connectToWifi(ssid, password);
   // gpio_viewer.setPort(5555);             // You can set the http port
 
   // Your own setup code start here
@@ -26,12 +30,16 @@ void setup()
 }
 
 ```
+
 ### Request an ESP32 board image addition
+
 You can request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
 
 ### Library Size
+
 The GPIOViewer Library adds xx KB to your projects
 
 ### GPIO Supported
+
 - Digital
 - PWM
