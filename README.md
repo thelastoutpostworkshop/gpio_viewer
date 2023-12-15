@@ -6,7 +6,8 @@
 
 ### Installation
 
-Downnload the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
+- Downnload the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
+- Install the [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) in the same way `Sketch > Include Library > Add ZIP Library...`
 
 ### Usage
 >ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`
