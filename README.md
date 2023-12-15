@@ -31,5 +31,5 @@ void setup()
 The GPIOViewer Library adds xx KB to your projects
 
 ### GPIO Supported
-Digital
-PWM
+- Digital
+- PWM
