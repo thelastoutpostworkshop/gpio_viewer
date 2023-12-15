@@ -29,7 +29,7 @@ void setup()
   gpio_viewer.begin();
 }
 ```
-The default HTTP port is 8080.
+The default HTTP port is 8080 and default sampling interval is 50ms
 
 ### Request an ESP32 board image addition
 
