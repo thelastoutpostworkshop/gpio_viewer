@@ -6,7 +6,7 @@
 
 ### Installation
 
-Downnload the code and install the library in the Arduino IDE : Sketch > Include Library > Add ZIP Library...
+Downnload the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
 
 ### Usage
 >ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`
@@ -30,7 +30,7 @@ void setup()
   gpio_viewer.begin();
 }
 ```
->ℹ️ The default HTTP port is 8080 and default sampling interval is 50ms
+>ℹ️ The default HTTP port is **8080** and default sampling interval is **50ms**
 
 ### Request an ESP32 board image addition
 
