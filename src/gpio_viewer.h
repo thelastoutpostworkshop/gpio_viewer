@@ -23,13 +23,14 @@
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 
-#define maxPins 49
+#define maxGPIOPins 49
 
+// Global variables to capture PMW pins
 const int maxChannels = 64;
-int ledcChannelPin[maxChannels][2];        // Array to store channel and pin pairs
-int ledcChannelPinCount = 0;               // Counter to keep track of the number of pairs stored
-int ledcChannelResolution[maxChannels][2]; // Array to store channel and resolution
-int ledcChannelResolutionCount = 0;        // Counter to keep track of the number of pairs stored
+int ledcChannelPin[maxChannels][2];
+int ledcChannelPinCount = 0;
+int ledcChannelResolution[maxChannels][2];
+int ledcChannelResolutionCount = 0;
 
 // Macro to trap values pass to ledcAttachPin since there is no ESP32 API
 #define ledcAttachPin(pin, channel)                                                                                                                 \
@@ -106,7 +107,7 @@ public:
     }
 
 private:
-    int lastPinStates[maxPins];
+    int lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
@@ -178,12 +179,13 @@ private:
 
     void resetStatePins(void)
     {
-        for (int i = 0; i < maxPins; i++)
+        for (int i = 0; i < maxGPIOPins; i++)
         {
-            lastPinStates[i] = readGPIO(i); 
+            lastPinStates[i] = readGPIO(i);
         }
     }
 
+    // Monitor GPIO Values
     void monitorTask()
     {
         while (1)
@@ -191,7 +193,7 @@ private:
             String jsonMessage = "{";
             bool hasChanges = false;
 
-            for (int i = 0; i < maxPins; i++)
+            for (int i = 0; i < maxGPIOPins; i++)
             {
                 int currentState = readGPIO(i);
                 if (currentState != lastPinStates[i])
@@ -222,8 +224,8 @@ private:
         for (int i = 0; i < ledcChannelPinCount; i++)
         {
             if (ledcChannelPin[i][0] == pin)
-            {                                // Check if the pin matches
-                return ledcChannelPin[i][1]; // Return the corresponding channel
+            {                                
+                return ledcChannelPin[i][1]; 
             }
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
@@ -239,6 +241,7 @@ private:
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
+
     int readGPIO(int gpioNum)
     {
         int channel = getLedcChannelForPin(gpioNum);
@@ -246,9 +249,7 @@ private:
         if (channel != -1)
         {
             // This is a PWM Pin
-            // uint32_t value = ledcRead(channel);
             value = mapLedcReadTo8Bit(channel);
-            // Serial.printf("channel %d mapValue=%u\n", channel, mapValue);
 
             return value;
         }
@@ -273,9 +274,7 @@ private:
     int mapLedcReadTo8Bit(int channel)
     {
         uint32_t maxDutyCycle = (1 << getChannelResolution(channel)) - 1;
-        // Serial.printf("channel %d maxDutyCycle=%u\n",channel,maxDutyCycle);
         uint32_t dutyCycle = ledcRead(channel);
-        // Serial.printf("channel %d dutyCycle=%u\n",channel,dutyCycle);
         return map(dutyCycle, 0, maxDutyCycle, 0, 255);
     }
 
