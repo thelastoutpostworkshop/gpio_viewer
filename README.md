@@ -27,7 +27,7 @@ void setup()
 
 ```
 ### Request an ESP32 board image addition
-You can request an ESP32 board image addition by [creating a new issue] (https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
+You can request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
 
 ### Library Size
 The GPIOViewer Library adds xx KB to your projects
