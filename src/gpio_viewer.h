@@ -166,6 +166,7 @@ private:
         html += "<img id='boardImage' src='' alt='Board Image'>\n";
 
         html += "<div id='indicators'></div>";
+        html += "<div id='values'></div>";
 
         html += "</div></div></div>";
 
