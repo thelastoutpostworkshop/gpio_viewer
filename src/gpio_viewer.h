@@ -179,15 +179,17 @@ private:
 
     void resetStatePins(void)
     {
+        uint32_t originalValue;
         for (int i = 0; i < maxGPIOPins; i++)
         {
-            lastPinStates[i] = readGPIO(i);
+            lastPinStates[i] = readGPIO(i, &originalValue);
         }
     }
 
     // Monitor GPIO Values
     void monitorTask()
     {
+        uint32_t originalValue;
         while (1)
         {
             String jsonMessage = "{";
@@ -195,14 +197,15 @@ private:
 
             for (int i = 0; i < maxGPIOPins; i++)
             {
-                int currentState = readGPIO(i);
+                int currentState = readGPIO(i, &originalValue);
+
                 if (currentState != lastPinStates[i])
                 {
                     if (hasChanges)
                     {
                         jsonMessage += ", ";
                     }
-                    jsonMessage += "\"" + String(i) + "\": " + currentState;
+                    jsonMessage += "\"" + String(i) + "\": {\"s\": " + currentState + ", \"v\": " + originalValue + "}";
                     lastPinStates[i] = currentState;
                     hasChanges = true;
                 }
@@ -224,8 +227,8 @@ private:
         for (int i = 0; i < ledcChannelPinCount; i++)
         {
             if (ledcChannelPin[i][0] == pin)
-            {                                
-                return ledcChannelPin[i][1]; 
+            {
+                return ledcChannelPin[i][1];
             }
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
@@ -242,14 +245,14 @@ private:
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
 
-    int readGPIO(int gpioNum)
+    int readGPIO(int gpioNum, uint32_t *originalValue)
     {
         int channel = getLedcChannelForPin(gpioNum);
         int value;
         if (channel != -1)
         {
             // This is a PWM Pin
-            value = mapLedcReadTo8Bit(channel);
+            value = mapLedcReadTo8Bit(channel, originalValue);
 
             return value;
         }
@@ -264,6 +267,7 @@ private:
             // GPIOs over 32 are read from GPIO_IN1_REG
             value = (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
         }
+        *originalValue = value;
         if (value == 1)
         {
             return 256;
@@ -271,11 +275,11 @@ private:
         return 0;
     }
 
-    int mapLedcReadTo8Bit(int channel)
+    int mapLedcReadTo8Bit(int channel, uint32_t *originalValue)
     {
         uint32_t maxDutyCycle = (1 << getChannelResolution(channel)) - 1;
-        uint32_t dutyCycle = ledcRead(channel);
-        return map(dutyCycle, 0, maxDutyCycle, 0, 255);
+        *originalValue = ledcRead(channel);
+        return map(*originalValue, 0, maxDutyCycle, 0, 255);
     }
 
     void sendGPIOStates(const String &states)
