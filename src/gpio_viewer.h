@@ -42,6 +42,12 @@ int ledcChannelResolutionCount = 0;
     (ledcChannelResolutionCount < maxChannels ? ledcChannelResolution[ledcChannelResolutionCount][0] = (channel), ledcChannelResolution[ledcChannelResolutionCount++][1] = (resolution) : 0), \
         ledcSetup((channel), (freq), (resolution))
 
+enum pinTypes
+{
+    digitalPin = 0,
+    PWMPin = 1
+};
+
 class GPIOViewer
 {
 public:
@@ -180,9 +186,10 @@ private:
     void resetStatePins(void)
     {
         uint32_t originalValue;
+        pinTypes pintype;
         for (int i = 0; i < maxGPIOPins; i++)
         {
-            lastPinStates[i] = readGPIO(i, &originalValue);
+            lastPinStates[i] = readGPIO(i, &originalValue, &pintype);
         }
     }
 
@@ -190,6 +197,7 @@ private:
     void monitorTask()
     {
         uint32_t originalValue;
+        pinTypes pintype;
         while (1)
         {
             String jsonMessage = "{";
@@ -197,7 +205,7 @@ private:
 
             for (int i = 0; i < maxGPIOPins; i++)
             {
-                int currentState = readGPIO(i, &originalValue);
+                int currentState = readGPIO(i, &originalValue, &pintype);
 
                 if (currentState != lastPinStates[i])
                 {
@@ -205,7 +213,7 @@ private:
                     {
                         jsonMessage += ", ";
                     }
-                    jsonMessage += "\"" + String(i) + "\": {\"s\": " + currentState + ", \"v\": " + originalValue + "}";
+                    jsonMessage += "\"" + String(i) + "\": {\"s\": " + currentState + ", \"v\": " + originalValue + ", \"t\": " + pintype + "}";
                     lastPinStates[i] = currentState;
                     hasChanges = true;
                 }
@@ -245,7 +253,7 @@ private:
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
 
-    int readGPIO(int gpioNum, uint32_t *originalValue)
+    int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
     {
         int channel = getLedcChannelForPin(gpioNum);
         int value;
@@ -253,10 +261,11 @@ private:
         {
             // This is a PWM Pin
             value = mapLedcReadTo8Bit(channel, originalValue);
-
+            *pintype = PWMPin;
             return value;
         }
         // This is a digital pin
+        *pintype = digitalPin;
         if (gpioNum < 32)
         {
             // GPIOs 0-31 are read from GPIO_IN_REG
