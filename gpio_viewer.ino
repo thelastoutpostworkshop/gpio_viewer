@@ -16,7 +16,7 @@ struct PWM_PINS
   int channel;
 };
 
-PWM_PINS test_pwm_pins[] = {{23, 0}, {22, 1}};
+PWM_PINS test_pwm_pins[] = {{15, 0}, {2, 1},{0, 2},{4, 3}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 byte amount = 0;
 
@@ -25,14 +25,9 @@ void setup()
   Serial.begin(115200);
 
   gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
-  // gpio_viewer.setPort(5555);             // You can set the http port
+  gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
 
   // Your own setup code start here
-  for (int i = 0; i < testDigitalPinsCount; i++)
-  {
-    pinMode(test_digital_pins[i], OUTPUT);
-  }
-
   for (int i = 0; i < testPWMPinsCount; i++)
   {
     ledcSetup(test_pwm_pins[i].channel, freq, resolution);
@@ -46,23 +41,19 @@ void setup()
 
 void loop()
 {
-  for (int i = 0; i < testDigitalPinsCount; i++)
-  {
-    digitalWrite(test_digital_pins[i], HIGH);
-  }
+  amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
-    ledcWrite(test_pwm_pins[i].channel, amount++);
+    amount+=(255/testPWMPinsCount);
+    ledcWrite(test_pwm_pins[i].channel, amount);
+    delay(300);
   }
-
-  delay(500);
-  for (int i = 0; i < testDigitalPinsCount; i++)
-  {
-    digitalWrite(test_digital_pins[i], LOW);
-  }
+  delay(1000);
   for (int i = 0; i < testPWMPinsCount; i++)
   {
+    amount+=(255/testPWMPinsCount);
     ledcWrite(test_pwm_pins[i].channel, 0);
+    delay(300);
   }
-  delay(500);
+  delay(1000);
 }
