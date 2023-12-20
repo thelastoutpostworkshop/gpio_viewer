@@ -12,6 +12,7 @@ SimpleRotary rotary(ROTARY_PIN_A, ROTARY_PIN_B, ROTARY_PUSH_BUTTON);
 
 int test_digital_pins[] = {33, 25, 26};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
+int currentLed = 0; // Start with the first LED
 
 const int freq = 200;
 const int resolution = 16;
@@ -32,6 +33,7 @@ void setup()
 
   gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
   gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
+  gpio_viewer.setSamplingInterval(100);
 
   // Example - Your own setup code start here
   test1_setup();
@@ -84,6 +86,14 @@ void test1_loop()
   delay(300);
 }
 
+void updateLeds()
+{
+  for (int i = 0; i < testDigitalPinsCount; i++)
+  {
+    digitalWrite(test_digital_pins[i], i == currentLed ? HIGH : LOW);
+  }
+}
+
 void readRotaryEncoderTask(void *pvParameters)
 {
   for (;;)
@@ -100,11 +110,15 @@ void readRotaryEncoder(void)
 
   if (i == 1)
   {
+    currentLed = (currentLed - 1 + testDigitalPinsCount) % testDigitalPinsCount;
+    updateLeds();
     Serial.println("CounterClockwise");
   }
 
   if (i == 2)
   {
+    currentLed = (currentLed + 1) % testDigitalPinsCount;
+    updateLeds();
     Serial.println("Clockwise");
   }
 }
