@@ -28,6 +28,20 @@ void setup()
   gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
 
   // Example - Your own setup code start here
+  test1_setup();
+
+  // Must be at the end of your setup
+  // gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
+  gpio_viewer.begin();
+}
+
+void loop()
+{
+  test1_loop();
+}
+
+void test1_setup()
+{
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
@@ -36,13 +50,8 @@ void setup()
     ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
     test_pwm_pins[i].level = amount;
   }
-
-  // Must be at the end of your setup
-  // gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
-  gpio_viewer.begin();
 }
-
-void loop()
+void test1_loop()
 {
   for (int i = 0; i < testPWMPinsCount; i++)
   {
