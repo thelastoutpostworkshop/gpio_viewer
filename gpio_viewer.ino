@@ -1,6 +1,6 @@
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
-#include <SimpleRotary.h>     // Install this library with the Arduino IDE Library Manager
+#include <SimpleRotary.h> // Install this library with the Arduino IDE Library Manager
 #include "secrets.h"
 
 GPIOViewer gpio_viewer;
@@ -58,10 +58,15 @@ void test1_setup()
   }
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
-    pinMode(test_digital_pins[i],OUTPUT);
-    digitalWrite(test_digital_pins[i],LOW);
+    pinMode(test_digital_pins[i], OUTPUT);
+    digitalWrite(test_digital_pins[i], LOW);
   }
-  
+  xTaskCreate(readRotaryEncoderTask, // Task function
+              "ReadRotaryEncoder",   // Name of the task (for debugging)
+              2048,                  // Stack size (bytes)
+              NULL,                  // Parameter to pass to the function
+              1,                     // Task priority
+              NULL);
 }
 void test1_loop()
 {
@@ -77,22 +82,29 @@ void test1_loop()
     delay(150);
   }
   delay(300);
-  readRotaryEncoder();
+}
+
+void readRotaryEncoderTask(void *pvParameters)
+{
+  for (;;)
+  { // Infinite loop
+    readRotaryEncoder();
+    vTaskDelay(pdMS_TO_TICKS(10)); // Delay for debouncing, adjust as needed
+  }
 }
 
 void readRotaryEncoder(void)
 {
-    byte i;
-    i = rotary.rotate();
+  byte i;
+  i = rotary.rotate();
 
-    if (i == 1)
-    {
-      Serial.println("Clockwise");
-    }
+  if (i == 1)
+  {
+    Serial.println("CounterClockwise");
+  }
 
-    if (i == 2)
-    {
-      Serial.println("CounterClockwise");
-
-    }
+  if (i == 2)
+  {
+    Serial.println("Clockwise");
+  }
 }
