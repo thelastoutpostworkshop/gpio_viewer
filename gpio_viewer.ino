@@ -1,10 +1,16 @@
-#include <WiFi.h>
 #include "src/gpio_viewer.h"
+#include <WiFi.h>
+#include <SimpleRotary.h>     // Install this library with the Arduino IDE Library Manager
 #include "secrets.h"
 
 GPIOViewer gpio_viewer;
 
-int test_digital_pins[] = {5, 4};
+#define ROTARY_PIN_A 23
+#define ROTARY_PIN_B 22
+#define ROTARY_PUSH_BUTTON 22 // Not used
+SimpleRotary rotary(ROTARY_PIN_A, ROTARY_PIN_B, ROTARY_PUSH_BUTTON);
+
+int test_digital_pins[] = {33, 25, 26};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 
 const int freq = 200;
@@ -50,6 +56,12 @@ void test1_setup()
     ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
     test_pwm_pins[i].level = amount;
   }
+  for (int i = 0; i < testDigitalPinsCount; i++)
+  {
+    pinMode(test_digital_pins[i],OUTPUT);
+    digitalWrite(test_digital_pins[i],LOW);
+  }
+  
 }
 void test1_loop()
 {
@@ -65,4 +77,22 @@ void test1_loop()
     delay(150);
   }
   delay(300);
+  readRotaryEncoder();
+}
+
+void readRotaryEncoder(void)
+{
+    byte i;
+    i = rotary.rotate();
+
+    if (i == 1)
+    {
+      Serial.println("Clockwise");
+    }
+
+    if (i == 2)
+    {
+      Serial.println("CounterClockwise");
+
+    }
 }
