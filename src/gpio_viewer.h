@@ -155,6 +155,7 @@ private:
         html += "<base href ='" + baseURL + "'>";
         html += "<link id='defaultStyleSheet' rel='stylesheet' href=''>";
         html += "<link id='boardStyleSheet' rel='stylesheet' href=''>";
+        html += "<link rel='icon' href='favicon.ico' type='image/x-icon'>";
 
         html += "<script src='" + String("script/webSocket.js'></script>");
         html += "<script src='" + String("script/boardSwitcher.js'></script>");
