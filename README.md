@@ -11,9 +11,9 @@
 - Install the the [AsyncTCP](https://github.com/dvarrel/AsyncTCP) library in the same way `Sketch > Include Library > Add ZIP Library...`
 
 ### Usage
->ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`
->ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!
->ℹ️ The URL to the web GPIO viewer application is printed on the serial monitor
+>ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
+>ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!<br>
+>ℹ️ The URL to the web GPIO viewer application is printed on the serial monitor<br>
 ```c
 #include <gpio_viewer.h> // Must me the first include in your project
 GPIOViewer gpio_viewer;
