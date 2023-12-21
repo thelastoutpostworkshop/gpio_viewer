@@ -123,6 +123,8 @@ private:
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
     AsyncEventSource *events;
+    size_t freeHeap = 0;
+    size_t freeRAM = 0;
 
     void checkWifiStatus(void)
     {
@@ -234,6 +236,19 @@ private:
                 sendGPIOStates(jsonMessage);
             }
 
+            size_t heap = esp_get_free_heap_size();
+            if (heap != freeHeap)
+            {
+                freeHeap = heap;
+                events->send(formatBytes(freeHeap).c_str(), "free_heap", millis());
+            }
+            size_t ram =  ESP.getFreeSketchSpace();
+            if (ram != freeRAM)
+            {
+                freeRAM = ram;
+                events->send(formatBytes(freeRAM).c_str(), "free_ram", millis());
+            }
+
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
         }
     }
@@ -315,6 +330,22 @@ private:
         else if (type == WS_EVT_DISCONNECT)
         {
             Serial.println("GPIO View Stopped");
+        }
+    }
+
+    String formatBytes(size_t bytes)
+    {
+        if (bytes < 1024)
+        {
+            return String(bytes) + " B";
+        }
+        else if (bytes < (1024 * 1024))
+        {
+            return String(bytes / 1024.0, 2) + " KB";
+        }
+        else
+        {
+            return String(bytes / 1024.0 / 1024.0, 2) + " MB";
         }
     }
 };
