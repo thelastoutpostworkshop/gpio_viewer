@@ -1,18 +1,13 @@
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
 #include <SimpleRotary.h> // Install this library with the Arduino IDE Library Manager
+#include <Servo.h>
 #include "secrets.h"
 
 GPIOViewer gpio_viewer;
 
-const int trigPin = 23;
-const int echoPin = 18;
-// define sound speed in cm/uS
-#define SOUND_SPEED 0.034
-#define CM_TO_INCH 0.393701
-long duration;
-float distanceCm;
-float distanceInch;
+Servo myservo; // create servo object to control a servo
+int pos = 0;   // variable to store the servo position
 
 #define ROTARY_PIN_A 23
 #define ROTARY_PIN_B 22
@@ -45,7 +40,7 @@ void setup()
   gpio_viewer.setSamplingInterval(100);
 
   // Example - Your own setup code start here
-  test1_setup();
+  test2_setup();
 
   // Must be at the end of your setup
   // gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
@@ -54,41 +49,27 @@ void setup()
 
 void loop()
 {
-  test1_loop();
+  test2_loop();
 }
 
 void test2_setup()
 {
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT);  // Sets the echoPin as an Input
+  myservo.attach(13); // attaches the servo on pin 13 to the servo object
 }
 
 void test2_loop()
 {
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigPin on HIGH state for 10 micro seconds
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-
-  // Reads the echoPin, returns the sound wave travel time in microseconds
-  duration = pulseIn(echoPin, HIGH);
-
-  // Calculate the distance
-  distanceCm = duration * SOUND_SPEED / 2;
-
-  // Convert to inches
-  distanceInch = distanceCm * CM_TO_INCH;
-
-  // Prints the distance in the Serial Monitor
-  Serial.print("Distance (cm): ");
-  Serial.println(distanceCm);
-  Serial.print("Distance (inch): ");
-  Serial.println(distanceInch);
-
-  delay(1000);
+  for (pos = 0; pos <= 180; pos += 1)
+  { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos); // tell servo to go to position in variable 'pos'
+    delay(15);          // waits 15ms for the servo to reach the position
+  }
+  for (pos = 180; pos >= 0; pos -= 1)
+  {                     // goes from 180 degrees to 0 degrees
+    myservo.write(pos); // tell servo to go to position in variable 'pos'
+    delay(15);          // waits 15ms for the servo to reach the position
+  }
 }
 
 void test1_setup()
