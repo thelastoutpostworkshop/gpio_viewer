@@ -187,7 +187,6 @@ private:
 
         String eventSource = "<script>var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');</script>";
         html += eventSource;
-        Serial.println(eventSource);
         html += "</body></html>";
         return html;
     }
