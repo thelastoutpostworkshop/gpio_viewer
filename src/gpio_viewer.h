@@ -99,6 +99,8 @@ public:
 
         // Initialize and set up the AsyncEventSource
         events = new AsyncEventSource("/events");
+        events->onConnect([this](AsyncEventSourceClient *client)
+                          { this->resetStatePins(); });
 
         server->addHandler(events);
 
@@ -118,7 +120,7 @@ public:
     }
 
 private:
-    int lastPinStates[maxGPIOPins];
+    uint32_t lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
@@ -200,6 +202,8 @@ private:
     {
         uint32_t originalValue;
         pinTypes pintype;
+        Serial.printf("GPIO View Connected, sampling interval is %ums\n", samplingInterval);
+
         for (int i = 0; i < maxGPIOPins; i++)
         {
             lastPinStates[i] = readGPIO(i, &originalValue, &pintype);
@@ -221,7 +225,7 @@ private:
                 int currentState = readGPIO(i, &originalValue, &pintype);
                 // Serial.printf("pin=%d, state=%d, original=%u\n",i,currentState,originalValue);
 
-                if (currentState != lastPinStates[i])
+                if (originalValue != lastPinStates[i])
                 {
                     if (hasChanges)
                     {
@@ -315,20 +319,6 @@ private:
     void sendGPIOStates(const String &states)
     {
         events->send(states.c_str(), "gpio-state", millis());
-    }
-
-    void onWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-                          AwsEventType type, void *arg, uint8_t *data, size_t len)
-    {
-        if (type == WS_EVT_CONNECT)
-        {
-            Serial.printf("GPIO View Activated, sampling interval is %ums\n", samplingInterval);
-            resetStatePins();
-        }
-        else if (type == WS_EVT_DISCONNECT)
-        {
-            Serial.println("GPIO View Stopped");
-        }
     }
 
     String formatBytes(size_t bytes)

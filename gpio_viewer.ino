@@ -45,7 +45,7 @@ void setup()
   gpio_viewer.setSamplingInterval(100);
 
   // Example - Your own setup code start here
-  test2_setup();
+  test1_setup();
 
   // Must be at the end of your setup
   // gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
@@ -54,7 +54,7 @@ void setup()
 
 void loop()
 {
-  test2_loop();
+  test1_loop();
 }
 
 void test2_setup()
