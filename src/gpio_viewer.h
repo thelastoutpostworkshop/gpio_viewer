@@ -124,7 +124,7 @@ private:
     AsyncWebServer *server;
     AsyncEventSource *events;
     size_t freeHeap = 0;
-    size_t freeRAM = 0;
+    String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     void checkWifiStatus(void)
     {
@@ -189,6 +189,9 @@ private:
 
         String eventSource = "<script>var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');</script>";
         html += eventSource;
+
+        html += "<script>var freeSketchSpace = '" + freeRAM + "';</script>";
+
         html += "</body></html>";
         return html;
     }
@@ -241,12 +244,6 @@ private:
             {
                 freeHeap = heap;
                 events->send(formatBytes(freeHeap).c_str(), "free_heap", millis());
-            }
-            size_t ram =  ESP.getFreeSketchSpace();
-            if (ram != freeRAM)
-            {
-                freeRAM = ram;
-                events->send(formatBytes(freeRAM).c_str(), "free_ram", millis());
             }
 
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
