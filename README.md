@@ -23,7 +23,7 @@ void setup()
 
   // Comment the next line, If your code aleady include connection to Wifi
   gpio_viewer.connectToWifi("Your SSID network", "Your WiFi Password");
-  // gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
+  // gpio_viewer.setPort(5555);   // You can set the http port, if not set default port is 8080
 
   // Your own setup code start here
 
