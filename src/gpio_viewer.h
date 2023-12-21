@@ -57,7 +57,7 @@ public:
 
     ~GPIOViewer()
     {
-        ws->closeAll();
+        delete events;
         server->end();
     }
 
@@ -91,13 +91,18 @@ public:
         checkWifiStatus();
 
         server = new AsyncWebServer(port);
-        ws = new AsyncWebSocket("/ws");
 
-        ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client,
-                           AwsEventType type, void *arg, uint8_t *data, size_t len)
-                    { onWebSocketEvent(server, client, type, arg, data, len); });
-        server->addHandler(ws);
+        // Set CORS headers for global responses
+        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
 
+        // Initialize and set up the AsyncEventSource
+        events = new AsyncEventSource("/events");
+
+        server->addHandler(events);
+
+        // Serve the main page
         server->on("/", [this](AsyncWebServerRequest *request)
                    { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
@@ -117,7 +122,7 @@ private:
     uint16_t port = 8080;
     unsigned long samplingInterval = 50;
     AsyncWebServer *server;
-    AsyncWebSocket *ws;
+    AsyncEventSource *events;
 
     void checkWifiStatus(void)
     {
@@ -180,6 +185,9 @@ private:
         String portScript = "<script>var serverPort = " + String(port) + ";</script>";
         html += portScript;
 
+        String eventSource = "<script>var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');</script>";
+        html += eventSource;
+        Serial.println(eventSource);
         html += "</body></html>";
         return html;
     }
@@ -294,7 +302,7 @@ private:
 
     void sendGPIOStates(const String &states)
     {
-        ws->textAll(states);
+        events->send(states.c_str(), "gpio-state", millis());
     }
 
     void onWebSocketEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,

@@ -30,6 +30,7 @@ const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 void setup()
 {
   Serial.begin(115200);
+  
 
   gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
   gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
