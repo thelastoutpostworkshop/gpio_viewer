@@ -5,6 +5,15 @@
 
 GPIOViewer gpio_viewer;
 
+const int trigPin = 23;
+const int echoPin = 18;
+// define sound speed in cm/uS
+#define SOUND_SPEED 0.034
+#define CM_TO_INCH 0.393701
+long duration;
+float distanceCm;
+float distanceInch;
+
 #define ROTARY_PIN_A 23
 #define ROTARY_PIN_B 22
 #define ROTARY_PUSH_BUTTON 22 // Not used
@@ -30,14 +39,13 @@ const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 void setup()
 {
   Serial.begin(115200);
-  
 
   gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
   gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
   gpio_viewer.setSamplingInterval(100);
 
   // Example - Your own setup code start here
-  test1_setup();
+  test2_setup();
 
   // Must be at the end of your setup
   // gpio_viewer.setSamplingInterval(100); // You can set the sampling interval in ms
@@ -46,7 +54,41 @@ void setup()
 
 void loop()
 {
-  test1_loop();
+  test2_loop();
+}
+
+void test2_setup()
+{
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT);  // Sets the echoPin as an Input
+}
+
+void test2_loop()
+{
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calculate the distance
+  distanceCm = duration * SOUND_SPEED / 2;
+
+  // Convert to inches
+  distanceInch = distanceCm * CM_TO_INCH;
+
+  // Prints the distance in the Serial Monitor
+  Serial.print("Distance (cm): ");
+  Serial.println(distanceCm);
+  Serial.print("Distance (inch): ");
+  Serial.println(distanceInch);
+
+  delay(1000);
 }
 
 void test1_setup()

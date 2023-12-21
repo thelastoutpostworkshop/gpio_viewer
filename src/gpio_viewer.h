@@ -219,6 +219,7 @@ private:
             for (int i = 0; i < maxGPIOPins; i++)
             {
                 int currentState = readGPIO(i, &originalValue, &pintype);
+                // Serial.printf("pin=%d, state=%d, original=%u\n",i,currentState,originalValue);
 
                 if (currentState != lastPinStates[i])
                 {
