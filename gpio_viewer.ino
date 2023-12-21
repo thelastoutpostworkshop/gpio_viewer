@@ -1,13 +1,9 @@
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
 #include <SimpleRotary.h> // Install this library with the Arduino IDE Library Manager
-#include <Servo.h>
 #include "secrets.h"
 
 GPIOViewer gpio_viewer;
-
-Servo myservo; // create servo object to control a servo
-int pos = 0;   // variable to store the servo position
 
 #define ROTARY_PIN_A 23
 #define ROTARY_PIN_B 22
@@ -40,7 +36,7 @@ void setup()
   gpio_viewer.setSamplingInterval(100);
 
   // Example - Your own setup code start here
-  test2_setup();
+  test1_setup();
 
   // Must be at the end of your setup
   gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set default is 50ms
@@ -49,27 +45,7 @@ void setup()
 
 void loop()
 {
-  test2_loop();
-}
-
-void test2_setup()
-{
-  myservo.attach(13); // attaches the servo on pin 13 to the servo object
-}
-
-void test2_loop()
-{
-  for (pos = 0; pos <= 180; pos += 1)
-  { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos); // tell servo to go to position in variable 'pos'
-    delay(15);          // waits 15ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 0; pos -= 1)
-  {                     // goes from 180 degrees to 0 degrees
-    myservo.write(pos); // tell servo to go to position in variable 'pos'
-    delay(15);          // waits 15ms for the servo to reach the position
-  }
+  test1_loop();
 }
 
 void test1_setup()

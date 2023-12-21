@@ -39,7 +39,7 @@ You can request an ESP32 board image addition by [creating a new issue](https://
 
 ### Library Size
 
-- The GPIOViewer Library adds xx KB to your projects.
+- The GPIOViewer Library adds 50 KB to your projects.
 - No worries!  All the assets (ex. board images) of the web application are loaded from github pages and don't add to the size of your projects.
 
 ### GPIO Supported
