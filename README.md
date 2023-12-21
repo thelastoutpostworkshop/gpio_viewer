@@ -12,7 +12,8 @@
 
 ### Usage
 >ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`
-
+>ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!
+>ℹ️ The URL to the web GPIO viewer application is printed on the serial monitor
 ```c
 #include <gpio_viewer.h> // Must me the first include in your project
 GPIOViewer gpio_viewer;
