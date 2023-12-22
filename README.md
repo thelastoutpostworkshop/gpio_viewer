@@ -35,9 +35,6 @@ void setup()
 ```
 >ℹ️ The default HTTP port is **8080** and default sampling interval is **50ms**.
 
-### Request an ESP32 board image addition
-
-You can request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
 
 ### Library Size
 
@@ -50,6 +47,10 @@ You can request an ESP32 board image addition by [creating a new issue](https://
 - PWM
 
 ### ESP32 Boards Supported
+# Request an ESP32 board image addition
+
+You can request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
+
 | Description        | Image                               |
 |--------------------|-------------------------------------|
 | ESP32 VROOM 32D  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/ESP32-VROOM-32D.png" width="100">             |
