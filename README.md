@@ -53,8 +53,8 @@ You can request an ESP32 board image addition by [creating a new issue](https://
 | Description        | Image                               |
 |--------------------|-------------------------------------|
 | ESP32 VROOM 32D  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/ESP32-VROOM-32D.png" width="100">             |
-| Description of 2   | ![](URL_of_image2.png)              |
-| Description of 3   | ![](URL_of_image3.png)              |
-| ...                | ...                                 |
-
+| ESP32 D1 R32  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/ESP32_D1_R32.png" width="100">             |
+| ESP32 C3 Wroom-02  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/esp32-C3-Wroom-02.png" width="100">             |
+| ESP32 Wroom-32UE  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/esp32-Wroom-32UE.png" width="100">             |
+| ESP32 S3 Wroom-1  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/esp32-s3-wroom-1.png" width="100">             |
 
