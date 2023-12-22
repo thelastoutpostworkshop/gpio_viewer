@@ -47,8 +47,9 @@ void setup()
 - PWM
 
 ### ESP32 Boards Supported
->ℹ️ You can request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).<br>
->ℹ️ You can also use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed 
+>ℹ️ You use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
+>ℹ️ You can also request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
+
 
 | Description        | Image                               |
 |--------------------|-------------------------------------|
