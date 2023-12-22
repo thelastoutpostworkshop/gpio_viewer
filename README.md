@@ -52,7 +52,7 @@ You can request an ESP32 board image addition by [creating a new issue](https://
 ### ESP32 Boards Supported
 | Description        | Image                               |
 |--------------------|-------------------------------------|
-| ESP32 VROOM 32D  | ![](https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/ESP32-VROOM-32D.png)              |
+| ESP32 VROOM 32D  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer/assets/devboards_images/ESP32-VROOM-32D.png" width="100">             |
 | Description of 2   | ![](URL_of_image2.png)              |
 | Description of 3   | ![](URL_of_image3.png)              |
 | ...                | ...                                 |
