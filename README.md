@@ -29,11 +29,11 @@ void setup()
   // Your own setup code start here
 
   // Must be at the end of your setup
-  // gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set default is 50ms
+  // gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set default is 100ms
   gpio_viewer.begin();
 }
 ```
->ℹ️ The default HTTP port is **8080** and default sampling interval is **50ms**.
+>ℹ️ The default HTTP port is **8080** and default sampling interval is **100ms**.
 
 
 ### Library Size
