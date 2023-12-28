@@ -3,6 +3,7 @@
 **Transforms the way you troubleshoot your microcontroller projects**.
 
 ### Youtube Tutorial
+https://youtu.be/UxkOosaNohU
 
 ### Installation
 
