@@ -46,6 +46,9 @@ void setup()
 - Digital
 - PWM
 
+### Performance
+Ensure you have a strong Wifi signal with a good transfer rate.  50ms sampling interval works great on Wifi 6 with 125 Mbps.
+
 ### ESP32 Boards Supported
 >ℹ️ You can use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
 >ℹ️ You can also request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
