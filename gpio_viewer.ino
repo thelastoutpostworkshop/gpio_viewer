@@ -38,7 +38,7 @@ void setup()
   test1_setup();
 
   // Must be at the end of your setup
-  gpio_viewer.setSamplingInterval(50); // You can set the sampling interval in ms, if not set default is 50ms
+  gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set, default is 50ms
   gpio_viewer.begin();
 }
 
