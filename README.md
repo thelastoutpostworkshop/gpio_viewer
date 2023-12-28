@@ -47,7 +47,8 @@ void setup()
 - PWM
 
 ### Performance
-Ensure you have a strong Wifi signal with a good transfer rate.  50ms sampling interval works great on Wifi 6 with 125 Mbps.
+- Ensure you have a strong Wifi signal with a good transfer rate.  25ms sampling interval works great on Wifi 6 with 125 Mbps.
+- If you get "ERROR: Too many messages queued" on the Serial Monitor, this means the data is not read fast enough by the web application.  The data will still be displayed, but with some latency.  Reduce the sampling interval or try to improve your Wifi performance.
 
 ### ESP32 Boards Supported
 >ℹ️ You can use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
