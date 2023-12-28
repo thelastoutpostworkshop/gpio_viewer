@@ -122,7 +122,7 @@ public:
 private:
     uint32_t lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
-    unsigned long samplingInterval = 50;
+    unsigned long samplingInterval = 100;
     AsyncWebServer *server;
     AsyncEventSource *events;
     size_t freeHeap = 0;
