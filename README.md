@@ -7,9 +7,22 @@ https://youtu.be/UxkOosaNohU
 
 ### Installation
 
+#### Arduino IDE
+
 - Downnload the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
 - Install the [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) library in the same way `Sketch > Include Library > Add ZIP Library...`
 - Install the the [AsyncTCP](https://github.com/dvarrel/AsyncTCP) using the Arduino IDE Library Manager.
+
+#### VSCode + PlatformIO
+
+Add the following to your platformio.ini file:
+
+```
+lib_deps =
+    https://github.com/dvarrel/AsyncTCP.git
+    https://github.com/me-no-dev/ESPAsyncWebServer.git
+    https://github.com/thelastoutpostworkshop/gpio_viewer.git
+```
 
 ### Usage
 >ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
