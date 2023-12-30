@@ -65,6 +65,10 @@ public:
     {
         this->port = port;
     }
+    void setPath(String path)
+    {
+        this->path = path;
+    }
 
     void setSamplingInterval(unsigned long samplingInterval)
     {
@@ -105,7 +109,7 @@ public:
         server->addHandler(events);
 
         // Serve the main page
-        server->on("/gpio", [this](AsyncWebServerRequest *request)
+        server->on(path.c_str(), [this](AsyncWebServerRequest *request)
                    { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
         server->begin();
@@ -122,6 +126,7 @@ public:
 private:
     uint32_t lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
+    String path = "/gpio";
     unsigned long samplingInterval = 100;
     AsyncWebServer *server;
     AsyncEventSource *events;
