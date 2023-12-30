@@ -140,7 +140,8 @@ private:
             Serial.print("GPIOView Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
-            Serial.println(port);
+            Serial.print(port);
+            Serial.println(path);
         }
         else
         {
