@@ -105,7 +105,7 @@ public:
         server->addHandler(events);
 
         // Serve the main page
-        server->on("/", [this](AsyncWebServerRequest *request)
+        server->on("/gpio", [this](AsyncWebServerRequest *request)
                    { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
         server->begin();
