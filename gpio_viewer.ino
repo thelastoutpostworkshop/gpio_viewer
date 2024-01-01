@@ -14,8 +14,8 @@ int test_digital_pins[] = {33, 25, 26};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 int currentLed = 0; // Start with the first LED
 
-const int analogPinsCount = 1;
-int test_analog_pins[analogPinsCount] = {32};
+const int analogPinsCount = 3;
+int test_analog_pins[analogPinsCount] = {32,19,18};
 int analogValue=0;
 
 const int freq = 200;
@@ -81,6 +81,7 @@ void test1_loop()
 {
   for (int i = 0; i < analogPinsCount; i++)
   {
+    analogValue+=(i*3);
     analogWrite(test_analog_pins[i], analogValue++);
   }
   for (int i = 0; i < testPWMPinsCount; i++)
