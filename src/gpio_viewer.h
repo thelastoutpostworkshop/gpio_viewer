@@ -45,7 +45,8 @@ int ledcChannelResolutionCount = 0;
 enum pinTypes
 {
     digitalPin = 0,
-    PWMPin = 1
+    PWMPin = 1,
+    analogPin = 2
 };
 
 class GPIOViewer
@@ -289,24 +290,35 @@ private:
             *pintype = PWMPin;
             return value;
         }
-        // This is a digital pin
-        *pintype = digitalPin;
-        if (gpioNum < 32)
+        uint8_t analogChannel = analogGetChannel(gpioNum);
+        if (analogChannel != 0)
         {
-            // GPIOs 0-31 are read from GPIO_IN_REG
-            value = (GPIO.in >> gpioNum) & 0x1;
+            // This is an analog pin
+            value = mapLedcReadTo8Bit(analogChannel, originalValue);
+            *pintype = analogPin;
+            return value;
         }
         else
         {
-            // GPIOs over 32 are read from GPIO_IN1_REG
-            value = (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
+            // This is a digital pin
+            *pintype = digitalPin;
+            if (gpioNum < 32)
+            {
+                // GPIOs 0-31 are read from GPIO_IN_REG
+                value = (GPIO.in >> gpioNum) & 0x1;
+            }
+            else
+            {
+                // GPIOs over 32 are read from GPIO_IN1_REG
+                value = (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
+            }
+            *originalValue = value;
+            if (value == 1)
+            {
+                return 256;
+            }
+            return 0;
         }
-        *originalValue = value;
-        if (value == 1)
-        {
-            return 256;
-        }
-        return 0;
     }
 
     int mapLedcReadTo8Bit(int channel, uint32_t *originalValue)
