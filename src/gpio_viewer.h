@@ -146,7 +146,7 @@ private:
 
     void printPWNTraps()
     {
-        Serial.printf("%d pins are PWM\n", ledcChannelPinCount);
+        Serial.printf("%d pins are PWN\n", ledcChannelPinCount);
         for (int i = 0; i < ledcChannelPinCount; i++)
         {
             Serial.printf("Pin %d is using channel %d\n", ledcChannelPin[i][0], ledcChannelPin[i][1]);
