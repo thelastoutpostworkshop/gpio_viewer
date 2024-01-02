@@ -9,7 +9,7 @@ https://youtu.be/UxkOosaNohU
 
 #### Arduino IDE
 
-- Downnload the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
+- Download the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
 - Install the [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) library in the same way `Sketch > Include Library > Add ZIP Library...`
 - Install the the [AsyncTCP](https://github.com/dvarrel/AsyncTCP) using the Arduino IDE Library Manager.
 
