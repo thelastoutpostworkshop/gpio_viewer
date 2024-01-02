@@ -9,7 +9,7 @@ https://youtu.be/UxkOosaNohU
 
 #### Arduino IDE
 
-- Install the **GPIOViewer Library with the Arduino IDE Library Manager** or Download the code and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
+- Install the **GPIOViewer Library with the Arduino IDE Library Manager** or Download the [latest release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
 - Download [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) and install the library in the Arduino IDE `Sketch > Include Library > Add ZIP Library...`
 - Install the the [AsyncTCP](https://github.com/dvarrel/AsyncTCP) using the Arduino IDE Library Manager.
 
