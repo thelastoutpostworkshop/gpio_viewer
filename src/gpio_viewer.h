@@ -126,7 +126,7 @@ public:
 private:
     uint32_t lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
-    String path = "/gpio";
+    String path = "/";
     unsigned long samplingInterval = 100;
     AsyncWebServer *server;
     AsyncEventSource *events;

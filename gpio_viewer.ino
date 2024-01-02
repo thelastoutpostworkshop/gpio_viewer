@@ -33,6 +33,7 @@ void setup()
 
   gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
   // gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
+  // gpio_viewer.setPath("/gpio");               //You can set custom path if root "/" beign used with other application
 
   // Example - Your own setup code start here
   test1_setup();
