@@ -58,6 +58,7 @@ void setup()
 ### GPIO Supported
 
 - Digital
+- Analog
 - PWM
 
 ### Performance
