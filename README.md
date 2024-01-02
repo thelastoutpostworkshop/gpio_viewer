@@ -49,17 +49,16 @@ void setup()
 ```
 >ℹ️ The default HTTP port is **8080** and default sampling interval is **100ms**.
 
-
-### Library Size
-
-- The GPIOViewer Library adds 50 KB to your projects.
-- No worries!  All the assets (ex. board images) of the web application are loaded from github pages and don't add to the size of your projects.
-
 ### GPIO Supported
 
 - Digital
 - Analog
 - PWM
+
+### Library Size
+
+- The GPIOViewer Library adds 50 KB to your projects.
+- No worries!  All the assets (ex. board images) of the web application are loaded from github pages and don't add to the size of your projects.
 
 ### Performance
 - Ensure you have a strong Wifi signal with a good transfer rate.  25ms sampling interval works great on Wifi 6 with 125 Mbps.
