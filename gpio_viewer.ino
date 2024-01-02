@@ -14,6 +14,10 @@ int test_digital_pins[] = {33, 25, 26};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 int currentLed = 0; // Start with the first LED
 
+const int analogPinsCount = 3;
+int test_analog_pins[analogPinsCount] = {32,19,18};
+int analogValue=0;
+
 const int freq = 200;
 const int resolution = 16;
 
@@ -39,7 +43,7 @@ void setup()
   test1_setup();
 
   // Must be at the end of your setup
-  gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set, default is 100ms
+  gpio_viewer.setSamplingInterval(75); // You can set the sampling interval in ms, if not set, default is 100ms
   gpio_viewer.begin();
 }
 
@@ -63,6 +67,10 @@ void test1_setup()
     pinMode(test_digital_pins[i], OUTPUT);
     digitalWrite(test_digital_pins[i], LOW);
   }
+  for (int i = 0; i < analogPinsCount; i++)
+  {
+    pinMode(test_analog_pins[i], OUTPUT);
+  }
   xTaskCreate(readRotaryEncoderTask, // Task function
               "ReadRotaryEncoder",   // Name of the task (for debugging)
               2048,                  // Stack size (bytes)
@@ -72,6 +80,11 @@ void test1_setup()
 }
 void test1_loop()
 {
+  for (int i = 0; i < analogPinsCount; i++)
+  {
+    analogValue+=(i*3);
+    analogWrite(test_analog_pins[i], analogValue++);
+  }
   for (int i = 0; i < testPWMPinsCount; i++)
   {
     ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
