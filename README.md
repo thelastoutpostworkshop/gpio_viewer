@@ -6,7 +6,7 @@
 https://youtu.be/UxkOosaNohU
 
 ### Installation
->ℹ️ Make sure you have the latest ESP32 by Espressif Systems in your Board Manager<br>
+>ℹ️ Make sure you have the latest ESP32 boards by Espressif Systems in your Board Manager<br>
 
 #### Arduino IDE (Version 2)
 
