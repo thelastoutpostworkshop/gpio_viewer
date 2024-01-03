@@ -203,7 +203,7 @@ private:
     {
         uint32_t originalValue;
         pinTypes pintype;
-        Serial.printf("GPIO View Connected, sampling interval is %ums\n", samplingInterval);
+        Serial.printf("GPIO View Connected, sampling interval is %lums\n", samplingInterval);
 
         for (int i = 0; i < maxGPIOPins; i++)
         {
@@ -224,7 +224,6 @@ private:
             for (int i = 0; i < maxGPIOPins; i++)
             {
                 int currentState = readGPIO(i, &originalValue, &pintype);
-                // Serial.printf("pin=%d, state=%d, original=%u\n",i,currentState,originalValue);
 
                 if (originalValue != lastPinStates[i])
                 {
