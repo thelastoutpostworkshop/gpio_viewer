@@ -96,34 +96,35 @@ public:
             Serial.printf("GPIOViewer >> Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
             return;
         }
-        printPWNTraps();
-        checkWifiStatus();
+        if (checkWifiStatus())
+        {
+            printPWNTraps();
+            server = new AsyncWebServer(port);
 
-        server = new AsyncWebServer(port);
+            // Set CORS headers for global responses
+            DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+            DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
 
-        // Set CORS headers for global responses
-        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
-        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
+            // Initialize and set up the AsyncEventSource
+            events = new AsyncEventSource("/events");
+            events->onConnect([this](AsyncEventSourceClient *client)
+                              { this->resetStatePins(); });
 
-        // Initialize and set up the AsyncEventSource
-        events = new AsyncEventSource("/events");
-        events->onConnect([this](AsyncEventSourceClient *client)
-                          { this->resetStatePins(); });
+            server->addHandler(events);
 
-        server->addHandler(events);
+            // Serve the main page
+            server->on("/", [this](AsyncWebServerRequest *request)
+                       { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
-        // Serve the main page
-        server->on("/", [this](AsyncWebServerRequest *request)
-                   { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
+            server->on("/release", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendMinReleaseVersion(request); });
 
-        server->on("/release", HTTP_GET, [this](AsyncWebServerRequest *request)
-                   { sendMinReleaseVersion(request); });
+            server->begin();
 
-        server->begin();
-
-        // Create a task for monitoring GPIOs
-        xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
+            // Create a task for monitoring GPIOs
+            xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
+        }
     }
 
     static void monitorTaskStatic(void *pvParameter)
@@ -146,7 +147,7 @@ private:
 
         request->send(200, "application/json", jsonResponse);
     }
-    void checkWifiStatus(void)
+    bool checkWifiStatus(void)
     {
         if (WiFi.status() == WL_CONNECTED)
         {
@@ -154,11 +155,32 @@ private:
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
+            return true;
         }
         else
         {
+            wifi_mode_t mode = WiFi.getMode();
+
+            switch (mode)
+            {
+            case WIFI_OFF:
+                Serial.println("GPIOViewer >> WiFi Mode: OFF");
+                break;
+            case WIFI_STA:
+                Serial.println("GPIOViewer >> WiFi Mode: Station (STA)");
+                break;
+            case WIFI_AP:
+                Serial.println("GPIOViewer >> WiFi Mode: Access Point (AP) is not supported");
+                break;
+            case WIFI_AP_STA:
+                Serial.println("GPIOViewer >> WiFi Mode: Access Point and Station (AP_STA) is not supported");
+                break;
+            default:
+                Serial.println("GPIOViewer >> WiFi Mode: Unknown, cannot run the wep application");
+            }
             Serial.println("GPIOViewer >> ESP32 is not connected to WiFi.");
         }
+        return false;
     }
 
     void printPWNTraps()
