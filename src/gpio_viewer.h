@@ -21,6 +21,8 @@
 #endif
 #endif
 
+const char *release = "1.0.5";
+
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 
 #define maxGPIOPins 49
@@ -88,7 +90,7 @@ public:
 
     void begin()
     {
-        Serial.printf("ESP32 Core Version %d.%d.%d\n",ESP_ARDUINO_VERSION_MAJOR,ESP_ARDUINO_VERSION_MINOR,ESP_ARDUINO_VERSION_PATCH);
+        Serial.printf("ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
         if (ESP_ARDUINO_VERSION_MAJOR < 2)
         {
             Serial.printf("Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
@@ -115,6 +117,9 @@ public:
         server->on("/", [this](AsyncWebServerRequest *request)
                    { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
+        server->on("/release", HTTP_GET, [this](AsyncWebServerRequest *request)
+                   { sendMinReleaseVersion(request); });
+
         server->begin();
 
         // Create a task for monitoring GPIOs
@@ -135,6 +140,12 @@ private:
     size_t freeHeap = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
+    void sendMinReleaseVersion(AsyncWebServerRequest *request)
+    {
+        String jsonResponse = "{\"release\": \"" + String(release) + "\"}";
+
+        request->send(200, "application/json", jsonResponse);
+    }
     void checkWifiStatus(void)
     {
         if (WiFi.status() == WL_CONNECTED)
