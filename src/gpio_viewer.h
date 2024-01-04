@@ -68,6 +68,10 @@ public:
     {
         this->port = port;
     }
+    void setPath(String path)
+    {
+        this->path = path;
+    }
 
     void setSamplingInterval(unsigned long samplingInterval)
     {
@@ -114,7 +118,7 @@ public:
         server->addHandler(events);
 
         // Serve the main page
-        server->on("/", [this](AsyncWebServerRequest *request)
+        server->on(path.c_str(), [this](AsyncWebServerRequest *request)
                    { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
         server->on("/release", HTTP_GET, [this](AsyncWebServerRequest *request)
@@ -134,6 +138,7 @@ public:
 private:
     uint32_t lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
+    String path = "/";
     unsigned long samplingInterval = 100;
     AsyncWebServer *server;
     AsyncEventSource *events;
@@ -153,7 +158,8 @@ private:
             Serial.print("GPIOView Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
-            Serial.println(port);
+            Serial.print(port);
+            Serial.println(path);
         }
         else
         {
