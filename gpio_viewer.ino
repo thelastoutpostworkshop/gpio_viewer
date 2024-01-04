@@ -15,8 +15,8 @@ const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital
 int currentLed = 0; // Start with the first LED
 
 const int analogPinsCount = 3;
-int test_analog_pins[analogPinsCount] = {32,19,18};
-int analogValue=0;
+int test_analog_pins[analogPinsCount] = {32, 19, 18};
+int analogValue = 0;
 
 const int freq = 200;
 const int resolution = 16;
@@ -81,7 +81,7 @@ void test1_loop()
 {
   for (int i = 0; i < analogPinsCount; i++)
   {
-    analogValue+=(i*3);
+    analogValue += (i * 3);
     analogWrite(test_analog_pins[i], analogValue++);
   }
   for (int i = 0; i < testPWMPinsCount; i++)
@@ -94,6 +94,19 @@ void test1_loop()
   {
     ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level / 2);
     delay(150);
+  }
+  for (int i = 0; i < testDigitalPinsCount; i++)
+  {
+    if (digitalRead(test_digital_pins[i]) == LOW)
+    {
+
+      digitalWrite(test_digital_pins[i], HIGH);
+    }
+    else
+    {
+
+      digitalWrite(test_digital_pins[i], LOW);
+    }
   }
   delay(300);
 }

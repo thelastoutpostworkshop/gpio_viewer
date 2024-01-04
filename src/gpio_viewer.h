@@ -88,6 +88,12 @@ public:
 
     void begin()
     {
+        Serial.printf("ESP32 Core Version %d.%d.%d\n",ESP_ARDUINO_VERSION_MAJOR,ESP_ARDUINO_VERSION_MINOR,ESP_ARDUINO_VERSION_PATCH);
+        if (ESP_ARDUINO_VERSION_MAJOR < 2)
+        {
+            Serial.printf("Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
+            return;
+        }
         printPWNTraps();
         checkWifiStatus();
 
@@ -290,9 +296,11 @@ private:
             return value;
         }
         uint8_t analogChannel = analogGetChannel(gpioNum);
-        if (analogChannel != 0)
+        if (analogChannel != 0 && analogChannel != 255)
         {
             // This is an analog pin
+            // Serial.printf("A Pin %d value=%d,channel=%d\n", gpioNum, value,analogChannel);
+
             value = mapLedcReadTo8Bit(analogChannel, originalValue);
             *pintype = analogPin;
             return value;
@@ -301,16 +309,7 @@ private:
         {
             // This is a digital pin
             *pintype = digitalPin;
-            if (gpioNum < 32)
-            {
-                // GPIOs 0-31 are read from GPIO_IN_REG
-                value = (GPIO.in >> gpioNum) & 0x1;
-            }
-            else
-            {
-                // GPIOs over 32 are read from GPIO_IN1_REG
-                value = (GPIO.in1.val >> (gpioNum - 32)) & 0x1;
-            }
+            value = digitalRead(gpioNum);
             *originalValue = value;
             if (value == 1)
             {
