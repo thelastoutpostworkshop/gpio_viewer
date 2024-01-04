@@ -210,6 +210,9 @@ private:
         String eventSource = "<script>var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');</script>";
         html += eventSource;
 
+        String ip = "<script>var ip = '" + WiFi.localIP().toString() + "';</script>";
+        html += ip;
+
         html += "<script>var freeSketchSpace = '" + freeRAM + "';</script>";
 
         html += "</body></html>";
