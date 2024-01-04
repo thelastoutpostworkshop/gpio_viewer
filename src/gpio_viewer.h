@@ -191,7 +191,6 @@ private:
         html += "<body><div class='grid-container'>\n";
 
         html += "<header class='header'>";
-        html += "<div class='centered-text' id='sampbox'>Sampling Interval is " + String(samplingInterval) + " ms</div>";
         html += "</header>";
 
         // Image
@@ -212,6 +211,9 @@ private:
 
         String ip = "<script>var ip = '" + WiFi.localIP().toString() + "';</script>";
         html += ip;
+
+        String sampling = "<script>var sampling_interval = '" + String(samplingInterval) + "';</script>";
+        html += sampling;
 
         html += "<script>var freeSketchSpace = '" + freeRAM + "';</script>";
 
