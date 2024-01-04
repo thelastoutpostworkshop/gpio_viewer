@@ -3,9 +3,7 @@
 **Transforms the way you troubleshoot your microcontroller projects**.
 
 ### Youtube Tutorial
-[<img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="200">](https://youtu.be/UxkOosaNohU)
-
-https://youtu.be/UxkOosaNohU
+[<img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="300">](https://youtu.be/UxkOosaNohU)
 
 ### Installation Arduino IDE (Version 2)
 >ℹ️ Make sure you have the latest ESP32 boards by Espressif Systems in your Board Manager<br>
