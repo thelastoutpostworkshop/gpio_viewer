@@ -35,7 +35,16 @@ void setup()
 {
   Serial.begin(115200);
 
-  gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
+  // Test
+  Serial.print("Setting AP (Access Point)…");
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.softAP(ssid, password, 1);
+  IPAddress IP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(IP);
+  // End test
+
+  // gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
   // gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
 
   // Example - Your own setup code start here
