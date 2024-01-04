@@ -3,6 +3,7 @@
 **Transforms the way you troubleshoot your microcontroller projects**.
 
 ### Youtube Tutorial
+ <img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="100">
 https://youtu.be/UxkOosaNohU
 
 ### Installation Arduino IDE (Version 2)
