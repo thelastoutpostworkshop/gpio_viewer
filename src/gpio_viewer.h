@@ -77,23 +77,23 @@ public:
     void connectToWifi(const char *ssid, const char *password)
     {
         WiFi.begin(ssid, password);
-        Serial.println("Connecting to WiFi...");
+        Serial.println("GPIOViewer >> Connecting to WiFi...");
         while (WiFi.status() != WL_CONNECTED)
         {
             delay(500);
             Serial.print(".");
         }
-        Serial.println("Connected to WiFi");
-        Serial.print("IP Address: ");
+        Serial.println("GPIOViewer >> Connected to WiFi");
+        Serial.print("GPIOViewer >> IP Address: ");
         Serial.println(WiFi.localIP());
     }
 
     void begin()
     {
-        Serial.printf("ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
+        Serial.printf("GPIOViewer >> ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
         if (ESP_ARDUINO_VERSION_MAJOR < 2)
         {
-            Serial.printf("Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
+            Serial.printf("GPIOViewer >> Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
             return;
         }
         printPWNTraps();
@@ -150,28 +150,28 @@ private:
     {
         if (WiFi.status() == WL_CONNECTED)
         {
-            Serial.print("GPIOView Web Application URL is: http://");
+            Serial.print("GPIOViewer >>  Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
         }
         else
         {
-            Serial.println("ESP32 is not connected to WiFi.");
+            Serial.println("GPIOViewer >> ESP32 is not connected to WiFi.");
         }
     }
 
     void printPWNTraps()
     {
-        Serial.printf("%d pins are PWM\n", ledcChannelPinCount);
+        Serial.printf("GPIOViewer >> %d pins are PWM\n", ledcChannelPinCount);
         for (int i = 0; i < ledcChannelPinCount; i++)
         {
-            Serial.printf("Pin %d is using channel %d\n", ledcChannelPin[i][0], ledcChannelPin[i][1]);
+            Serial.printf("GPIOViewer >> Pin %d is using channel %d\n", ledcChannelPin[i][0], ledcChannelPin[i][1]);
         }
-        Serial.printf("%d channels are used\n", ledcChannelResolutionCount);
+        Serial.printf("GPIOViewer >> %d channels are used\n", ledcChannelResolutionCount);
         for (int i = 0; i < ledcChannelResolutionCount; i++)
         {
-            Serial.printf("Channel %d resolution is %d bits\n", ledcChannelResolution[i][0], ledcChannelResolution[i][1]);
+            Serial.printf("GPIOViewer >> Channel %d resolution is %d bits\n", ledcChannelResolution[i][0], ledcChannelResolution[i][1]);
         }
     }
 
@@ -225,7 +225,7 @@ private:
     {
         uint32_t originalValue;
         pinTypes pintype;
-        Serial.printf("GPIO View Connected, sampling interval is %lums\n", samplingInterval);
+        Serial.printf("GPIOViewer >> Connected, sampling interval is %lums\n", samplingInterval);
 
         for (int i = 0; i < maxGPIOPins; i++)
         {
@@ -314,9 +314,6 @@ private:
         uint8_t analogChannel = analogGetChannel(gpioNum);
         if (analogChannel != 0 && analogChannel != 255)
         {
-            // This is an analog pin
-            // Serial.printf("A Pin %d value=%d,channel=%d\n", gpioNum, value,analogChannel);
-
             value = mapLedcReadTo8Bit(analogChannel, originalValue);
             *pintype = analogPin;
             return value;
