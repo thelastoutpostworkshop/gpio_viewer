@@ -65,6 +65,9 @@ void setup()
 - Ensure you have a strong Wifi signal with a good transfer rate.  25ms sampling interval works great on Wifi 6 with 125 Mbps.
 - If you get "ERROR: Too many messages queued" on the Serial Monitor, this means the data is not read fast enough by the web application.  The data will still be displayed, but with some latency.  Reduce the sampling interval or try to improve your Wifi performance.
 
+### Contributors
+Contributors are welcomed!  If you want to submit pull requests, [here is how you can do it](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project).
+
 ### ESP32 Boards Supported
 >ℹ️ You can use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
 >ℹ️ You can also request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
