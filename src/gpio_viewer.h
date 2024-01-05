@@ -100,7 +100,7 @@ public:
         }
         if (checkWifiStatus())
         {
-            printPWNTraps();
+            // printPWNTraps();
             server = new AsyncWebServer(port);
 
             // Set CORS headers for global responses
@@ -124,13 +124,14 @@ public:
 
             server->begin();
 
-            // Create a task for monitoring GPIOs
-            xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
 
             Serial.print("GPIOViewer >> Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
+            
+            // Create a task for monitoring GPIOs
+            xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
         }
     }
 
