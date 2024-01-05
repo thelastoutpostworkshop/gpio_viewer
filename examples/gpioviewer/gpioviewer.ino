@@ -12,7 +12,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  // Comment the next line, If your code aleady include connection to Wifi
+  // Comment the next line, If your code aleady include connection to Wifi in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported)
   gpio_viewer.connectToWifi("Your SSID network", "Your WiFi Password");
   // gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
 
