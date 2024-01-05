@@ -86,7 +86,6 @@ public:
             Serial.print(".");
         }
         Serial.println("GPIOViewer >> Connected to WiFi");
-        Serial.println(WiFi.localIP());
     }
 
     void begin()
