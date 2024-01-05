@@ -313,17 +313,6 @@ private:
         }
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
-    int getChannelResolution(int channel)
-    {
-        for (int i = 0; i < ledcChannelResolutionCount; i++)
-        {
-            if (ledcChannelResolution[i][0] == channel)
-            {
-                return ledcChannelResolution[i][1];
-            }
-        }
-        return -1; // Pin not found, return -1 to indicate no channel is associated
-    }
 
     int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
     {
