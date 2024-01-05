@@ -35,14 +35,11 @@ void setup()
 {
   Serial.begin(115200);
 
-  gpio_viewer.connectToWifi(ssid, password); // If your code aleady include connection to Wifi, you can comment this line
-  // gpio_viewer.setPort(5555);                 // You can set the http port, if not set default port is 8080
+  gpio_viewer.connectToWifi(ssid, password);
 
-  // Example - Your own setup code start here
   test1_setup();
 
-  // Must be at the end of your setup
-  gpio_viewer.setSamplingInterval(75); // You can set the sampling interval in ms, if not set, default is 100ms
+  gpio_viewer.setSamplingInterval(75);
   gpio_viewer.begin();
 }
 

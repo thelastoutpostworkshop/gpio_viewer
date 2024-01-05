@@ -123,7 +123,6 @@ public:
 
             server->begin();
 
-
             Serial.print("GPIOViewer >> Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
@@ -145,7 +144,8 @@ private:
     unsigned long samplingInterval = 100;
     AsyncWebServer *server;
     AsyncEventSource *events;
-    size_t freeHeap = 0;
+    u_int32_t freeHeap = 0;
+    u_int32_t freePSRAM = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     void sendMinReleaseVersion(AsyncWebServerRequest *request)
@@ -291,11 +291,25 @@ private:
                 sendGPIOStates(jsonMessage);
             }
 
-            size_t heap = esp_get_free_heap_size();
+            uint32_t heap = esp_get_free_heap_size();
             if (heap != freeHeap)
             {
                 freeHeap = heap;
                 events->send(formatBytes(freeHeap).c_str(), "free_heap", millis());
+            }
+
+            if (psramFound())
+            {
+                uint32_t psram = ESP.getFreePsram();
+                if (psram != freePSRAM)
+                {
+                    freePSRAM = psram;
+                    events->send(formatBytes(freePSRAM).c_str(), "free_psram", millis());
+                }
+            }
+            else
+            {
+                events->send("No PSRAM", "free_psram", millis());
             }
 
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
