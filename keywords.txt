@@ -12,5 +12,7 @@ enum
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-begin
-
+begin KEYWORD2
+setPort KEYWORD2
+setSamplingInterval KEYWORD2
+connectToWifi KEYWORD2
