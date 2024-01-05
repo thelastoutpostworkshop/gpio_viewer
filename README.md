@@ -48,7 +48,7 @@ void setup()
 }
 ```
 >ℹ️ The default HTTP port is **8080** and default sampling interval is **100ms**<br>
->i Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported) 
+>ℹ️ Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported) 
 
 ### GPIO Supported
 
