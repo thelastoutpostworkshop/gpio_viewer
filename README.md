@@ -6,7 +6,8 @@
 [<img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="300">](https://youtu.be/UxkOosaNohU)
 
 ### Installation Arduino IDE (Version 2)
->ℹ️ Make sure you have the latest ESP32 boards by Espressif Systems in your Board Manager<br>
+>ℹ️ Make sure you have the [latest ESP32 boards](https://github.com/espressif/arduino-esp32)
+ by Espressif Systems in your Board Manager<br>
 
 - Install the **GPIOViewer Library with the Arduino IDE Library Manager** or Download the [latest release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
 - Download [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) and install the library in the Arduino IDE `Sketch > Include Library > Add ZIP Library...`
