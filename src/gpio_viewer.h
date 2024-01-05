@@ -86,12 +86,12 @@ public:
             Serial.print(".");
         }
         Serial.println("GPIOViewer >> Connected to WiFi");
-        Serial.print("GPIOViewer >> IP Address: ");
         Serial.println(WiFi.localIP());
     }
 
     void begin()
     {
+        Serial.printf("GPIOViewer >> Release %s\n", release);
         Serial.printf("GPIOViewer >> ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
         if (ESP_ARDUINO_VERSION_MAJOR < 2)
         {
@@ -129,7 +129,7 @@ public:
             Serial.print(WiFi.localIP());
             Serial.print(":");
             Serial.println(port);
-            
+
             // Create a task for monitoring GPIOs
             xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
         }
