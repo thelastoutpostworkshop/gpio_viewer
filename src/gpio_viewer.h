@@ -25,6 +25,8 @@ const char *release = "1.0.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 
+extern uint8_t channels_resolution[];
+
 #define maxGPIOPins 49
 
 // Global variables to capture PMW pins
@@ -124,6 +126,11 @@ public:
 
             // Create a task for monitoring GPIOs
             xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
+
+            Serial.print("GPIOViewer >> Web Application URL is: http://");
+            Serial.print(WiFi.localIP());
+            Serial.print(":");
+            Serial.println(port);
         }
     }
 
@@ -151,10 +158,6 @@ private:
     {
         if (WiFi.status() == WL_CONNECTED)
         {
-            Serial.print("GPIOViewer >>  Web Application URL is: http://");
-            Serial.print(WiFi.localIP());
-            Serial.print(":");
-            Serial.println(port);
             return true;
         }
         else
@@ -356,7 +359,8 @@ private:
 
     int mapLedcReadTo8Bit(int channel, uint32_t *originalValue)
     {
-        uint32_t maxDutyCycle = (1 << getChannelResolution(channel)) - 1;
+        uint32_t maxDutyCycle = (1 << channels_resolution[channel]) - 1;
+        // Serial.printf("C=%d, R=%d\n",channel,channels_resolution[channel]);
         *originalValue = ledcRead(channel);
         return map(*originalValue, 0, maxDutyCycle, 0, 255);
     }

@@ -16,7 +16,7 @@ int currentLed = 0; // Start with the first LED
 
 const int analogPinsCount = 3;
 int test_analog_pins[analogPinsCount] = {32, 19, 18};
-int analogValue = 0;
+byte analogValue = 0;
 
 const int freq = 200;
 const int resolution = 16;
