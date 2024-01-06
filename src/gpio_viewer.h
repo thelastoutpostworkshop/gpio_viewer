@@ -217,7 +217,7 @@ private:
         html += "</head>";
 
         html += "<body><div class='grid-container'>\n";
-        html += '<div id="messageBox" class="message-box hidden"></div>';
+        html += "<div id='messageBox' class='message-box hidden'></div>";
 
         html += "<header class='header'>";
         html += "</header>";
