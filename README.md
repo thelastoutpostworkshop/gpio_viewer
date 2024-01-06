@@ -15,13 +15,16 @@
 
 ### Installation VSCode + PlatformIO
 
+- Install the **GPIOViewer Library using PlateformIO Libraries**
+
 Add the following to your platformio.ini file:
 
 ```
+platform = espressif32
+framework = arduino
 lib_deps =
     https://github.com/dvarrel/AsyncTCP.git
     https://github.com/me-no-dev/ESPAsyncWebServer.git
-    https://github.com/thelastoutpostworkshop/gpio_viewer.git
 ```
 
 ### Usage
