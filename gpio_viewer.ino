@@ -46,12 +46,12 @@ int currentLed = 0; // Start with the first LED
 
 const int analogPinsCount = 3;
 int test_analog_pins[analogPinsCount] = {4, 5, 6};
-byte analogValue = 0;
+int analogValue = 0;
 
-const int freq = 200;
-const int resolution = 16;
+const int freq = 1000;
+const int resolution = 8;
 
-PWM_PINS test_pwm_pins[] = {{7, 0}, {15, 1}, {16, 2}, {17, 3}};
+PWM_PINS test_pwm_pins[] = {{17, 0, 0}, {18, 1, 0}, {8, 2, 0}, {3, 3, 0}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #endif
 
@@ -77,19 +77,19 @@ void test1_setup()
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
-    amount += (65535 / testPWMPinsCount);
+    amount += (255 / testPWMPinsCount);
     ledcSetup(test_pwm_pins[i].channel, freq, resolution);
     ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
     test_pwm_pins[i].level = amount;
+  }
+  for (int i = 0; i < analogPinsCount; i++)
+  {
+    pinMode(test_analog_pins[i], OUTPUT);
   }
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
     pinMode(test_digital_pins[i], OUTPUT);
     digitalWrite(test_digital_pins[i], LOW);
-  }
-  for (int i = 0; i < analogPinsCount; i++)
-  {
-    pinMode(test_analog_pins[i], OUTPUT);
   }
   xTaskCreate(readRotaryEncoderTask, // Task function
               "ReadRotaryEncoder",   // Name of the task (for debugging)
@@ -103,19 +103,18 @@ void test1_loop()
   for (int i = 0; i < analogPinsCount; i++)
   {
     analogValue += (i * 3);
+    if(analogValue > 255) {
+
+    }
     analogWrite(test_analog_pins[i], analogValue++);
   }
   for (int i = 0; i < testPWMPinsCount; i++)
   {
     ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
     delay(150);
+    test_pwm_pins[i].level++;
   }
   delay(300);
-  for (int i = 0; i < testPWMPinsCount; i++)
-  {
-    ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level / 2);
-    delay(150);
-  }
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
     if (digitalRead(test_digital_pins[i]) == LOW)
