@@ -91,12 +91,14 @@ public:
     void begin()
     {
         Serial.printf("GPIOViewer >> Release %s\n", release);
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && defined(ESP_ARDUINO_VERSION_MINOR) && defined(ESP_ARDUINO_VERSION_PATCH)
         Serial.printf("GPIOViewer >> ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
         if (ESP_ARDUINO_VERSION_MAJOR < 2)
         {
             Serial.printf("GPIOViewer >> Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
             return;
         }
+#endif
         if (checkWifiStatus())
         {
             // printPWNTraps();
