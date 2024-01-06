@@ -49,7 +49,7 @@ int test_analog_pins[analogPinsCount] = {4, 5, 6};
 int analogValue = 0;
 
 const int freq = 1000;
-const int resolution = 8;
+const int resolution = 10;
 
 PWM_PINS test_pwm_pins[] = {{17, 0, 0}, {18, 1, 0}, {8, 2, 0}, {3, 3, 0}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
@@ -72,12 +72,17 @@ void loop()
   test1_loop();
 }
 
+uint32_t getMaxDutyCycle(int resolution)
+{
+  return (1 << resolution) - 1;
+}
+
 void test1_setup()
 {
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
-    amount += (255 / testPWMPinsCount);
+    amount += (getMaxDutyCycle(resolution) / testPWMPinsCount);
     ledcSetup(test_pwm_pins[i].channel, freq, resolution);
     ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
     test_pwm_pins[i].level = amount;
@@ -103,8 +108,9 @@ void test1_loop()
   for (int i = 0; i < analogPinsCount; i++)
   {
     analogValue += (i * 3);
-    if(analogValue > 255) {
-
+    if (analogValue > getMaxDutyCycle(8))
+    {
+      analogValue = 0;
     }
     analogWrite(test_analog_pins[i], analogValue++);
   }
@@ -112,7 +118,11 @@ void test1_loop()
   {
     ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
     delay(150);
-    test_pwm_pins[i].level++;
+    test_pwm_pins[i].level+=(getMaxDutyCycle(resolution)/4);
+    if (test_pwm_pins[i].level > getMaxDutyCycle(resolution))
+    {
+      test_pwm_pins[i].level = 0;
+    }
   }
   delay(300);
   for (int i = 0; i < testDigitalPinsCount; i++)
