@@ -15,6 +15,9 @@
 
 ### Installation VSCode + PlatformIO
 
+>ℹ️ Make sure you have the [latest ESP32 boards](https://github.com/espressif/arduino-esp32)
+ by Espressif Systems in your Platforms<br>
+
 - Install the **GPIOViewer Library using PlateformIO Libraries**
 
 Add the following to your platformio.ini file:
