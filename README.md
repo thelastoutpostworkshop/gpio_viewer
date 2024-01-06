@@ -20,7 +20,7 @@
 
 - Install the **GPIOViewer Library using PlateformIO Libraries**
 
-Add the following to your platformio.ini file:
+Add (or change) the following to your platformio.ini file:
 
 ```
 platform = espressif32
