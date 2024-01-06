@@ -35,23 +35,23 @@ PWM_PINS test_pwm_pins[] = {{15, 0}, {2, 1}, {0, 2}, {4, 3}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #else
 // Test ESP32-S3
-#define ROTARY_PIN_A 4
-#define ROTARY_PIN_B 5
-#define ROTARY_PUSH_BUTTON 5 // Not used
+#define ROTARY_PIN_A 41
+#define ROTARY_PIN_B 42
+#define ROTARY_PUSH_BUTTON 42 // Not used
 SimpleRotary rotary(ROTARY_PIN_A, ROTARY_PIN_B, ROTARY_PUSH_BUTTON);
 
-int test_digital_pins[] = {15, 16, 17};
+int test_digital_pins[] = {15, 7, 6};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 int currentLed = 0; // Start with the first LED
 
 const int analogPinsCount = 3;
-int test_analog_pins[analogPinsCount] = {9, 10, 11};
+int test_analog_pins[analogPinsCount] = {4, 5, 6};
 byte analogValue = 0;
 
 const int freq = 200;
 const int resolution = 16;
 
-PWM_PINS test_pwm_pins[] = {{38, 0}, {13, 1}, {12, 2}, {14, 3}};
+PWM_PINS test_pwm_pins[] = {{7, 0}, {15, 1}, {16, 2}, {17, 3}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #endif
 
