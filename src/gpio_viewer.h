@@ -28,6 +28,7 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 extern uint8_t channels_resolution[];
 
 #define maxGPIOPins 49
+#define sentIntervalIfNoActivity 1000 // If no activity for this interval, resend to show connection activity
 
 // Global variables to capture PMW pins
 const int maxChannels = 64;
@@ -158,6 +159,7 @@ private:
     uint32_t lastPinStates[maxGPIOPins];
     uint16_t port = 8080;
     unsigned long samplingInterval = 100;
+    unsigned long lastSentWithNoActivity = millis();
     AsyncWebServer *server;
     AsyncEventSource *events;
     u_int32_t freeHeap = 0;
@@ -294,39 +296,47 @@ private:
         }
     }
 
-    // Monitor GPIO Values
-    void monitorTask()
+    // Check GPIO values
+    bool checkGPIOValues()
     {
         uint32_t originalValue;
         pinTypes pintype;
+
+        String jsonMessage = "{";
+        bool hasChanges = false;
+
+        for (int i = 0; i < maxGPIOPins; i++)
+        {
+            int currentState = readGPIO(i, &originalValue, &pintype);
+
+            if (originalValue != lastPinStates[i])
+            {
+                if (hasChanges)
+                {
+                    jsonMessage += ", ";
+                }
+                jsonMessage += "\"" + String(i) + "\": {\"s\": " + currentState + ", \"v\": " + originalValue + ", \"t\": " + pintype + "}";
+                lastPinStates[i] = originalValue;
+                hasChanges = true;
+            }
+        }
+
+        jsonMessage += "}";
+
+        if (hasChanges)
+        {
+            sendGPIOStates(jsonMessage);
+        }
+        return hasChanges;
+    }
+
+    // Monitor Task
+    void monitorTask()
+    {
+
         while (1)
         {
-            String jsonMessage = "{";
-            bool hasChanges = false;
-
-            for (int i = 0; i < maxGPIOPins; i++)
-            {
-                int currentState = readGPIO(i, &originalValue, &pintype);
-
-                if (originalValue != lastPinStates[i])
-                {
-                    if (hasChanges)
-                    {
-                        jsonMessage += ", ";
-                    }
-                    jsonMessage += "\"" + String(i) + "\": {\"s\": " + currentState + ", \"v\": " + originalValue + ", \"t\": " + pintype + "}";
-                    lastPinStates[i] = originalValue;
-                    hasChanges = true;
-                }
-            }
-
-            jsonMessage += "}";
-
-            if (hasChanges)
-            {
-                sendGPIOStates(jsonMessage);
-            }
-
+            checkGPIOValues();
             uint32_t heap = esp_get_free_heap_size();
             if (heap != freeHeap)
             {
