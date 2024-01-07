@@ -260,19 +260,22 @@ private:
         html += "</div></div></div>";
 
         // Append the script variables
-        String portScript = "<script>var serverPort = " + String(port) + ";</script>";
+        String portScript = "<script>";
+
+        portScript += "var serverPort = " + String(port) + ";</script>";
         html += portScript;
 
-        String eventSource = "<script>var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');</script>";
+        String eventSource = "var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');";
         html += eventSource;
 
-        String ip = "<script>var ip = '" + WiFi.localIP().toString() + "';</script>";
+        String ip = "var ip = '" + WiFi.localIP().toString() + "';";
         html += ip;
 
-        String sampling = "<script>var sampling_interval = '" + String(samplingInterval) + "';</script>";
+        String sampling = "var sampling_interval = '" + String(samplingInterval) + "';";
         html += sampling;
 
-        html += "<script>var freeSketchSpace = '" + freeRAM + "';</script>";
+        html += "var freeSketchSpace = '" + freeRAM + "';";
+        html += "</script>";
 
         html += "</body></html>";
         return html;
