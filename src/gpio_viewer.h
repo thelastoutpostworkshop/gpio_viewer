@@ -28,7 +28,7 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 extern uint8_t channels_resolution[];
 
 #define maxGPIOPins 49
-#define sentIntervalIfNoActivity 1000 // If no activity for this interval, resend to show connection activity
+#define sentIntervalIfNoActivity 1000L // If no activity for this interval, resend to show connection activity
 
 // Global variables to capture PMW pins
 const int maxChannels = 64;
@@ -367,6 +367,20 @@ private:
             changes |= checkFreeHeap();
             changes |= checkFreePSRAM();
 
+            if (!changes)
+            {
+                unsigned long delay = millis() - lastSentWithNoActivity;
+                if (delay > sentIntervalIfNoActivity)
+                {
+                    // No activity, resending for pulse
+                    events->send(formatBytes(freeHeap).c_str(), "free_heap", millis());
+                    lastSentWithNoActivity = millis();
+                }
+            }
+            else
+            {
+                lastSentWithNoActivity = millis();
+            }
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
         }
     }
