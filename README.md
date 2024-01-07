@@ -75,9 +75,8 @@ void setup()
 Contributors are welcomed!  If you want to submit pull requests, [here is how you can do it](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project).
 
 ### Troubleshooting
-If your code don't compile, <u>before submitting an issue:</u>
-- Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library
-- Compile with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32) 
+If your code don't compile, **before submitting an issue:**
+- Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library **and** with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32) 
 
 ### ESP32 Boards Supported
 >ℹ️ You can use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
