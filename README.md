@@ -9,7 +9,7 @@
 >ℹ️ Make sure you have the [latest ESP32 boards](https://github.com/espressif/arduino-esp32)
  by Espressif Systems in your Board Manager<br>
 
-- Install the **GPIOViewer Library with the Arduino IDE Library Manager** or Download the [latest release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
+- Install the **GPIOViewer Library with the Arduino IDE Library Manager** or Download the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
 - Download [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) and install the library in the Arduino IDE `Sketch > Include Library > Add ZIP Library...`
 - Install the the [AsyncTCP](https://github.com/dvarrel/AsyncTCP) using the Arduino IDE Library Manager.
 
@@ -73,6 +73,11 @@ void setup()
 
 ### Contributors
 Contributors are welcomed!  If you want to submit pull requests, [here is how you can do it](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project).
+
+### Troubleshooting
+If your code don't compile, <u>before submitting an issue:</u>
+- Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library
+- Compile with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32) 
 
 ### ESP32 Boards Supported
 >ℹ️ You can use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
