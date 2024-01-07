@@ -101,8 +101,8 @@ public:
 #endif
         if (psramFound())
         {
-            size_t psram_size = ESP.getPsramSize();
-            Serial.printf("GPIOViewer >> PSRAM Size %s\n", formatBytes(psram_size));
+            psramSize = ESP.getPsramSize();
+            Serial.printf("GPIOViewer >> PSRAM Size %s\n", formatBytes(psramSize));
         }
         else
         {
@@ -158,6 +158,7 @@ private:
     AsyncEventSource *events;
     u_int32_t freeHeap = 0;
     u_int32_t freePSRAM = 0;
+    u_int32_t psramSize = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     void sendMinReleaseVersion(AsyncWebServerRequest *request)
