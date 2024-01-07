@@ -390,7 +390,6 @@ private:
     int mapLedcReadTo8Bit(int channel, uint32_t *originalValue)
     {
         uint32_t maxDutyCycle = (1 << channels_resolution[channel]) - 1;
-        // Serial.printf("C=%d, R=%d\n",channel,channels_resolution[channel]);
         *originalValue = ledcRead(channel);
         return map(*originalValue, 0, maxDutyCycle, 0, 255);
     }
