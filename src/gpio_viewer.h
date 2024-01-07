@@ -262,7 +262,7 @@ private:
         // Append the script variables
         String portScript = "<script>";
 
-        portScript += "var serverPort = " + String(port) + ";</script>";
+        portScript += "var serverPort = " + String(port) + ";";
         html += portScript;
 
         String eventSource = "var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');";
@@ -275,6 +275,7 @@ private:
         html += sampling;
 
         html += "var freeSketchSpace = '" + freeRAM + "';";
+        html += "var psramSize = '" + String(psramSize) + "';";
         html += "</script>";
 
         html += "</body></html>";
