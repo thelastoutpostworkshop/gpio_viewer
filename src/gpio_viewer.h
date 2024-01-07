@@ -133,6 +133,9 @@ public:
             server->on("/release", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendMinReleaseVersion(request); });
 
+            server->on("/free_psram", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendFreePSRAM(request); });
+
             server->begin();
 
             Serial.print("GPIOViewer >> Web Application URL is: http://");
@@ -164,6 +167,20 @@ private:
     void sendMinReleaseVersion(AsyncWebServerRequest *request)
     {
         String jsonResponse = "{\"release\": \"" + String(release) + "\"}";
+
+        request->send(200, "application/json", jsonResponse);
+    }
+    void sendFreePSRAM(AsyncWebServerRequest *request)
+    {
+        String jsonResponse = "{\"freePSRAM\": \"";
+        if (psramFound())
+        {
+            jsonResponse += formatBytes(ESP.getFreePsram()) + "\"}";
+        }
+        else
+        {
+            jsonResponse += "No PSRAM\"}";
+        }
 
         request->send(200, "application/json", jsonResponse);
     }
@@ -320,10 +337,6 @@ private:
                     freePSRAM = psram;
                     events->send(formatBytes(freePSRAM).c_str(), "free_psram", millis());
                 }
-            }
-            else
-            {
-                events->send("No PSRAM", "free_psram", millis());
             }
 
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
