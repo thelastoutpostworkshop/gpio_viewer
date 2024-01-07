@@ -330,29 +330,42 @@ private:
         return hasChanges;
     }
 
+    bool checkFreeHeap()
+    {
+        uint32_t heap = esp_get_free_heap_size();
+        if (heap != freeHeap)
+        {
+            freeHeap = heap;
+            events->send(formatBytes(freeHeap).c_str(), "free_heap", millis());
+            return true;
+        }
+        return false;
+    }
+
+    bool checkFreePSRAM()
+    {
+        if (psramFound())
+        {
+            uint32_t psram = ESP.getFreePsram();
+            if (psram != freePSRAM)
+            {
+                freePSRAM = psram;
+                events->send(formatBytes(freePSRAM).c_str(), "free_psram", millis());
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Monitor Task
     void monitorTask()
     {
-
         while (1)
         {
-            checkGPIOValues();
-            uint32_t heap = esp_get_free_heap_size();
-            if (heap != freeHeap)
-            {
-                freeHeap = heap;
-                events->send(formatBytes(freeHeap).c_str(), "free_heap", millis());
-            }
-
-            if (psramFound())
-            {
-                uint32_t psram = ESP.getFreePsram();
-                if (psram != freePSRAM)
-                {
-                    freePSRAM = psram;
-                    events->send(formatBytes(freePSRAM).c_str(), "free_psram", millis());
-                }
-            }
+            bool changes = false;
+            changes = checkGPIOValues();
+            changes |= checkFreeHeap();
+            changes |= checkFreePSRAM();
 
             vTaskDelay(pdMS_TO_TICKS(samplingInterval));
         }
