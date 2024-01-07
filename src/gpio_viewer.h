@@ -21,7 +21,7 @@
 #endif
 #endif
 
-const char *release = "1.0.7";
+const char *release = "1.0.8-unstable, please use a stable version";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 
