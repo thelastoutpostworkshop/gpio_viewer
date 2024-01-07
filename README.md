@@ -2,9 +2,10 @@
 
 **Transforms the way you troubleshoot your microcontroller projects**.
 
-### Youtube Tutorial
+## Youtube Tutorial
 [<img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="300">](https://youtu.be/UxkOosaNohU)
 
+## Installation
 ### Installation Arduino IDE (Version 2)
 >ℹ️ Make sure you have the [latest ESP32 boards](https://github.com/espressif/arduino-esp32)
  by Espressif Systems in your Board Manager<br>
@@ -30,7 +31,7 @@ lib_deps =
     https://github.com/me-no-dev/ESPAsyncWebServer.git
 ```
 
-### Usage
+## Usage
 >ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
 >ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!<br>
 >ℹ️ The URL to the web GPIO viewer application is printed on the serial monitor<br>
@@ -56,33 +57,35 @@ void setup()
 >ℹ️ The default HTTP port is **8080** and default sampling interval is **100ms**<br>
 >ℹ️ Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported) 
 
-### GPIO Supported
+## GPIO Supported
 
 - Digital
 - Analog
 - PWM
 
-### Library Size
+## Library Size
 
 - The GPIOViewer Library adds 50 KB to your projects.
 - No worries!  All the assets (ex. board images) of the web application are loaded from github pages and don't add to the size of your projects.
 
-### Performance
+## Performance
 - Ensure you have a strong Wifi signal with a good transfer rate.  25ms sampling interval works great on Wifi 6 with 125 Mbps.
 - If you get "ERROR: Too many messages queued" on the Serial Monitor, this means the data is not read fast enough by the web application.  The data will still be displayed, but with some latency.  Reduce the sampling interval or try to improve your Wifi performance.
 
-### Contributors
+## Contributors
 Contributors are welcomed!  If you want to submit pull requests, [here is how you can do it](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project).
 
-### Troubleshooting
+## Troubleshooting
+### Code not compiling
 If your code don't compile, **before submitting an issue:**
 - Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library **and** with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32) 
-- If your code still don't compile, try compiling it without the GPIOViewer Library and fix your issues<br><br>
+- If your code still don't compile, try compiling it without the GPIOViewer Library and fix your issues
+### GPIOViewer running
 If GPIOViewer is running and your are experiencing problems in the web application, **before submitting an issue:**
 - Make sure you are using the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library
 - Clear your browser cache data and refresh the window in your browser
 
-### ESP32 Boards Supported
+## ESP32 Boards Supported
 >ℹ️ You can use the "Generic View" in the GPIO Web Application to see GPIO pin activites live even if your board image is not listed <br>
 >ℹ️ You can also request an ESP32 board image addition by [creating a new issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues).
 
