@@ -91,7 +91,6 @@ public:
     void begin()
     {
         Serial.printf("GPIOViewer >> Release %s\n", release);
-        // ESP_ARDUINO_VERSION defined do not appear in PlatformIO
 #if defined(ESP_ARDUINO_VERSION_MAJOR) && defined(ESP_ARDUINO_VERSION_MINOR) && defined(ESP_ARDUINO_VERSION_PATCH)
         Serial.printf("GPIOViewer >> ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
         if (ESP_ARDUINO_VERSION_MAJOR < 2)
@@ -100,6 +99,16 @@ public:
             return;
         }
 #endif
+        if (psramFound())
+        {
+            size_t psram_size = ESP.getPsramSize();
+            Serial.printf("GPIOViewer >> PSRAM Size %s\n", formatBytes(psram_size));
+        }
+        else
+        {
+            Serial.printf("GPIOViewer >> No PSRAM\n");
+        }
+
         if (checkWifiStatus())
         {
             // printPWNTraps();
