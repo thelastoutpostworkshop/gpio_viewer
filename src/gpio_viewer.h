@@ -315,7 +315,7 @@ private:
                         jsonMessage += ", ";
                     }
                     jsonMessage += "\"" + String(i) + "\": {\"s\": " + currentState + ", \"v\": " + originalValue + ", \"t\": " + pintype + "}";
-                    lastPinStates[i] = currentState;
+                    lastPinStates[i] = originalValue;
                     hasChanges = true;
                 }
             }

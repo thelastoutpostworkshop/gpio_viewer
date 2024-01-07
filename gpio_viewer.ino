@@ -69,7 +69,7 @@ void setup()
 
 void loop()
 {
-  test1_loop();
+  // test1_loop();
 }
 
 uint32_t getMaxDutyCycle(int resolution)
