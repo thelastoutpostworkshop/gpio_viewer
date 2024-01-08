@@ -68,6 +68,10 @@ void setup()
 - The GPIOViewer Library adds 50 KB to your projects.
 - No worries!  All the assets (ex. board images) of the web application are loaded from github pages and don't add to the size of your projects.
 
+## ESP32 Core SDK Compatibility
+- The ESP32 Arduino Core that is installed in your system will need to be V2.0.5 or greater, in order for GPIO viewer to compile properly.
+- See the official Espressif Systems ESP32 Core documentation located here for more details: https://github.com/espressif/arduino-esp32
+
 ## Performance
 - Ensure you have a strong Wifi signal with a good transfer rate.  25ms sampling interval works great on Wifi 6 with 125 Mbps.
 - If you get "ERROR: Too many messages queued" on the Serial Monitor, this means the data is not read fast enough by the web application.  The data will still be displayed, but with some latency.  Reduce the sampling interval or try to improve your Wifi performance.
