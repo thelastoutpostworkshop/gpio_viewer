@@ -21,6 +21,8 @@
 #endif
 #endif
 
+// ESP-WROOM-32 = Chip Model:ESP32-D0WD-V3, revision:3
+
 const char *release = "1.0.8-unstable, please use a stable version";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
