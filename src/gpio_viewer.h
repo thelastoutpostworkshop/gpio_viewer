@@ -101,6 +101,7 @@ public:
             return;
         }
 #endif
+        Serial.printf("GPIOViewer >> Chip Model:%s, revision:%d\n",ESP.getChipModel(),ESP.getChipRevision());
         if (psramFound())
         {
             psramSize = ESP.getPsramSize();
