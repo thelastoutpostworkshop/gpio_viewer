@@ -22,10 +22,20 @@
 #endif
 
 // ESP-WROOM-32 = Chip Model:ESP32-D0WD-V3, revision:3
+// #define Version15
 
+#ifdef Version15
+const char *release = "1.5.0-unstable, please use a stable version";
+#elif
 const char *release = "1.0.8-unstable, please use a stable version";
+#endif
 
+#ifdef Version15
+const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
+#elif
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
+#endif
+
 
 extern uint8_t channels_resolution[];
 
@@ -103,7 +113,7 @@ public:
             return;
         }
 #endif
-        Serial.printf("GPIOViewer >> Chip Model:%s, revision:%d\n",ESP.getChipModel(),ESP.getChipRevision());
+        Serial.printf("GPIOViewer >> Chip Model:%s, revision:%d\n", ESP.getChipModel(), ESP.getChipRevision());
         if (psramFound())
         {
             psramSize = ESP.getPsramSize();
@@ -236,7 +246,26 @@ private:
         }
     }
 
+#ifdef Version15
     String generateIndexHTML()
+    {
+        String html = "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>";
+        html += "<base href ='" + baseURL + "'>";
+        html += "<link rel='icon' href='favicon.ico'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>GPIOViewer</title>";
+        html += "<script type='module' crossorigin src='GPIOViewerVue.js'></script><link rel='stylesheet' crossorigin href='asset.css'></head><body><div id='app'></div>";
+
+        html += "<script>";
+        html += "window.gpio_settings = {";
+        html += "ip:'" + WiFi.localIP().toString() + "',";
+        html += "port:" + String(port);
+        html += "};";
+        html += "</script>";
+
+        html += "</body></html>";
+        return html;
+    }
+#elif
+   String generateIndexHTML()
     {
         String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title>";
 
@@ -286,6 +315,10 @@ private:
         html += "</body></html>";
         return html;
     }
+#endif
+
+
+ 
 
     void resetStatePins(void)
     {
