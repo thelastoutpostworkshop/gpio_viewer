@@ -26,13 +26,13 @@
 
 #ifdef Version15
 const char *release = "1.5.0-unstable, please use a stable version";
-#elif
+#else
 const char *release = "1.0.8-unstable, please use a stable version";
 #endif
 
 #ifdef Version15
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
-#elif
+#else
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 #endif
 
@@ -264,7 +264,7 @@ private:
         html += "</body></html>";
         return html;
     }
-#elif
+#else
    String generateIndexHTML()
     {
         String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title>";
