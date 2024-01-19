@@ -21,7 +21,7 @@
 #endif
 #endif
 
-// #define Version15
+#define Version15
 
 #ifdef Version15
 const char *release = "1.5.0-unstable, please use a stable version";
@@ -34,7 +34,6 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 #else
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
 #endif
-
 
 extern uint8_t channels_resolution[];
 
@@ -256,7 +255,8 @@ private:
         html += "<script>";
         html += "window.gpio_settings = {";
         html += "ip:'" + WiFi.localIP().toString() + "',";
-        html += "port:" + String(port);
+        html += "port:" + String(port) + "',";
+        html += "freeSketchRam:+freeRAM"; 
         html += "};";
         html += "</script>";
 
@@ -264,7 +264,7 @@ private:
         return html;
     }
 #else
-   String generateIndexHTML()
+    String generateIndexHTML()
     {
         String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title>";
 
@@ -315,9 +315,6 @@ private:
         return html;
     }
 #endif
-
-
- 
 
     void resetStatePins(void)
     {
