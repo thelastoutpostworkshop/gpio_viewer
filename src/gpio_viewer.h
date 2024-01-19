@@ -21,7 +21,6 @@
 #endif
 #endif
 
-// ESP-WROOM-32 = Chip Model:ESP32-D0WD-V3, revision:3
 // #define Version15
 
 #ifdef Version15
