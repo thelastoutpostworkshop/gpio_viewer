@@ -1,6 +1,7 @@
 # GPIOViewer Arduino Library to see live GPIO Pins on ESP32 boards
 
 **Transforms the way you troubleshoot your microcontroller projects**.
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="thelastoutpostworkshop" data-color="#FF5F5F" data-emoji="☕"  data-font="Poppins" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
 
 ## Youtube Tutorial
 [<img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="300">](https://youtu.be/UxkOosaNohU)
@@ -32,7 +33,7 @@ lib_deps =
 ```
 
 ## Usage
->ℹ️ You can also use get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
+>ℹ️ You can also get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
 >ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!<br>
 >ℹ️ The URL to the web GPIO viewer application is printed on the serial monitor<br>
 ```c
