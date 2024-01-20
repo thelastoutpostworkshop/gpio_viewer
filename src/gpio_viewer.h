@@ -255,8 +255,8 @@ private:
         html += "<script>";
         html += "window.gpio_settings = {";
         html += "ip:'" + WiFi.localIP().toString() + "',";
-        html += "port:" + String(port) + "',";
-        html += "freeSketchRam:"+freeRAM; 
+        html += "port:'" + String(port) + "',";
+        html += "freeSketchRam:'"+freeRAM+"'"; 
         html += "};";
         html += "</script>";
 
