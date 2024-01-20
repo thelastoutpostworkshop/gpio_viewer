@@ -1,7 +1,11 @@
 # GPIOViewer Arduino Library to see live GPIO Pins on ESP32 boards
 
 **Transforms the way you troubleshoot your microcontroller projects**.
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/thelastoutpostworkshop){:target="_blank"}
+<a href="https://www.buymeacoffee.com/thelastoutpostworkshop" target="_blank">
+    <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee">
+</a>
+
+
 
 ## Youtube Tutorial
 [<img src="https://github.com/thelastoutpostworkshop/images/blob/main/GPIO%20Viewer.png" width="300">](https://youtu.be/UxkOosaNohU)
