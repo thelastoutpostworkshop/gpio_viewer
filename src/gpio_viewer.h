@@ -250,7 +250,8 @@ private:
         String html = "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>";
         html += "<base href ='" + baseURL + "'>";
         html += "<link rel='icon' href='favicon.ico'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>GPIOViewer</title>";
-        html += "<script type='module' crossorigin src='GPIOViewerVue.js'></script><link rel='stylesheet' crossorigin href='asset.css'></head><body><div id='app'></div>";
+        html += "<script type='module' crossorigin src='GPIOViewerVue.js'></script>";
+        html+= "<link rel='stylesheet' crossorigin href='assets/main.css'></head><body><div id='app'></div>";
 
         html += "<script>";
         html += "window.gpio_settings = {";
