@@ -150,6 +150,8 @@ public:
 
             server->on("/sampling", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendSamplingInterval(request); });
+            server->on("/espinfo", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendESPInfo(request); });
 
             server->begin();
 
@@ -180,6 +182,26 @@ private:
     u_int32_t psramSize = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
+    void sendESPInfo(AsyncWebServerRequest *request)
+    {
+
+        const FlashMode_t flashMode = ESP.getFlashChipMode(); // enum
+
+        String jsonResponse = "{\"chip_model\": \"" + String(ESP.getChipModel()) + "\",";
+        jsonResponse += "\"cores_count\": \"" + String(ESP.getChipCores()) + "\",";
+        jsonResponse += "\"chip_revision\": \"" + String(ESP.getChipRevision()) + "\",";
+        jsonResponse += "\"cpu_frequency\": \"" + String(ESP.getCpuFreqMHz()) + "\",";
+        jsonResponse += "\"cycle_count\": \"" + String(ESP.getCycleCount()) + "\",";
+        jsonResponse += "\"mac\": \"" + String(ESP.getEfuseMac()) + "\",";
+        jsonResponse += "\"flash_mode\": \"" + String(flashMode) + "\",";
+        jsonResponse += "\"flash_chip_size\": \"" + String(ESP.getFlashChipSize()) + "\",";
+        jsonResponse += "\"flash_chip_speed\": \"" + String(ESP.getFlashChipSpeed()) + "\",";
+        jsonResponse += "\"heap_size\": \"" + String(ESP.getHeapSize()) + "\"";
+
+        jsonResponse += '}';
+        request->send(200, "application/json", jsonResponse);
+    }
+
     void sendSamplingInterval(AsyncWebServerRequest *request)
     {
         String jsonResponse = "{\"sampling\": \"" + String(samplingInterval) + "\"}";
@@ -194,7 +216,7 @@ private:
     }
     void sendFreePSRAM(AsyncWebServerRequest *request)
     {
-        String jsonResponse = "{\"freePSRAM\": \"";
+        String jsonResponse = "{\"sampling\": \"" + String(samplingInterval) + "\"}";
         if (psramFound())
         {
             jsonResponse += formatBytes(ESP.getFreePsram()) + "\"}";
@@ -259,13 +281,13 @@ private:
         html += "<base href ='" + baseURL + "'>";
         html += "<link rel='icon' href='favicon.ico'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>GPIOViewer</title>";
         html += "<script type='module' crossorigin src='GPIOViewerVue.js'></script>";
-        html+= "<link rel='stylesheet' crossorigin href='assets/main.css'></head><body><div id='app'></div>";
+        html += "<link rel='stylesheet' crossorigin href='assets/main.css'></head><body><div id='app'></div>";
 
         html += "<script>";
         html += "window.gpio_settings = {";
         html += "ip:'" + WiFi.localIP().toString() + "',";
         html += "port:'" + String(port) + "',";
-        html += "freeSketchRam:'"+freeRAM+"'"; 
+        html += "freeSketchRam:'" + freeRAM + "'";
         html += "};";
         html += "</script>";
 
