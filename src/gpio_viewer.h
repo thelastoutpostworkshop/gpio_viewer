@@ -139,7 +139,6 @@ public:
 
             server->addHandler(events);
 
-            // Serve the main page
             server->on("/", [this](AsyncWebServerRequest *request)
                        { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
 
@@ -148,6 +147,9 @@ public:
 
             server->on("/free_psram", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendFreePSRAM(request); });
+
+            server->on("/sampling", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendSamplingInterval(request); });
 
             server->begin();
 
@@ -178,6 +180,12 @@ private:
     u_int32_t psramSize = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
+    void sendSamplingInterval(AsyncWebServerRequest *request)
+    {
+        String jsonResponse = "{\"sampling\": \"" + String(samplingInterval) + "\"}";
+
+        request->send(200, "application/json", jsonResponse);
+    }
     void sendMinReleaseVersion(AsyncWebServerRequest *request)
     {
         String jsonResponse = "{\"release\": \"" + String(release) + "\"}";
