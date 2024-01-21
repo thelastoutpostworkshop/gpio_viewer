@@ -196,7 +196,13 @@ private:
         jsonResponse += "\"flash_mode\": \"" + String(flashMode) + "\",";
         jsonResponse += "\"flash_chip_size\": \"" + String(ESP.getFlashChipSize()) + "\",";
         jsonResponse += "\"flash_chip_speed\": \"" + String(ESP.getFlashChipSpeed()) + "\",";
-        jsonResponse += "\"heap_size\": \"" + String(ESP.getHeapSize()) + "\"";
+        jsonResponse += "\"heap_size\": \"" + String(ESP.getHeapSize()) + "\",";
+        jsonResponse += "\"heap_max_alloc\": \"" + String(ESP.getMaxAllocHeap()) + "\",";
+        jsonResponse += "\"psram_size\": \"" + String(ESP.getPsramSize()) + "\",";
+        jsonResponse += "\"free_psram\": \"" + String(ESP.getFreePsram()) + "\",";
+        jsonResponse += "\"psram_max_alloc\": \"" + String(ESP.getMaxAllocPsram()) + "\",";
+        jsonResponse += "\"free_heap\": \"" + String(ESP.getFreeHeap()) + "\",";
+        jsonResponse += "\"up_time\": \"" + String(millis()) + "\"";
 
         jsonResponse += '}';
         request->send(200, "application/json", jsonResponse);
