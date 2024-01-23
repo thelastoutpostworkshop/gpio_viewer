@@ -202,7 +202,9 @@ private:
         jsonResponse += "\"free_psram\": \"" + String(ESP.getFreePsram()) + "\",";
         jsonResponse += "\"psram_max_alloc\": \"" + String(ESP.getMaxAllocPsram()) + "\",";
         jsonResponse += "\"free_heap\": \"" + String(ESP.getFreeHeap()) + "\",";
-        jsonResponse += "\"up_time\": \"" + String(millis()) + "\"";
+        jsonResponse += "\"up_time\": \"" + String(millis()) + "\",";
+        jsonResponse += "\"sketch_size\": \"" + String(ESP.getSketchSize()) + "\",";
+        jsonResponse += "\"free_sketch\": \"" + String(ESP.getFreeSketchSpace()) + "\"";
 
         jsonResponse += '}';
         request->send(200, "application/json", jsonResponse);
