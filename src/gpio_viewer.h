@@ -20,6 +20,7 @@
 #include <freertos/task.h>
 #endif
 #endif
+#include <esp_partition.h>
 
 #define Version15
 
@@ -152,6 +153,8 @@ public:
                        { sendSamplingInterval(request); });
             server->on("/espinfo", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendESPInfo(request); });
+            server->on("/partition", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendESPPartition(request); });
 
             server->begin();
 
@@ -181,6 +184,46 @@ private:
     u_int32_t freePSRAM = 0;
     u_int32_t psramSize = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
+
+    void sendESPPartition(AsyncWebServerRequest *request)
+    {
+        String jsonResponse = "["; // Start of JSON array
+        bool firstEntry = true;    // Used to format the JSON array correctly
+
+        esp_partition_iterator_t iter = esp_partition_find(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_ANY, NULL);
+
+        // Loop through partitions
+        while (iter != NULL)
+        {
+            const esp_partition_t *partition = esp_partition_get(iter);
+
+            // Add comma before the next entry if it's not the first
+            if (!firstEntry)
+            {
+                jsonResponse += ",";
+            }
+            firstEntry = false;
+
+            // Append partition information in JSON format
+            jsonResponse += "{";
+            jsonResponse += "\"label\":\"" + String(partition->label) + "\",";
+            jsonResponse += "\"type\":" + String(partition->type) + ",";
+            jsonResponse += "\"subtype\":" + String(partition->subtype) + ",";
+            jsonResponse += "\"address\":\"0x" + String(partition->address, HEX) + "\",";
+            jsonResponse += "\"size\":" + String(partition->size);
+            jsonResponse += "}";
+
+            // Move to next partition
+            iter = esp_partition_next(iter);
+        }
+
+        // Clean up the iterator
+        esp_partition_iterator_release(iter);
+
+        jsonResponse += "]"; // End of JSON array
+
+        request->send(200, "application/json", jsonResponse);
+    }
 
     void sendESPInfo(AsyncWebServerRequest *request)
     {
