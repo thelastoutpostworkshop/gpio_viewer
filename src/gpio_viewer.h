@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-#define Version15
+// #define Version15
 
 #ifdef Version15
 const char *release = "1.5.0-unstable, please use a stable version";
