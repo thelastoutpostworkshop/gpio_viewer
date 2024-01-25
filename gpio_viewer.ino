@@ -12,7 +12,7 @@ struct PWM_PINS
   uint16_t level;
 };
 
-// #define TEST_ESP32_S3
+#define TEST_ESP32_S3
 
 #ifndef TEST_ESP32_S3
 #define ROTARY_PIN_A 23
@@ -63,8 +63,24 @@ void setup()
 
   test1_setup();
 
-  gpio_viewer.setSamplingInterval(75);
-  gpio_viewer.begin();
+#ifdef TEST_ESP32_S3
+  if (psramFound())
+  {
+    uint8_t *largeMemoryBlock = (uint8_t *)malloc(4 * 1024 * 1024); // 4MB
+
+    if (largeMemoryBlock == nullptr)
+    {
+      Serial.println("Memory allocation failed!");
+    }
+    else
+    {
+      Serial.println("Memory allocation successful.");
+    }
+  }
+#endif
+
+gpio_viewer.setSamplingInterval(75);
+gpio_viewer.begin();
 }
 
 void loop()
@@ -118,7 +134,7 @@ void test1_loop()
   {
     ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
     delay(150);
-    test_pwm_pins[i].level+=(getMaxDutyCycle(resolution)/4);
+    test_pwm_pins[i].level += (getMaxDutyCycle(resolution) / 4);
     if (test_pwm_pins[i].level > getMaxDutyCycle(resolution))
     {
       test_pwm_pins[i].level = 0;
