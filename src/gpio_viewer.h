@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-// #define Version15
+#define Version15
 
 #ifdef Version15
 const char *release = "1.5.0-unstable, please use a stable version";
@@ -234,20 +234,20 @@ private:
         jsonResponse += "\"cores_count\": \"" + String(ESP.getChipCores()) + "\",";
         jsonResponse += "\"chip_revision\": \"" + String(ESP.getChipRevision()) + "\",";
         jsonResponse += "\"cpu_frequency\": \"" + String(ESP.getCpuFreqMHz()) + "\",";
-        jsonResponse += "\"cycle_count\": \"" + String(ESP.getCycleCount()) + "\",";
+        jsonResponse += "\"cycle_count\": " + String(ESP.getCycleCount()) + ",";
         jsonResponse += "\"mac\": \"" + String(ESP.getEfuseMac()) + "\",";
-        jsonResponse += "\"flash_mode\": \"" + String(flashMode) + "\",";
-        jsonResponse += "\"flash_chip_size\": \"" + String(ESP.getFlashChipSize()) + "\",";
-        jsonResponse += "\"flash_chip_speed\": \"" + String(ESP.getFlashChipSpeed()) + "\",";
-        jsonResponse += "\"heap_size\": \"" + String(ESP.getHeapSize()) + "\",";
-        jsonResponse += "\"heap_max_alloc\": \"" + String(ESP.getMaxAllocHeap()) + "\",";
-        jsonResponse += "\"psram_size\": \"" + String(ESP.getPsramSize()) + "\",";
-        jsonResponse += "\"free_psram\": \"" + String(ESP.getFreePsram()) + "\",";
-        jsonResponse += "\"psram_max_alloc\": \"" + String(ESP.getMaxAllocPsram()) + "\",";
-        jsonResponse += "\"free_heap\": \"" + String(ESP.getFreeHeap()) + "\",";
+        jsonResponse += "\"flash_mode\": " + String(flashMode) + ",";
+        jsonResponse += "\"flash_chip_size\": " + String(ESP.getFlashChipSize()) + ",";
+        jsonResponse += "\"flash_chip_speed\": " + String(ESP.getFlashChipSpeed()) + ",";
+        jsonResponse += "\"heap_size\": " + String(ESP.getHeapSize()) + ",";
+        jsonResponse += "\"heap_max_alloc\": " + String(ESP.getMaxAllocHeap()) + ",";
+        jsonResponse += "\"psram_size\": " + String(ESP.getPsramSize()) + ",";
+        jsonResponse += "\"free_psram\": " + String(ESP.getFreePsram()) + ",";
+        jsonResponse += "\"psram_max_alloc\": " + String(ESP.getMaxAllocPsram()) + ",";
+        jsonResponse += "\"free_heap\": " + String(ESP.getFreeHeap()) + ",";
         jsonResponse += "\"up_time\": \"" + String(millis()) + "\",";
-        jsonResponse += "\"sketch_size\": \"" + String(ESP.getSketchSize()) + "\",";
-        jsonResponse += "\"free_sketch\": \"" + String(ESP.getFreeSketchSpace()) + "\"";
+        jsonResponse += "\"sketch_size\": " + String(ESP.getSketchSize()) + ",";
+        jsonResponse += "\"free_sketch\": " + String(ESP.getFreeSketchSpace()) + "";
 
         jsonResponse += '}';
         request->send(200, "application/json", jsonResponse);
