@@ -25,7 +25,7 @@
 #define Version15
 
 #ifdef Version15
-const char *release = "1.5.0";
+const char *release = "1.5.1-unstable,  please use a stable version";
 #else
 const char *release = "1.0.8-unstable, please use a stable version";
 #endif
