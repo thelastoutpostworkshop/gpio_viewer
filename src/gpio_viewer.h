@@ -25,7 +25,7 @@
 #define Version15
 
 #ifdef Version15
-const char *release = "1.5.1-unstable,  please use a stable version";
+const char *release = "1.5.1";
 #else
 const char *release = "1.0.8-unstable, please use a stable version";
 #endif
@@ -116,7 +116,7 @@ public:
         if (psramFound())
         {
             psramSize = ESP.getPsramSize();
-            Serial.printf("GPIOViewer >> PSRAM Size %s\n", formatBytes(psramSize));
+            Serial.printf("GPIOViewer >> PSRAM Size %s\n", formatBytes(psramSize).c_str());
         }
         else
         {
