@@ -22,19 +22,9 @@
 #endif
 #include <esp_partition.h>
 
-#define Version15
-
-#ifdef Version15
 const char *release = "1.5.1";
-#else
-const char *release = "1.0.8-unstable, please use a stable version";
-#endif
 
-#ifdef Version15
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
-#else
-const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer/assets/";
-#endif
 
 extern uint8_t channels_resolution[];
 
@@ -325,7 +315,6 @@ private:
         }
     }
 
-#ifdef Version15
     String generateIndexHTML()
     {
         String html = "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>";
@@ -345,58 +334,6 @@ private:
         html += "</body></html>";
         return html;
     }
-#else
-    String generateIndexHTML()
-    {
-        String html = "<!DOCTYPE HTML><html><head><title>ESP32 GPIO State</title>";
-
-        html += "<base href ='" + baseURL + "'>";
-        html += "<link id='defaultStyleSheet' rel='stylesheet' href=''>";
-        html += "<link id='boardStyleSheet' rel='stylesheet' href=''>";
-        html += "<link rel='icon' href='favicon.ico' type='image/x-icon'>";
-
-        html += "<script src='" + String("script/webSocket.js'></script>");
-        html += "<script src='" + String("script/boardSwitcher.js'></script>");
-        html += "</head>";
-
-        html += "<body><div class='grid-container'>\n";
-        html += "<div id='messageBox' class='message-box hidden'></div>";
-
-        html += "<header class='header'>";
-        html += "</header>";
-
-        // Image
-        html += "<div class='image-container'>\n";
-        html += "<div id='imageWrapper' class='image-wrapper'>";
-        html += "<img id='boardImage' src='' alt='Board Image'>\n";
-
-        html += "<div id='indicators'></div>";
-
-        html += "</div></div></div>";
-
-        // Append the script variables
-        String portScript = "<script>";
-
-        portScript += "var serverPort = " + String(port) + ";";
-        html += portScript;
-
-        String eventSource = "var source = new EventSource('http://" + WiFi.localIP().toString() + ":" + String(port) + "/events');";
-        html += eventSource;
-
-        String ip = "var ip = '" + WiFi.localIP().toString() + "';";
-        html += ip;
-
-        String sampling = "var sampling_interval = '" + String(samplingInterval) + "';";
-        html += sampling;
-
-        html += "var freeSketchSpace = '" + freeRAM + "';";
-        html += "var psramSize = '" + String(psramSize) + "';";
-        html += "</script>";
-
-        html += "</body></html>";
-        return html;
-    }
-#endif
 
     void resetStatePins(void)
     {
