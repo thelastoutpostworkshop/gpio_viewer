@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-const char *release = "1.5.1";
+const char *release = "1.5.2";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
@@ -37,6 +37,8 @@ int ledcChannelPin[maxChannels][2];
 int ledcChannelPinCount = 0;
 int ledcChannelResolution[maxChannels][2];
 int ledcChannelResolutionCount = 0;
+int pinmode[maxGPIOPins][2];
+int pinModeCount = 0;
 
 // Macro to trap values pass to ledcAttachPin since there is no ESP32 API
 #define ledcAttachPin(pin, channel)                                                                                                                 \
@@ -47,6 +49,11 @@ int ledcChannelResolutionCount = 0;
 #define ledcSetup(channel, freq, resolution)                                                                                                                                                  \
     (ledcChannelResolutionCount < maxChannels ? ledcChannelResolution[ledcChannelResolutionCount][0] = (channel), ledcChannelResolution[ledcChannelResolutionCount++][1] = (resolution) : 0), \
         ledcSetup((channel), (freq), (resolution))
+
+// Macro to trap values pass to pinMode since there is no ESP32 API
+#define pinMode(pin, mode)                                                                                    \
+    (pinModeCount < maxGPIOPins ? pinmode[pinModeCount][0] = (pin), pinmode[pinModeCount++][1] = (mode) : 0), \
+        pinMode((pin), (mode))
 
 enum pinTypes
 {
@@ -145,6 +152,8 @@ public:
                        { sendESPInfo(request); });
             server->on("/partition", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendESPPartition(request); });
+            server->on("/pinmodes", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendPinModes(request); });
 
             server->begin();
 
@@ -215,6 +224,28 @@ private:
         request->send(200, "application/json", jsonResponse);
     }
 
+    void sendPinModes(AsyncWebServerRequest *request)
+    {
+        String jsonResponse = "["; // Start of JSON array
+        bool firstEntry = true;    // Used to format the JSON array correctly
+
+        for (int i = 0; i < pinModeCount; i++)
+        {
+            if (!firstEntry)
+            {
+                jsonResponse += ",";
+            }
+            firstEntry = false;
+            jsonResponse += "{";
+            jsonResponse += "\"pin\":\"" + String(pinmode[i][0]) + "\",";
+            jsonResponse += "\"mode\":" + String(pinmode[i][1]) + ",";
+            jsonResponse += "}";
+        }
+
+        jsonResponse += "]"; // End of JSON array
+
+        request->send(200, "application/json", jsonResponse);
+    }
     void sendESPInfo(AsyncWebServerRequest *request)
     {
 
