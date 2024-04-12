@@ -238,7 +238,7 @@ private:
             firstEntry = false;
             jsonResponse += "{";
             jsonResponse += "\"pin\":\"" + String(pinmode[i][0]) + "\",";
-            jsonResponse += "\"mode\":" + String(pinmode[i][1]) + ",";
+            jsonResponse += "\"mode\":\"" + String(pinmode[i][1]) + "\"";
             jsonResponse += "}";
         }
 
