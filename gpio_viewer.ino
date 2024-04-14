@@ -35,6 +35,7 @@ PWM_PINS test_pwm_pins[] = {{15, 0}, {2, 1}, {0, 2}, {4, 3}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #else
 // Test ESP32-S3
+#define INPUT_PIN 5
 #define ROTARY_PIN_A 41
 #define ROTARY_PIN_B 42
 #define ROTARY_PUSH_BUTTON 42 // Not used
@@ -44,8 +45,8 @@ int test_digital_pins[] = {15, 7, 6};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 int currentLed = 0; // Start with the first LED
 
-const int analogPinsCount = 3;
-int test_analog_pins[analogPinsCount] = {4, 5, 6};
+const int analogPinsCount = 2;
+int test_analog_pins[analogPinsCount] = {4, 6};
 int analogValue = 0;
 
 const int freq = 1000;
@@ -95,6 +96,7 @@ uint32_t getMaxDutyCycle(int resolution)
 
 void test1_setup()
 {
+  // pinMode(INPUT_PIN,INPUT);
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {

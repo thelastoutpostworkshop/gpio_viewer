@@ -122,7 +122,7 @@ public:
 
         if (checkWifiStatus())
         {
-            // printPWNTraps();
+            printPWNTraps();
             server = new AsyncWebServer(port);
 
             // Set CORS headers for global responses
@@ -343,6 +343,11 @@ private:
         for (int i = 0; i < ledcChannelResolutionCount; i++)
         {
             Serial.printf("GPIOViewer >> Channel %d resolution is %d bits\n", ledcChannelResolution[i][0], ledcChannelResolution[i][1]);
+        }
+        Serial.printf("GPIOViewer >> %d pins have PinMode\n", pinModeCount);
+        for (int i = 0; i < pinModeCount; i++)
+        {
+            Serial.printf("GPIOViewer >> Pin %d is using mode %d\n", pinmode[i][0], pinmode[i][1]);
         }
     }
 
