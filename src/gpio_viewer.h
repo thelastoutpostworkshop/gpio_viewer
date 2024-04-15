@@ -37,6 +37,8 @@ int ledcChannelPin[maxChannels][2];
 int ledcChannelPinCount = 0;
 int ledcChannelResolution[maxChannels][2];
 int ledcChannelResolutionCount = 0;
+
+// Global variables to pins set with PinMode
 int pinmode[maxGPIOPins][2];
 int pinModeCount = 0;
 
