@@ -124,7 +124,7 @@ public:
 
         if (checkWifiStatus())
         {
-            printPWNTraps();
+            // printPWNTraps();
             server = new AsyncWebServer(port);
 
             // Set CORS headers for global responses
