@@ -35,7 +35,7 @@ PWM_PINS test_pwm_pins[] = {{15, 0}, {2, 1}, {0, 2}, {4, 3}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #else
 // Test ESP32-S3
-#define INPUT_PIN 5
+#define INPUT_PIN 1
 #define ROTARY_PIN_A 41
 #define ROTARY_PIN_B 42
 #define ROTARY_PUSH_BUTTON 42 // Not used
@@ -46,7 +46,7 @@ const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital
 int currentLed = 0; // Start with the first LED
 
 const int analogPinsCount = 2;
-int test_analog_pins[analogPinsCount] = {4, 6};
+int test_analog_pins[analogPinsCount] = {4, 2};
 int analogValue = 0;
 
 const int freq = 1000;
@@ -142,20 +142,20 @@ void test1_loop()
       test_pwm_pins[i].level = 0;
     }
   }
-  delay(300);
-  for (int i = 0; i < testDigitalPinsCount; i++)
-  {
-    if (digitalRead(test_digital_pins[i]) == LOW)
-    {
+  // delay(300);
+  // for (int i = 0; i < testDigitalPinsCount; i++)
+  // {
+  //   if (digitalRead(test_digital_pins[i]) == LOW)
+  //   {
 
-      digitalWrite(test_digital_pins[i], HIGH);
-    }
-    else
-    {
+  //     digitalWrite(test_digital_pins[i], HIGH);
+  //   }
+  //   else
+  //   {
 
-      digitalWrite(test_digital_pins[i], LOW);
-    }
-  }
+  //     digitalWrite(test_digital_pins[i], LOW);
+  //   }
+  // }
   delay(300);
 }
 
