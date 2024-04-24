@@ -96,7 +96,7 @@ uint32_t getMaxDutyCycle(int resolution)
 
 void test1_setup()
 {
-  pinMode(INPUT_PIN,INPUT_PULLDOWN);
+  pinMode(INPUT_PIN,INPUT_PULLUP);
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
