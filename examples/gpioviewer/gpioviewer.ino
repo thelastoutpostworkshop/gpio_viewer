@@ -2,6 +2,7 @@
 This example is intended to demonstrate the use of the GPIO Viewer Library.
 
 Tutorial : https://youtu.be/UxkOosaNohU
+Latest Features : https://youtu.be/JJzRXcQrl3I
 Documentation : https://github.com/thelastoutpostworkshop/gpio_viewer
 ***/
 
