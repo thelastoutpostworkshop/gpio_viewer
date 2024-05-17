@@ -520,9 +520,17 @@ private:
 
     int mapLedcReadTo8Bit(int channel, uint32_t *originalValue)
     {
-        uint32_t maxDutyCycle = (1 << channels_resolution[channel]) - 1;
-        *originalValue = ledcRead(channel);
-        return map(*originalValue, 0, maxDutyCycle, 0, 255);
+        uint8_t resolution;
+        resolution = channels_resolution[channel];
+        if (resolution > 0)
+        {
+            uint32_t maxDutyCycle = (1 << channels_resolution[channel]) - 1;
+            Serial.printf("channel=%d,maxDutyCycle=%ld, channel resolution=%d\n", channel, maxDutyCycle, channels_resolution[channel]);
+            *originalValue = ledcRead(channel);
+            Serial.printf("originalValue = %ld\n", *originalValue);
+            return map(*originalValue, 0, maxDutyCycle, 0, 255);
+        }
+        return 0;
     }
 
     void sendGPIOStates(const String &states)
