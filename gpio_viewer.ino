@@ -12,7 +12,7 @@ struct PWM_PINS
   uint16_t level;
 };
 
-#define TEST_ESP32_S3
+// #define TEST_ESP32_S3
 
 #ifndef TEST_ESP32_S3
 #define ROTARY_PIN_A 23
@@ -96,7 +96,7 @@ uint32_t getMaxDutyCycle(int resolution)
 
 void test1_setup()
 {
-  pinMode(INPUT_PIN,INPUT_PULLUP);
+  // pinMode(INPUT_PIN,INPUT_PULLUP);
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
