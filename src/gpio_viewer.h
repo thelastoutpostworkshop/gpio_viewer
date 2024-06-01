@@ -26,7 +26,11 @@ const char *release = "1.5.3";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
+#if ESP_ARDUINO_VERSION_MAJOR == 3
+#include "esp32-hal-periman.h"
+#else
 extern uint8_t channels_resolution[];
+#endif
 
 #define maxGPIOPins 49
 #define sentIntervalIfNoActivity 1000L // If no activity for this interval, resend to show connection activity
@@ -42,6 +46,16 @@ int ledcChannelResolutionCount = 0;
 int pinmode[maxGPIOPins][2];
 int pinModeCount = 0;
 
+#if ESP_ARDUINO_VERSION_MAJOR == 3
+// Macro to trap values pass to ledcAttach functions since there is no ESP32 API
+#define ledcAttach(pin, freq, resolution)                                                                                                                            \
+    (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (resolution) : 0), \
+        ledcAttach((pin), (freq), (resolution))
+#define ledcAttachChannel(pin, freq, resolution, channel)                                                                                                            \
+    (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (resolution) : 0), \
+        ledcAttachChannel((pin), (freq), (resolution), (channel))
+#define IS_VERSION_3_OR_HIGHER true
+#else
 // Macro to trap values pass to ledcAttachPin since there is no ESP32 API
 #define ledcAttachPin(pin, channel)                                                                                                                 \
     (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (channel) : 0), \
@@ -51,6 +65,7 @@ int pinModeCount = 0;
 #define ledcSetup(channel, freq, resolution)                                                                                                                                                  \
     (ledcChannelResolutionCount < maxChannels ? ledcChannelResolution[ledcChannelResolutionCount][0] = (channel), ledcChannelResolution[ledcChannelResolutionCount++][1] = (resolution) : 0), \
         ledcSetup((channel), (freq), (resolution))
+#endif
 
 // Macro to trap values pass to pinMode since there is no ESP32 API
 #define pinMode(pin, mode)                                                                                    \
@@ -124,7 +139,7 @@ public:
 
         if (checkWifiStatus())
         {
-            // printPWNTraps();
+            printPWNTraps();
             server = new AsyncWebServer(port);
 
             // Set CORS headers for global responses
@@ -486,6 +501,75 @@ private:
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
 
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+    int mapLedcReadTo8Bit(int gpioNum, int channel, uint32_t *originalValue)
+    {
+        ledc_channel_handle_t *bus = (ledc_channel_handle_t *)perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_LEDC);
+        if (bus != NULL)
+        {
+            uint8_t resolution;
+            resolution = bus->channel_resolution;
+            uint32_t maxDutyCycle = (1 << resolution) - 1;
+            *originalValue = ledcRead(gpioNum);
+            return map(*originalValue, 0, maxDutyCycle, 0, 255);
+        }
+        return 0;
+        // if (resolution > 0)
+        // {
+        //     // Serial.printf("channel=%d,maxDutyCycle=%ld, channel resolution=%d\n", channel, maxDutyCycle, channels_resolution[channel]);
+        //     *originalValue = ledcRead(channel);
+        //     // Serial.printf("originalValue = %ld\n", *originalValue);
+        //     return map(*originalValue, 0, maxDutyCycle, 0, 255);
+        // }
+        // return 0;
+    }
+    int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
+    {
+        int value;
+        int channel = getLedcChannelForPin(gpioNum);
+        if (channel != -1)
+        {
+            // This is a PWM Pin
+            value = mapLedcReadTo8Bit(gpioNum, channel, originalValue);
+            *pintype = PWMPin;
+            return value;
+        }
+        uint32_t ledc_value = ledcRead(gpioNum);
+        if (ledc_value != 0)
+        {
+            value = mapLedcReadTo8Bit(gpioNum,0, originalValue);
+            *pintype = analogPin;
+
+            return ledc_value;
+        }
+        else
+        {
+            // This is a digital pin
+            *pintype = digitalPin;
+            value = digitalRead(gpioNum);
+            *originalValue = value;
+            if (value == 1)
+            {
+                return 256;
+            }
+            return 0;
+        }
+    }
+#else
+    int mapLedcReadTo8Bit(int gpioNum, int channel, uint32_t *originalValue)
+    {
+        uint8_t resolution;
+        resolution = channels_resolution[channel];
+        if (resolution > 0)
+        {
+            uint32_t maxDutyCycle = (1 << channels_resolution[channel]) - 1;
+            // Serial.printf("channel=%d,maxDutyCycle=%ld, channel resolution=%d\n", channel, maxDutyCycle, channels_resolution[channel]);
+            *originalValue = ledcRead(channel);
+            // Serial.printf("originalValue = %ld\n", *originalValue);
+            return map(*originalValue, 0, maxDutyCycle, 0, 255);
+        }
+        return 0;
+    }
     int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
     {
         int channel = getLedcChannelForPin(gpioNum);
@@ -493,14 +577,14 @@ private:
         if (channel != -1)
         {
             // This is a PWM Pin
-            value = mapLedcReadTo8Bit(channel, originalValue);
+            value = mapLedcReadTo8Bit(gpioNum, channel, originalValue);
             *pintype = PWMPin;
             return value;
         }
         uint8_t analogChannel = analogGetChannel(gpioNum);
         if (analogChannel != 0 && analogChannel != 255)
         {
-            value = mapLedcReadTo8Bit(analogChannel, originalValue);
+            value = mapLedcReadTo8Bit(gpioNum, analogChannel, originalValue);
             *pintype = analogPin;
             return value;
         }
@@ -517,21 +601,7 @@ private:
             return 0;
         }
     }
-
-    int mapLedcReadTo8Bit(int channel, uint32_t *originalValue)
-    {
-        uint8_t resolution;
-        resolution = channels_resolution[channel];
-        if (resolution > 0)
-        {
-            uint32_t maxDutyCycle = (1 << channels_resolution[channel]) - 1;
-            // Serial.printf("channel=%d,maxDutyCycle=%ld, channel resolution=%d\n", channel, maxDutyCycle, channels_resolution[channel]);
-            *originalValue = ledcRead(channel);
-            // Serial.printf("originalValue = %ld\n", *originalValue);
-            return map(*originalValue, 0, maxDutyCycle, 0, 255);
-        }
-        return 0;
-    }
+#endif
 
     void sendGPIOStates(const String &states)
     {

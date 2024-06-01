@@ -80,8 +80,8 @@ void setup()
   }
 #endif
 
-gpio_viewer.setSamplingInterval(75);
-gpio_viewer.begin();
+  gpio_viewer.setSamplingInterval(75);
+  gpio_viewer.begin();
 }
 
 void loop()
@@ -101,8 +101,14 @@ void test1_setup()
   for (int i = 0; i < testPWMPinsCount; i++)
   {
     amount += (getMaxDutyCycle(resolution) / testPWMPinsCount);
+
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+    ledcAttach(test_pwm_pins[i].pin, freq, resolution);
+#else
     ledcSetup(test_pwm_pins[i].channel, freq, resolution);
     ledcAttachPin(test_pwm_pins[i].pin, test_pwm_pins[i].channel);
+#endif
+
     test_pwm_pins[i].level = amount;
   }
   for (int i = 0; i < analogPinsCount; i++)
@@ -134,7 +140,11 @@ void test1_loop()
   }
   for (int i = 0; i < testPWMPinsCount; i++)
   {
+#if ESP_ARDUINO_VERSION_MAJOR == 3
+    ledcWrite(test_pwm_pins[i].pin, test_pwm_pins[i].level);
+#else
     ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
+#endif
     delay(150);
     test_pwm_pins[i].level += (getMaxDutyCycle(resolution) / 4);
     if (test_pwm_pins[i].level > getMaxDutyCycle(resolution))
