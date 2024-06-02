@@ -266,7 +266,8 @@ private:
     void sendESPInfo(AsyncWebServerRequest *request)
     {
 
-        const FlashMode_t flashMode = ESP.getFlashChipMode(); // enum
+        // const FlashMode_t flashMode = ESP.getFlashChipMode(); // removed, it crashes with ESP32-S3
+        const char* flashMode = "\"not available\"";
 
         String jsonResponse = "{\"chip_model\": \"" + String(ESP.getChipModel()) + "\",";
         jsonResponse += "\"cores_count\": \"" + String(ESP.getChipCores()) + "\",";
@@ -274,7 +275,7 @@ private:
         jsonResponse += "\"cpu_frequency\": \"" + String(ESP.getCpuFreqMHz()) + "\",";
         jsonResponse += "\"cycle_count\": " + String(ESP.getCycleCount()) + ",";
         jsonResponse += "\"mac\": \"" + String(ESP.getEfuseMac()) + "\",";
-        jsonResponse += "\"flash_mode\": " + String(flashMode) + ",";
+        jsonResponse += "\"flash_mode\": " + String(flashMode) + ","; 
         jsonResponse += "\"flash_chip_size\": " + String(ESP.getFlashChipSize()) + ",";
         jsonResponse += "\"flash_chip_speed\": " + String(ESP.getFlashChipSpeed()) + ",";
         jsonResponse += "\"heap_size\": " + String(ESP.getHeapSize()) + ",";
