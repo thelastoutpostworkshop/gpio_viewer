@@ -103,7 +103,11 @@ If GPIOViewer is running and your are experiencing problems in the web applicati
 | Description        | Image                               | Pinout                               |
 |--------------------|-------------------------------------|-------------------------------------|
 | AZ Delivery NodeMCU ESP32 | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer_1_5/devboards_images/AZ-Delivery-NodeMCU-ESP32.png" width="100">             | <img src="https://raw.githubusercontent.com/thelastoutpostworkshop/images/main/AZ-Delivery-NodeMCU-ESP32-p%C3%AEnout.png" width="100">|
+
+| ESP32 DEVKIT V1 (36 pins)  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer_1_5/devboards_images/ESP32-DEVKITV1-36pins.png" width="100">             | <img src="https://raw.githubusercontent.com/thelastoutpostworkshop/images/main/ESP32-DEVKITV1-36pins-pinout.webp" width="100">|
+
 | ESP32 VROOM 32D (38 pins)  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer_1_5/devboards_images/ESP32-VROOM-32D.png" width="100">             | <img src="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/esp32-devkitC-v4-pinout.png" width="100">|
+
 | ESP32 VROOM 32D (30 pins)   | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer_1_5/devboards_images/ESP32-VROOM-32D-30pins.png" width="100">             |<img src="https://raw.githubusercontent.com/AchimPieters/esp32-homekit-camera/master/Images/ESP32-30PIN-DEVBOARD.png" width="100">|
 | ESP32 D1 R32  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer_1_5/devboards_images/ESP32_D1_R32.png" width="100">             |<img src="https://ito-iot.jp/sbc/WeMosD1R32-pinout.png" width="100">  |
 | ESP32-CAM  | ! <img src="https://github.com/thelastoutpostworkshop/microcontroller_devkit/blob/main/gpio_viewer_1_5/devboards_images/ESP32-CAM.png" width="100">             |<img src="https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2020/03/ESP32-CAM-pinout-new.png?quality=100&strip=all&ssl=1" width="100">|
