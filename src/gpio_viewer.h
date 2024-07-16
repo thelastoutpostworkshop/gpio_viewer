@@ -1,3 +1,4 @@
+#include <cstdint>
 #ifndef _GPIOVIEWER_
 #define _GPIOVIEWER_
 #ifndef WEBSERVER_H
