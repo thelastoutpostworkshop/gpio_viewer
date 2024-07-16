@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-const char *release = "1.5.4";
+const char *release = "1.5.5";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
@@ -196,9 +196,9 @@ private:
     unsigned long lastSentWithNoActivity = millis();
     AsyncWebServer *server;
     AsyncEventSource *events;
-    u_int32_t freeHeap = 0;
-    u_int32_t freePSRAM = 0;
-    u_int32_t psramSize = 0;
+    uint32_t freeHeap = 0;
+    uint32_t freePSRAM = 0;
+    uint32_t psramSize = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     void sendESPPartition(AsyncWebServerRequest *request)
