@@ -1,6 +1,8 @@
+// Test Code for the GPIOViewer development
+//
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
-#include <SimpleRotary.h> // Install this library with the Arduino IDE Library Manager
+#include <SimpleRotary.h> 
 #include "secrets.h"
 
 GPIOViewer gpio_viewer;
@@ -104,7 +106,7 @@ void slowPWMPin(void *pvParameters)
   for (;;)
   { // Infinite loop
     ledcWrite(SLOW_PWM_PIN, slow_level+=20);
-    vTaskDelay(pdMS_TO_TICKS(500)); // Delay for debouncing, adjust as needed
+    delay(2000);
   }
 }
 
