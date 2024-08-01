@@ -2,7 +2,7 @@
 //
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
-#include <SimpleRotary.h> 
+#include <SimpleRotary.h>
 #include "secrets.h"
 
 GPIOViewer gpio_viewer;
@@ -99,20 +99,23 @@ uint32_t getMaxDutyCycle(int resolution)
 
 void slowPWMPin(void *pvParameters)
 {
+  // Setup
 #if ESP_ARDUINO_VERSION_MAJOR >= 3
   ledcAttach(SLOW_PWM_PIN, 5000, 8);
   int slow_level = 0;
 #endif
+
+  // Loop
   for (;;)
   { // Infinite loop
-    ledcWrite(SLOW_PWM_PIN, slow_level+=20);
+    ledcWrite(SLOW_PWM_PIN, slow_level += 20);
     delay(2000);
   }
 }
 
-void test1_setup()
+void TestPWMPin(void *pvParameters)
 {
-  // pinMode(INPUT_PIN,INPUT_PULLUP);
+  // Setup
   uint16_t amount = 0;
   for (int i = 0; i < testPWMPinsCount; i++)
   {
@@ -131,6 +134,31 @@ void test1_setup()
   {
     pinMode(test_analog_pins[i], OUTPUT);
   }
+
+  // Loop
+  for (;;)
+  {
+    for (int i = 0; i < testPWMPinsCount; i++)
+    {
+#if ESP_ARDUINO_VERSION_MAJOR == 3
+      ledcWrite(test_pwm_pins[i].pin, test_pwm_pins[i].level);
+#else
+      ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
+#endif
+      delay(150);
+      test_pwm_pins[i].level += (getMaxDutyCycle(resolution) / 4);
+      if (test_pwm_pins[i].level > getMaxDutyCycle(resolution))
+      {
+        test_pwm_pins[i].level = 0;
+      }
+    }
+  }
+}
+
+void test1_setup()
+{
+  // pinMode(INPUT_PIN,INPUT_PULLUP);
+
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
     pinMode(test_digital_pins[i], OUTPUT);
@@ -148,6 +176,12 @@ void test1_setup()
               NULL,         // Parameter to pass to the function
               1,            // Task priority
               NULL);
+  xTaskCreate(TestPWMPin,   // Task function
+              "TestPWMPin", // Name of the task (for debugging)
+              2048,         // Stack size (bytes)
+              NULL,         // Parameter to pass to the function
+              1,            // Task priority
+              NULL);
 }
 void test1_loop()
 {
@@ -160,20 +194,7 @@ void test1_loop()
     }
     analogWrite(test_analog_pins[i], analogValue++);
   }
-  for (int i = 0; i < testPWMPinsCount; i++)
-  {
-#if ESP_ARDUINO_VERSION_MAJOR == 3
-    ledcWrite(test_pwm_pins[i].pin, test_pwm_pins[i].level);
-#else
-    ledcWrite(test_pwm_pins[i].channel, test_pwm_pins[i].level);
-#endif
-    delay(150);
-    test_pwm_pins[i].level += (getMaxDutyCycle(resolution) / 4);
-    if (test_pwm_pins[i].level > getMaxDutyCycle(resolution))
-    {
-      test_pwm_pins[i].level = 0;
-    }
-  }
+
   delay(300);
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
