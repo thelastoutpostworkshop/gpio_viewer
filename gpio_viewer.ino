@@ -182,6 +182,26 @@ void TestDigitalPin(void *pvParameters)
     delay(300);
   }
 }
+void TestAnalogPin(void *pvParameters)
+{
+  // Setup
+
+  // Loop
+  while (true)
+  {
+    for (int i = 0; i < analogPinsCount; i++)
+    {
+      analogValue += (i * 3);
+      if (analogValue > getMaxDutyCycle(8))
+      {
+        analogValue = 0;
+      }
+      analogWrite(test_analog_pins[i], analogValue++);
+    }
+
+    delay(300);
+  }
+}
 
 void test1_setup()
 {
@@ -189,22 +209,13 @@ void test1_setup()
 
   xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
   xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
-  xTaskCreate(TestPWMPin,"TestPWMPin",2048,NULL,1,NULL);
-  xTaskCreate(TestDigitalPin,"TestDigitalPin",2048,NULL,1,NULL);
+  xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
+  xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
+  xTaskCreate(TestAnalogPin, "TestDigitalPin", 2048, NULL, 1, NULL);
 }
 void test1_loop()
 {
-  for (int i = 0; i < analogPinsCount; i++)
-  {
-    analogValue += (i * 3);
-    if (analogValue > getMaxDutyCycle(8))
-    {
-      analogValue = 0;
-    }
-    analogWrite(test_analog_pins[i], analogValue++);
-  }
-
-  delay(300);
+  delay(1);
 }
 
 void updateLeds()
