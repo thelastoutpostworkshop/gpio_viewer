@@ -32,6 +32,8 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 extern uint8_t channels_resolution[];
 #endif
 
+String arduinoCoreVersion = "";
+
 #define maxGPIOPins 49
 #define sentIntervalIfNoActivity 1000L // If no activity for this interval, resend to show connection activity
 
@@ -48,10 +50,10 @@ int pinModeCount = 0;
 
 #if ESP_ARDUINO_VERSION_MAJOR == 3
 // Macro to trap values pass to ledcAttach functions since there is no ESP32 API
-#define ledcAttach(pin, freq, resolution)                                                                                                                            \
+#define ledcAttach(pin, freq, resolution)                                                                                                              \
     (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (resolution) : 0), \
         ledcAttach((pin), (freq), (resolution))
-#define ledcAttachChannel(pin, freq, resolution, channel)                                                                                                            \
+#define ledcAttachChannel(pin, freq, resolution, channel)                                                                                              \
     (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (resolution) : 0), \
         ledcAttachChannel((pin), (freq), (resolution), (channel))
 #define IS_VERSION_3_OR_HIGHER true
@@ -119,7 +121,8 @@ public:
         Serial.setDebugOutput(false);
         Serial.printf("GPIOViewer >> Release %s\n", release);
 #if defined(ESP_ARDUINO_VERSION_MAJOR) && defined(ESP_ARDUINO_VERSION_MINOR) && defined(ESP_ARDUINO_VERSION_PATCH)
-        Serial.printf("GPIOViewer >> ESP32 Core Version %d.%d.%d\n", ESP_ARDUINO_VERSION_MAJOR, ESP_ARDUINO_VERSION_MINOR, ESP_ARDUINO_VERSION_PATCH);
+        arduinoCoreVersion = String(ESP_ARDUINO_VERSION_MAJOR) + "." + String(ESP_ARDUINO_VERSION_MINOR) + "." + String(ESP_ARDUINO_VERSION_PATCH);
+        Serial.printf("GPIOViewer >> ESP32 Core Version %s\n", arduinoCoreVersion.c_str());
         if (ESP_ARDUINO_VERSION_MAJOR < 2)
         {
             Serial.printf("GPIOViewer >> Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
@@ -267,7 +270,7 @@ private:
     {
 
         // const FlashMode_t flashMode = ESP.getFlashChipMode(); // removed, it crashes with ESP32-S3
-        const char* flashMode = "\"not available\"";
+        const char *flashMode = "\"not available\"";
 
         String jsonResponse = "{\"chip_model\": \"" + String(ESP.getChipModel()) + "\",";
         jsonResponse += "\"cores_count\": \"" + String(ESP.getChipCores()) + "\",";
@@ -275,7 +278,7 @@ private:
         jsonResponse += "\"cpu_frequency\": \"" + String(ESP.getCpuFreqMHz()) + "\",";
         jsonResponse += "\"cycle_count\": " + String(ESP.getCycleCount()) + ",";
         jsonResponse += "\"mac\": \"" + String(ESP.getEfuseMac()) + "\",";
-        jsonResponse += "\"flash_mode\": " + String(flashMode) + ","; 
+        jsonResponse += "\"flash_mode\": " + String(flashMode) + ",";
         jsonResponse += "\"flash_chip_size\": " + String(ESP.getFlashChipSize()) + ",";
         jsonResponse += "\"flash_chip_speed\": " + String(ESP.getFlashChipSpeed()) + ",";
         jsonResponse += "\"heap_size\": " + String(ESP.getHeapSize()) + ",";
@@ -286,6 +289,7 @@ private:
         jsonResponse += "\"free_heap\": " + String(ESP.getFreeHeap()) + ",";
         jsonResponse += "\"up_time\": \"" + String(millis()) + "\",";
         jsonResponse += "\"sketch_size\": " + String(ESP.getSketchSize()) + ",";
+        jsonResponse += "\"arduino_core_version\": \"" + arduinoCoreVersion + "\",";
         jsonResponse += "\"free_sketch\": " + String(ESP.getFreeSketchSpace()) + "";
 
         jsonResponse += '}';
@@ -538,7 +542,7 @@ private:
         uint32_t ledc_value = ledcRead(gpioNum);
         if (ledc_value != 0)
         {
-            value = mapLedcReadTo8Bit(gpioNum,0, originalValue);
+            value = mapLedcReadTo8Bit(gpioNum, 0, originalValue);
             *pintype = analogPin;
 
             return ledc_value;
