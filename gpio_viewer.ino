@@ -102,7 +102,7 @@ void slowPWMPin(void *pvParameters)
   // Setup
 #if ESP_ARDUINO_VERSION_MAJOR >= 3
   ledcAttach(SLOW_PWM_PIN, 5000, 8);
-  int slow_level = 0;
+  uint8_t slow_level = 0;
 #endif
 
   // Loop
@@ -209,9 +209,9 @@ void test1_setup()
 
   // xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
   xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
-  xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
-  xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
-  xTaskCreate(TestAnalogPin, "TestDigitalPin", 2048, NULL, 1, NULL);
+  // xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
+  // xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
+  // xTaskCreate(TestAnalogPin, "TestDigitalPin", 2048, NULL, 1, NULL);
 }
 void test1_loop()
 {
