@@ -54,6 +54,7 @@ const int resolution = 10;
 
 PWM_PINS test_pwm_pins[] = {{17, 0, 0}, {18, 1, 0}, {8, 2, 0}, {3, 3, 0}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
+#define SLOW_PWM_PIN 20
 #endif
 
 void setup()
@@ -94,6 +95,19 @@ uint32_t getMaxDutyCycle(int resolution)
   return (1 << resolution) - 1;
 }
 
+void slowPWMPin(void *pvParameters)
+{
+#if ESP_ARDUINO_VERSION_MAJOR >= 3
+  ledcAttach(SLOW_PWM_PIN, 5000, 8);
+  int slow_level = 0;
+#endif
+  for (;;)
+  { // Infinite loop
+    ledcWrite(SLOW_PWM_PIN, slow_level+=20);
+    vTaskDelay(pdMS_TO_TICKS(500)); // Delay for debouncing, adjust as needed
+  }
+}
+
 void test1_setup()
 {
   // pinMode(INPUT_PIN,INPUT_PULLUP);
@@ -126,6 +140,12 @@ void test1_setup()
               NULL,                  // Parameter to pass to the function
               1,                     // Task priority
               NULL);
+  xTaskCreate(slowPWMPin,   // Task function
+              "slowPWMPin", // Name of the task (for debugging)
+              2048,         // Stack size (bytes)
+              NULL,         // Parameter to pass to the function
+              1,            // Task priority
+              NULL);
 }
 void test1_loop()
 {
@@ -152,20 +172,20 @@ void test1_loop()
       test_pwm_pins[i].level = 0;
     }
   }
-  // delay(300);
-  // for (int i = 0; i < testDigitalPinsCount; i++)
-  // {
-  //   if (digitalRead(test_digital_pins[i]) == LOW)
-  //   {
+  delay(300);
+  for (int i = 0; i < testDigitalPinsCount; i++)
+  {
+    if (digitalRead(test_digital_pins[i]) == LOW)
+    {
 
-  //     digitalWrite(test_digital_pins[i], HIGH);
-  //   }
-  //   else
-  //   {
+      digitalWrite(test_digital_pins[i], HIGH);
+    }
+    else
+    {
 
-  //     digitalWrite(test_digital_pins[i], LOW);
-  //   }
-  // }
+      digitalWrite(test_digital_pins[i], LOW);
+    }
+  }
   delay(300);
 }
 
