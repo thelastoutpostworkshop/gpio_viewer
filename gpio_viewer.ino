@@ -155,33 +155,42 @@ void TestPWMPin(void *pvParameters)
   }
 }
 
-void test1_setup()
+void TestDigitalPin(void *pvParameters)
 {
-  // pinMode(INPUT_PIN,INPUT_PULLUP);
-
+  // Setup
   for (int i = 0; i < testDigitalPinsCount; i++)
   {
     pinMode(test_digital_pins[i], OUTPUT);
     digitalWrite(test_digital_pins[i], LOW);
   }
-  xTaskCreate(readRotaryEncoderTask, // Task function
-              "ReadRotaryEncoder",   // Name of the task (for debugging)
-              2048,                  // Stack size (bytes)
-              NULL,                  // Parameter to pass to the function
-              1,                     // Task priority
-              NULL);
-  xTaskCreate(slowPWMPin,   // Task function
-              "slowPWMPin", // Name of the task (for debugging)
-              2048,         // Stack size (bytes)
-              NULL,         // Parameter to pass to the function
-              1,            // Task priority
-              NULL);
-  xTaskCreate(TestPWMPin,   // Task function
-              "TestPWMPin", // Name of the task (for debugging)
-              2048,         // Stack size (bytes)
-              NULL,         // Parameter to pass to the function
-              1,            // Task priority
-              NULL);
+
+  // Loop
+  while (true)
+  {
+    for (int i = 0; i < testDigitalPinsCount; i++)
+    {
+      if (digitalRead(test_digital_pins[i]) == LOW)
+      {
+
+        digitalWrite(test_digital_pins[i], HIGH);
+      }
+      else
+      {
+        digitalWrite(test_digital_pins[i], LOW);
+      }
+    }
+    delay(300);
+  }
+}
+
+void test1_setup()
+{
+  // pinMode(INPUT_PIN,INPUT_PULLUP);
+
+  xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
+  xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
+  xTaskCreate(TestPWMPin,"TestPWMPin",2048,NULL,1,NULL);
+  xTaskCreate(TestDigitalPin,"TestDigitalPin",2048,NULL,1,NULL);
 }
 void test1_loop()
 {
@@ -195,20 +204,6 @@ void test1_loop()
     analogWrite(test_analog_pins[i], analogValue++);
   }
 
-  delay(300);
-  for (int i = 0; i < testDigitalPinsCount; i++)
-  {
-    if (digitalRead(test_digital_pins[i]) == LOW)
-    {
-
-      digitalWrite(test_digital_pins[i], HIGH);
-    }
-    else
-    {
-
-      digitalWrite(test_digital_pins[i], LOW);
-    }
-  }
   delay(300);
 }
 
