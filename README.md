@@ -76,7 +76,7 @@ void setup()
 
 ## Espressif ESP32 Core SDK Compatibility
 - The Espressif ESP32 Arduino Core that is installed in your system will need to be v2.0.5 or greater / v3.0.0 or greater, in order for GPIO viewer to compile properly.
-- See the official Espressif Systems ESP32 Core documentation located here for more details: https://github.com/espressif/arduino-esp32
+- See the official Espressif Systems ESP32 Core documentation located here for more details: https://docs.espressif.com/projects/arduino-esp32/en/latest/
 
 ## Performance
 - Ensure you have a strong Wifi signal with a good transfer rate.  25ms sampling interval works great on Wifi 6 with 125 Mbps.
