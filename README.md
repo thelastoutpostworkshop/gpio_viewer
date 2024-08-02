@@ -74,8 +74,8 @@ void setup()
 - The GPIOViewer Library adds 50 KB to your projects.
 - No worries!  All the assets (ex. board images) of the web application are loaded from github pages and don't add to the size of your projects.
 
-## ESP32 Core SDK Compatibility
-- The ESP32 Arduino Core that is installed in your system will need to be V2.0.5 or greater, in order for GPIO viewer to compile properly.
+## Espressif ESP32 Core SDK Compatibility
+- The Espressif ESP32 Arduino Core that is installed in your system will need to be v2.0.5 or greater / v3.0.0 or greater, in order for GPIO viewer to compile properly.
 - See the official Espressif Systems ESP32 Core documentation located here for more details: https://github.com/espressif/arduino-esp32
 
 ## Performance
