@@ -47,12 +47,12 @@ const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #define ROTARY_PUSH_BUTTON 42 // Not used
 SimpleRotary rotary(ROTARY_PIN_A, ROTARY_PIN_B, ROTARY_PUSH_BUTTON);
 
-int test_digital_pins[] = {15, 7, 6};
+int test_digital_pins[] = {15, 4, 2};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 int currentLed = 0; // Start with the first LED
 
 const int analogPinsCount = 2;
-int test_analog_pins[analogPinsCount] = {4, 2};
+int test_analog_pins[analogPinsCount] = {6, 7};
 int analogValue = 0;
 
 const int freq = 1000;
@@ -214,7 +214,7 @@ void test1_setup()
   // xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
   xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
   // xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
-  // xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
+  xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestAnalogPin, "TestDigitalPin", 2048, NULL, 1, NULL);
 }
 void test1_loop()
