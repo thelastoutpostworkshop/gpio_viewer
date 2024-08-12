@@ -51,8 +51,8 @@ int test_digital_pins[] = {15, 4, 2};
 const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
 int currentLed = 0; // Start with the first LED
 
-const int analogPinsCount = 2;
-int test_analog_pins[analogPinsCount] = {6, 7};
+const int analogPinsCount = 1;
+int test_analog_pins[analogPinsCount] = {7};
 int analogValue = 0;
 
 const int freq = 1000;
