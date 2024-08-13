@@ -215,7 +215,7 @@ void test1_setup()
   xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
-  xTaskCreate(TestAnalogPin, "TestDigitalPin", 2048, NULL, 1, NULL);
+  xTaskCreate(TestAnalogPin, "TestAnalogPin", 2048, NULL, 1, NULL);
 }
 void test1_loop()
 {

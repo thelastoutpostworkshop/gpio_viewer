@@ -187,7 +187,7 @@ public:
             Serial.println(port);
 
             // Create a task for monitoring GPIOs
-            xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 2048, this, 1, NULL);
+            xTaskCreate(&GPIOViewer::monitorTaskStatic, "GPIO Monitor Task", 4096, this, 1, NULL);
         }
     }
 
@@ -526,8 +526,20 @@ private:
         }
         return 0;
     }
+    bool isPinPMW(int gpioNum)
+    {
+        for (int i = 0; i < ledcChannelPinCount; i++)
+        {
+            if (ledcChannelPin[i][0] == gpioNum)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 #ifdef SOC_ADC_SUPPORTED
-    void readADCPinsConfiguration(void)
+    void
+    readADCPinsConfiguration(void)
     {
         Serial.println("GPIOViewer >> ADC Supported");
         Serial.printf("GPIOViewer >> %d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
@@ -549,16 +561,19 @@ private:
         {
             if (ADCPins[i] == gpioNum)
             {
-                return true; 
+                return true;
             }
         }
-        return false; 
+        return false;
     }
     uint32_t readADCPin(int gpioNum)
     {
-        if(isPinInADCPins(gpioNum)) {
-
+        if (isPinInADCPins(gpioNum))
+        {
+            uint32_t analogValue = analogRead(gpioNum);
+            return analogValue;
         }
+        return 0;
     }
 #endif
 
@@ -587,17 +602,17 @@ private:
             return ledc_value;
         }
 
-        // uint32_t analogValue = analogRead(gpioNum);
-        // if (analogValue != 0)
-        // {
-        //     Serial.printf("Analog Value of %d is %ld\n", gpioNum, analogValue);
-        //     *originalValue = analogValue;
-        //     *pintype = analogPin;
-        //     // // Map value using the default resolution of 12 bits
-        //     // value = map(analogValue, 0, 4095, 0, 255);
-        //     value = 0;
-        //     return value;
-        // }
+#ifdef SOC_ADC_SUPPORTED
+        uint32_t analog_value = readADCPin(gpioNum);
+        if (analog_value != 0)
+        {
+            *originalValue = analog_value;
+            *pintype = analogPin;
+            // Map value using the default resolution of 12 bits
+            value = map(analog_value, 0, 4095, 0, 255);
+            return value;
+        }
+#endif
 
         // This is a digital pin
         *pintype = digitalPin;
