@@ -595,7 +595,7 @@ private:
         int channel = getLedcChannelForPin(gpioNum);
         if (channel != -1)
         {
-            // This is a PWM Pin
+            // This is an explicitely defined PWM Pin
             value = mapLedcReadTo8Bit(gpioNum, channel, originalValue);
             *pintype = PWMPin;
             return value;
@@ -604,10 +604,7 @@ private:
         uint32_t ledc_value = ledcRead(gpioNum);
         if (ledc_value != 0)
         {
-            if (gpioNum == 6)
-            {
-                Serial.printf("ledcRead Value is %ld\n", ledc_value);
-            }
+            // This is an implicit PWM Pin (direct analogWrite call without explicit ledcAttach)
             value = mapLedcReadTo8Bit(gpioNum, 0, originalValue);
             *pintype = PWMPin;
 
