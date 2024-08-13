@@ -525,35 +525,40 @@ private:
             return map(*originalValue, 0, maxDutyCycle, 0, 255);
         }
         return 0;
-        // if (resolution > 0)
-        // {
-        //     // Serial.printf("channel=%d,maxDutyCycle=%ld, channel resolution=%d\n", channel, maxDutyCycle, channels_resolution[channel]);
-        //     *originalValue = ledcRead(channel);
-        //     // Serial.printf("originalValue = %ld\n", *originalValue);
-        //     return map(*originalValue, 0, maxDutyCycle, 0, 255);
-        // }
-        // return 0;
     }
 #ifdef SOC_ADC_SUPPORTED
     void readADCPinsConfiguration(void)
     {
-        Serial.println("ADC Supported");
-        Serial.printf("%d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
+        Serial.println("GPIOViewer >> ADC Supported");
+        Serial.printf("GPIOViewer >> %d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
         int8_t channel;
-        int adcPinCount = 0;
         for (int i = 0; i < 49; i++)
         {
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
             {
-                ADCPins[adcPinCount] = i;
-                adcPinCount++;
+                ADCPins[ADCPinsCount] = i;
+                ADCPinsCount++;
             }
         }
-        Serial.printf("%d pins support ADC on your board\n", adcPinCount);
+        Serial.printf("GPIOViewer >> %d pins support ADC on your board\n", ADCPinsCount);
+    }
+    bool isPinInADCPins(int gpioNum)
+    {
+        for (int i = 0; i < ADCPinsCount; i++)
+        {
+            if (ADCPins[i] == gpioNum)
+            {
+                return true; 
+            }
+        }
+        return false; 
     }
     uint32_t readADCPin(int gpioNum)
     {
+        if(isPinInADCPins(gpioNum)) {
+
+        }
     }
 #endif
 
