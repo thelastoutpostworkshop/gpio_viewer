@@ -539,26 +539,41 @@ private:
             *pintype = PWMPin;
             return value;
         }
+
         uint32_t ledc_value = ledcRead(gpioNum);
         if (ledc_value != 0)
         {
+            if (gpioNum == 6)
+            {
+                Serial.printf("ledcRead Value is %ld\n", ledc_value);
+            }
             value = mapLedcReadTo8Bit(gpioNum, 0, originalValue);
             *pintype = analogPin;
 
             return ledc_value;
         }
-        else
+
+        // uint32_t analogValue = analogRead(gpioNum);
+        // if (analogValue != 0)
+        // {
+        //     Serial.printf("Analog Value of %d is %ld\n", gpioNum, analogValue);
+        //     *originalValue = analogValue;
+        //     *pintype = analogPin;
+        //     // // Map value using the default resolution of 12 bits
+        //     // value = map(analogValue, 0, 4095, 0, 255);
+        //     value = 0;
+        //     return value;
+        // }
+
+        // This is a digital pin
+        *pintype = digitalPin;
+        value = digitalRead(gpioNum);
+        *originalValue = value;
+        if (value == 1)
         {
-            // This is a digital pin
-            *pintype = digitalPin;
-            value = digitalRead(gpioNum);
-            *originalValue = value;
-            if (value == 1)
-            {
-                return 256;
-            }
-            return 0;
+            return 256;
         }
+        return 0;
     }
 #else
     int mapLedcReadTo8Bit(int gpioNum, int channel, uint32_t *originalValue)

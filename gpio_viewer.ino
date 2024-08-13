@@ -213,7 +213,7 @@ void test1_setup()
 
   // xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
   xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
-  // xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
+  xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestAnalogPin, "TestDigitalPin", 2048, NULL, 1, NULL);
 }
