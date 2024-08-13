@@ -614,7 +614,7 @@ private:
         }
 #endif
 
-        // This is a digital pin
+        // Assume this is a digital pin
         *pintype = digitalPin;
         value = digitalRead(gpioNum);
         *originalValue = value;
