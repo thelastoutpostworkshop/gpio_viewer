@@ -556,6 +556,7 @@ private:
     {
     }
 #endif
+
     int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
     {
         int value;
