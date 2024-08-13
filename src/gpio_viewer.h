@@ -210,26 +210,6 @@ private:
     int ADCPinsCount = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
-#if defined(SOC_ADC_SUPPORTED) && ESP_ARDUINO_VERSION_MAJOR == 3
-    void readADCPinsConfiguration(void)
-    {
-        Serial.println("ADC Supported");
-        Serial.printf("%d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
-        int8_t channel;
-        int adcPinCount = 0;
-        for (int i = 0; i < 49; i++)
-        {
-            channel = digitalPinToAnalogChannel(i);
-            if (channel != -1)
-            {
-                ADCPins[adcPinCount] = i;
-                adcPinCount++;
-            }
-        }
-        Serial.printf("%d pins support ADC on your board\n", adcPinCount);
-    }
-#endif
-
     void sendESPPartition(AsyncWebServerRequest *request)
     {
         String jsonResponse = "["; // Start of JSON array
@@ -554,6 +534,28 @@ private:
         // }
         // return 0;
     }
+#ifdef SOC_ADC_SUPPORTED
+    void readADCPinsConfiguration(void)
+    {
+        Serial.println("ADC Supported");
+        Serial.printf("%d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
+        int8_t channel;
+        int adcPinCount = 0;
+        for (int i = 0; i < 49; i++)
+        {
+            channel = digitalPinToAnalogChannel(i);
+            if (channel != -1)
+            {
+                ADCPins[adcPinCount] = i;
+                adcPinCount++;
+            }
+        }
+        Serial.printf("%d pins support ADC on your board\n", adcPinCount);
+    }
+    uint32_t readADCPin(int gpioNum)
+    {
+    }
+#endif
     int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
     {
         int value;
