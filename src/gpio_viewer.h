@@ -609,7 +609,7 @@ private:
                 Serial.printf("ledcRead Value is %ld\n", ledc_value);
             }
             value = mapLedcReadTo8Bit(gpioNum, 0, originalValue);
-            *pintype = analogPin;
+            *pintype = PWMPin;
 
             return ledc_value;
         }
