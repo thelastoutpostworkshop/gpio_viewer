@@ -537,6 +537,17 @@ private:
         }
         return false;
     }
+    bool isPinModeSet(int gpioNum)
+    {
+        for (int i = 0; i < pinModeCount; i++)
+        {
+            if (pinmode[i][0] == gpioNum)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 #ifdef SOC_ADC_SUPPORTED
     void
     readADCPinsConfiguration(void)
@@ -568,8 +579,9 @@ private:
     }
     uint32_t readADCPin(int gpioNum)
     {
-        if (isPinInADCPins(gpioNum))
+        if (isPinInADCPins(gpioNum) && !(isPinPMW(gpioNum) || isPinModeSet(gpioNum)))
         {
+
             uint32_t analogValue = analogRead(gpioNum);
             return analogValue;
         }
