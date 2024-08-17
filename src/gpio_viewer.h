@@ -178,8 +178,11 @@ public:
                        { sendESPPartition(request); });
             server->on("/pinmodes", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendPinModes(request); });
+
+#ifdef PIN_FUNCTIONS
             server->on("/pinfunctions", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendPinFunctions(request); });
+#endif
 
             server->begin();
 
@@ -705,6 +708,7 @@ private:
         }
     }
 
+#ifdef PIN_FUNCTIONS
     void sendPinFunctions(AsyncWebServerRequest *request)
     {
         String jsonResponse = "{";
@@ -756,4 +760,5 @@ private:
     {
         *json += "]";
     }
+#endif
 };
