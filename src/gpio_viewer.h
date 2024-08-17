@@ -178,6 +178,8 @@ public:
                        { sendESPPartition(request); });
             server->on("/pinmodes", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendPinModes(request); });
+            server->on("/pinfunctions", HTTP_GET, [this](AsyncWebServerRequest *request)
+                       { sendPinFunctions(request); });
 
             server->begin();
 
@@ -272,6 +274,7 @@ private:
 
         request->send(200, "application/json", jsonResponse);
     }
+
     void sendESPInfo(AsyncWebServerRequest *request)
     {
 
@@ -699,6 +702,41 @@ private:
         else
         {
             return String(bytes / 1024.0 / 1024.0, 2) + " MB";
+        }
+    }
+
+    void sendPinFunctions(AsyncWebServerRequest *request)
+    {
+        String jsonResponse = "["; // Start of JSON array
+
+        sendPinFunctions("ADC", ADCPins, ADCPinsCount, &jsonResponse);
+
+        jsonResponse += "]"; // End of JSON array
+
+        request->send(200, "application/json", jsonResponse);
+    }
+
+    void sendPinFunctions(const char *pinFunction, int pins[], int pinCount, String *json)
+    {
+        if (pinCount > 0)
+        {
+            if (json->length() > 1)
+            { // If not the first entry, add a comma to separate objects
+                *json += ",";
+            }
+
+            *json += "{\"" + String(pinFunction) + "\":["; // Start of JSON object for the pin function
+
+            for (int i = 0; i < pinCount; i++)
+            {
+                if (i > 0)
+                {
+                    *json += ","; // Add a comma between pin entries
+                }
+                *json += String(pins[i]); // Add the pin number
+            }
+
+            *json += "]}"; // End of JSON object for the pin function
         }
     }
 };
