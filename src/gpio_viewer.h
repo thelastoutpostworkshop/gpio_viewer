@@ -22,6 +22,8 @@
 #endif
 #include <esp_partition.h>
 
+#include "defaultPins.h"
+
 const char *release = "1.5.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
@@ -707,36 +709,39 @@ private:
 
     void sendPinFunctions(AsyncWebServerRequest *request)
     {
-        String jsonResponse = "["; // Start of JSON array
+        String jsonResponse = "{"; 
 
-        sendPinFunctions("ADC", ADCPins, ADCPinsCount, &jsonResponse);
+        // ADC pins
+        startPinFunction("ADC", &jsonResponse);
+        for (int i = 0; i < ADCPinsCount; i++)
+        {
+            addPinFunction("ADC", ADCPins[i], &jsonResponse);
+        }
+        endPinFunction(&jsonResponse);
 
-        jsonResponse += "]"; // End of JSON array
+
+        jsonResponse += "}"; 
 
         request->send(200, "application/json", jsonResponse);
     }
 
-    void sendPinFunctions(const char *pinFunction, int pins[], int pinCount, String *json)
+    void startPinFunction(const char *pinFunction, String *json)
     {
-        if (pinCount > 0)
+        *json += "\"" + String(pinFunction) + "\": ["; 
+    }
+
+    void addPinFunction(const char *pinName, int pin, String *json)
+    {
+        if (!json->endsWith("["))
         {
-            if (json->length() > 1)
-            { // If not the first entry, add a comma to separate objects
-                *json += ",";
-            }
-
-            *json += "{\"" + String(pinFunction) + "\":["; // Start of JSON object for the pin function
-
-            for (int i = 0; i < pinCount; i++)
-            {
-                if (i > 0)
-                {
-                    *json += ","; // Add a comma between pin entries
-                }
-                *json += String(pins[i]); // Add the pin number
-            }
-
-            *json += "]}"; // End of JSON object for the pin function
+            *json += ","; 
         }
+
+        *json += "{\"Function\":\"" + String(pinName) + "\",\"Pin\":" + String(pin) + "}";
+    }
+
+    void endPinFunction(String *json)
+    {
+        *json += "]"; 
     }
 };
