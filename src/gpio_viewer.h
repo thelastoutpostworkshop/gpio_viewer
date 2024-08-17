@@ -707,7 +707,7 @@ private:
 
     void sendPinFunctions(AsyncWebServerRequest *request)
     {
-        String jsonResponse = "{"; 
+        String jsonResponse = "{";
 
         // ADC pins
         startPinFunction("ADC", &jsonResponse);
@@ -717,22 +717,35 @@ private:
         }
         endPinFunction(&jsonResponse);
 
+        sendRXTXDefaultPins(&jsonResponse);
 
-        jsonResponse += "}"; 
+        jsonResponse += "}";
 
         request->send(200, "application/json", jsonResponse);
     }
 
+    void sendRXTXDefaultPins(String *json)
+    {
+        startPinFunction("RXTX", json);
+#ifdef RX
+        addPinFunction("RX", RX, json);
+#endif
+#ifdef TX
+        addPinFunction("TX", TX, json);
+#endif
+        endPinFunction(json);
+    }
+
     void startPinFunction(const char *pinFunction, String *json)
     {
-        *json += "\"" + String(pinFunction) + "\": ["; 
+        *json += "\"" + String(pinFunction) + "\": [";
     }
 
     void addPinFunction(const char *pinName, int pin, String *json)
     {
         if (!json->endsWith("["))
         {
-            *json += ","; 
+            *json += ",";
         }
 
         *json += "{\"Function\":\"" + String(pinName) + "\",\"Pin\":" + String(pin) + "}";
@@ -740,6 +753,6 @@ private:
 
     void endPinFunction(String *json)
     {
-        *json += "]"; 
+        *json += "]";
     }
 };
