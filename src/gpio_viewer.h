@@ -22,8 +22,6 @@
 #endif
 #include <esp_partition.h>
 
-#include "defaultPins.h"
-
 const char *release = "1.5.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
