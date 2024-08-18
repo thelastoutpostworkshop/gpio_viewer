@@ -2,7 +2,7 @@
 // Last tested on:
 // Espressif Arduino Core v3.0.4
 // ESP Async WebServer 3.0.6
-// AsyncTCP            1.1.4 
+// AsyncTCP            1.1.4
 //
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
@@ -110,6 +110,10 @@ void slowPWMPin(void *pvParameters)
   // Setup
 #if ESP_ARDUINO_VERSION_MAJOR >= 3
   ledcAttach(SLOW_PWM_PIN, 5000, 8);
+  uint8_t slow_level = 0;
+#else
+  ledcSetup(10, 5000, 8);
+  ledcAttachPin(SLOW_PWM_PIN,10);
   uint8_t slow_level = 0;
 #endif
 
