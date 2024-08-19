@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-#define NO_PIN_FUNCTIONS
+// #define NO_PIN_FUNCTIONS
 const char *release = "1.5.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
