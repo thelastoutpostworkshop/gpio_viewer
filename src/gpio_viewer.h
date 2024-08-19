@@ -39,15 +39,15 @@ String arduinoCoreVersion = "";
 #define sentIntervalIfNoActivity 1000L // If no activity for this interval, resend to show connection activity
 
 // Global variables to capture PMW pins
-const int maxChannels = 64;
-int ledcChannelPin[maxChannels][2];
-int ledcChannelPinCount = 0;
-int ledcChannelResolution[maxChannels][2];
-int ledcChannelResolutionCount = 0;
+const uint8_t maxChannels = 64;
+uint8_t ledcChannelPin[maxChannels][2];
+uint8_t ledcChannelPinCount = 0;
+uint8_t ledcChannelResolution[maxChannels][2];
+uint8_t ledcChannelResolutionCount = 0;
 
 // Global variables to pins set with PinMode
-int pinmode[maxGPIOPins][2];
-int pinModeCount = 0;
+uint8_t pinmode[maxGPIOPins][2];
+uint8_t pinModeCount = 0;
 
 #if ESP_ARDUINO_VERSION_MAJOR == 3
 // Macro to trap values pass to ledcAttach functions since there is no ESP32 API
@@ -212,8 +212,8 @@ private:
     uint32_t freeHeap = 0;
     uint32_t freePSRAM = 0;
     uint32_t psramSize = 0;
-    int ADCPins[maxGPIOPins];
-    int ADCPinsCount = 0;
+    uint8_t ADCPins[maxGPIOPins];
+    uint8_t ADCPinsCount = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     void sendESPPartition(AsyncWebServerRequest *request)
@@ -723,24 +723,13 @@ private:
         endPinFunction(&jsonResponse);
 
         jsonResponse += ",";
-        sendRXTXDefaultPins(&jsonResponse);
+        // sendRXTXDefaultPins(&jsonResponse);
 
         jsonResponse += "}";
 
         request->send(200, "application/json", jsonResponse);
     }
 
-    void sendRXTXDefaultPins(String *json)
-    {
-        startPinFunction("RXTX", json);
-#ifdef RX
-        addPinFunction("RX", RX, json);
-#endif
-#ifdef TX
-        addPinFunction("TX", TX, json);
-#endif
-        endPinFunction(json);
-    }
 
     void startPinFunction(const char *pinFunction, String *json)
     {
