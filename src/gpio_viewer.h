@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-#define PIN_FUNCTIONS
+#define NO_PIN_FUNCTIONS
 const char *release = "1.5.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
@@ -180,7 +180,7 @@ public:
             server->on("/pinmodes", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendPinModes(request); });
 
-#ifdef PIN_FUNCTIONS
+#ifndef NO_PIN_FUNCTIONS
             server->on("/pinfunctions", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendPinFunctions(request); });
 #endif
@@ -709,7 +709,7 @@ private:
         }
     }
 
-#ifdef PIN_FUNCTIONS
+#ifndef NO_PIN_FUNCTIONS
     void sendPinFunctions(AsyncWebServerRequest *request)
     {
         String jsonResponse = "{";
