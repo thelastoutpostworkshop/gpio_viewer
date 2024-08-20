@@ -743,7 +743,7 @@ private:
             *json += ",";
         }
 
-        *json += "{\"Function\":\"" + String(pinName) + "\",\"Pin\":" + String(pin) + "}";
+        *json += "{\"function\":\"" + String(pinName) + "\",\"pin\":" + String(pin) + "}";
     }
 
     void endPinFunction(String *json)
