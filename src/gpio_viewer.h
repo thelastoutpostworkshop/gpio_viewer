@@ -722,7 +722,7 @@ private:
         }
         endPinFunction(&jsonResponse);
 
-        jsonResponse += ",";
+        // jsonResponse += ",";
         // sendRXTXDefaultPins(&jsonResponse);
 
         jsonResponse += "}";
