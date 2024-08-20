@@ -712,7 +712,7 @@ private:
 #ifndef NO_PIN_FUNCTIONS
     void sendPinFunctions(AsyncWebServerRequest *request)
     {
-        String jsonResponse = "{";
+        String jsonResponse = "{\"boardpinsfunction\":[";
 
         // ADC pins
         startPinFunction("ADC", &jsonResponse);
@@ -725,7 +725,7 @@ private:
         // jsonResponse += ",";
         // sendRXTXDefaultPins(&jsonResponse);
 
-        jsonResponse += "}";
+        jsonResponse += "]}";
 
         request->send(200, "application/json", jsonResponse);
     }
@@ -733,7 +733,7 @@ private:
 
     void startPinFunction(const char *pinFunction, String *json)
     {
-        *json += "\"" + String(pinFunction) + "\": [";
+        *json += "{\"name\":\"" + String(pinFunction) + "\", \"functions\":[";
     }
 
     void addPinFunction(const char *pinName, int pin, String *json)
@@ -748,7 +748,7 @@ private:
 
     void endPinFunction(String *json)
     {
-        *json += "]";
+        *json += "]}";
     }
 #endif
 };
