@@ -68,6 +68,7 @@ void setup()
 - Digital
 - Analog
 - PWM
+- ADC
 
 ## Library Size
 
