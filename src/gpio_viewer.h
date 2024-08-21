@@ -760,9 +760,8 @@ private:
         }
         endPinFunction(&jsonResponse);
 
-        jsonResponse += ",";
-
         // Touch pins
+        jsonResponse += ",";
         startPinFunction("Touch", &jsonResponse);
         for (int i = 0; i < TouchPinsCount; i++)
         {
