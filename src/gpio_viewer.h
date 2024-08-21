@@ -144,6 +144,11 @@ public:
 #if defined(SOC_ADC_SUPPORTED) && ESP_ARDUINO_VERSION_MAJOR == 3
         readADCPinsConfiguration();
 #endif
+#if defined(SOC_TOUCH_SENSOR_NUM) && ESP_ARDUINO_VERSION_MAJOR == 3
+#if SOC_TOUCH_SENSOR_NUM > 0
+        readTouchPinsConfiguration();
+#endif
+#endif
 
         if (checkWifiStatus())
         {
@@ -214,6 +219,8 @@ private:
     uint32_t psramSize = 0;
     uint8_t ADCPins[maxGPIOPins];
     uint8_t ADCPinsCount = 0;
+    uint8_t TouchPins[maxGPIOPins];
+    uint8_t TouchPinsCount = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     void sendESPPartition(AsyncWebServerRequest *request)
@@ -596,6 +603,24 @@ private:
     }
 #endif
 
+#if defined(SOC_TOUCH_SENSOR_NUM) && ESP_ARDUINO_VERSION_MAJOR == 3
+    void readTouchPinsConfiguration(void)
+    {
+        Serial.println("GPIOViewer >> Touch Supported");
+        int8_t channel;
+        for (int i = 0; i < 49; i++)
+        {
+            channel = digitalPinToTouchChannel(i);
+            if (channel != -1)
+            {
+                TouchPins[TouchPinsCount] = i;
+                TouchPinsCount++;
+            }
+        }
+        Serial.printf("GPIOViewer >> %d pins support Touch on your board\n", TouchPinsCount);
+    }
+#endif
+
     int readGPIO(int gpioNum, uint32_t *originalValue, pinTypes *pintype)
     {
         int value;
@@ -729,7 +754,6 @@ private:
 
         request->send(200, "application/json", jsonResponse);
     }
-
 
     void startPinFunction(const char *pinFunction, String *json)
     {
