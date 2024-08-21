@@ -579,8 +579,8 @@ private:
     void
     readADCPinsConfiguration(void)
     {
-        Serial.println("GPIOViewer >> ADC Supported");
-        Serial.printf("GPIOViewer >> %d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
+        // Serial.println("GPIOViewer >> ADC Supported");
+        // Serial.printf("GPIOViewer >> %d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
         int8_t channel;
         for (int i = 0; i < 49; i++)
         {
@@ -591,7 +591,7 @@ private:
                 ADCPinsCount++;
             }
         }
-        Serial.printf("GPIOViewer >> %d pins support ADC on your board\n", ADCPinsCount);
+        // Serial.printf("GPIOViewer >> %d pins support ADC on your board\n", ADCPinsCount);
     }
     bool isPinInADCPins(int gpioNum)
     {
@@ -619,7 +619,7 @@ private:
 #ifdef SOC_TOUCH_SENSOR_NUM
     void readTouchPinsConfiguration(void)
     {
-        Serial.println("GPIOViewer >> Touch Supported");
+        // Serial.println("GPIOViewer >> Touch Supported");
         int8_t channel;
         for (int i = 0; i < 49; i++)
         {
@@ -630,7 +630,7 @@ private:
                 TouchPinsCount++;
             }
         }
-        Serial.printf("GPIOViewer >> %d pins support Touch on your board\n", TouchPinsCount);
+        // Serial.printf("GPIOViewer >> %d pins support Touch on your board\n", TouchPinsCount);
     }
 #endif
 
