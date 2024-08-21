@@ -27,7 +27,21 @@ const char *release = "1.5.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
+#ifdef ESP_ARDUINO_VERSION_MAJOR
 #if ESP_ARDUINO_VERSION_MAJOR == 3
+#define GPIOVIEWER_ESP32CORE_VERSION_3
+#else
+#if ESP_ARDUINO_VERSION_MAJOR == 2
+#define GPIOVIEWER_ESP32CORE_VERSION_2
+#else
+#define GPIOVIEWER_ESP32CORE_NOTSUPPORTED
+#endif
+#endif
+#else
+#define GPIOVIEWER_ESP32CORE_NOTSUPPORTED
+#endif
+
+#ifdef GPIOVIEWER_ESP32CORE_VERSION_3
 #include "esp32-hal-periman.h"
 #else
 extern uint8_t channels_resolution[];
@@ -49,7 +63,7 @@ uint8_t ledcChannelResolutionCount = 0;
 uint8_t pinmode[maxGPIOPins][2];
 uint8_t pinModeCount = 0;
 
-#if ESP_ARDUINO_VERSION_MAJOR == 3
+#ifdef GPIOVIEWER_ESP32CORE_VERSION_3
 // Macro to trap values pass to ledcAttach functions since there is no ESP32 API
 #define ledcAttach(pin, freq, resolution)                                                                                                              \
     (ledcChannelPinCount < maxChannels ? ledcChannelPin[ledcChannelPinCount][0] = (pin), ledcChannelPin[ledcChannelPinCount++][1] = (resolution) : 0), \
@@ -124,11 +138,10 @@ public:
 #if defined(ESP_ARDUINO_VERSION_MAJOR) && defined(ESP_ARDUINO_VERSION_MINOR) && defined(ESP_ARDUINO_VERSION_PATCH)
         arduinoCoreVersion = String(ESP_ARDUINO_VERSION_MAJOR) + "." + String(ESP_ARDUINO_VERSION_MINOR) + "." + String(ESP_ARDUINO_VERSION_PATCH);
         Serial.printf("GPIOViewer >> ESP32 Core Version %s\n", arduinoCoreVersion.c_str());
-        if (ESP_ARDUINO_VERSION_MAJOR < 2)
-        {
-            Serial.printf("GPIOViewer >> Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
-            return;
-        }
+#ifdef GPIOVIEWER_ESP32CORE_NOTSUPPORTED
+        Serial.printf("GPIOViewer >> Your ESP32 Core Version is not supported, update your ESP32 boards to the latest version\n");
+        return;
+#endif
 #endif
         Serial.printf("GPIOViewer >> Chip Model:%s, revision:%d\n", ESP.getChipModel(), ESP.getChipRevision());
         if (psramFound())
@@ -141,10 +154,10 @@ public:
             Serial.printf("GPIOViewer >> No PSRAM\n");
         }
 
-#if defined(SOC_ADC_SUPPORTED) && ESP_ARDUINO_VERSION_MAJOR == 3
+#if defined(SOC_ADC_SUPPORTED) && defined(GPIOVIEWER_ESP32CORE_VERSION_3)
         readADCPinsConfiguration();
 #endif
-#if defined(SOC_TOUCH_SENSOR_NUM) && ESP_ARDUINO_VERSION_MAJOR == 3
+#if defined(SOC_TOUCH_SENSOR_NUM) && defined(GPIOVIEWER_ESP32CORE_VERSION_3)
 #if SOC_TOUCH_SENSOR_NUM > 0
         readTouchPinsConfiguration();
 #endif
@@ -526,7 +539,7 @@ private:
         return -1; // Pin not found, return -1 to indicate no channel is associated
     }
 
-#if ESP_ARDUINO_VERSION_MAJOR >= 3
+#ifdef GPIOVIEWER_ESP32CORE_VERSION_3
     int mapLedcReadTo8Bit(int gpioNum, int channel, uint32_t *originalValue)
     {
         ledc_channel_handle_t *bus = (ledc_channel_handle_t *)perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_LEDC);
@@ -603,7 +616,7 @@ private:
     }
 #endif
 
-#if defined(SOC_TOUCH_SENSOR_NUM) && ESP_ARDUINO_VERSION_MAJOR == 3
+#ifdef SOC_TOUCH_SENSOR_NUM
     void readTouchPinsConfiguration(void)
     {
         Serial.println("GPIOViewer >> Touch Supported");
