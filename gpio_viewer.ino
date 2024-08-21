@@ -18,7 +18,7 @@ struct PWM_PINS
   uint16_t level;
 };
 
-#define TEST_ESP32_S3
+// #define TEST_ESP32_S3
 
 #ifndef TEST_ESP32_S3
 #define ROTARY_PIN_A 23
@@ -220,7 +220,7 @@ void test1_setup()
   // pinMode(INPUT_PIN,INPUT_PULLUP);
 
   // xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
-  xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
+  // xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestAnalogPin, "TestAnalogPin", 2048, NULL, 1, NULL);
