@@ -24,7 +24,8 @@ struct PWM_PINS
 #define ROTARY_PIN_A 23
 #define ROTARY_PIN_B 22
 #define ROTARY_PUSH_BUTTON 22 // Not used
-#define SLOW_PWM_PIN 20
+#define SLOW_PWM_PIN 27
+#define SLOW_PMW_CHANNEL 5
 
 SimpleRotary rotary(ROTARY_PIN_A, ROTARY_PIN_B, ROTARY_PUSH_BUTTON);
 
@@ -112,15 +113,17 @@ void slowPWMPin(void *pvParameters)
   ledcAttach(SLOW_PWM_PIN, 5000, 8);
   uint8_t slow_level = 0;
 #else
-  ledcSetup(10, 5000, 8);
-  ledcAttachPin(SLOW_PWM_PIN,10);
+  ledcSetup(SLOW_PMW_CHANNEL, 5000, 8);
+  ledcAttachPin(SLOW_PWM_PIN, SLOW_PMW_CHANNEL);
   uint8_t slow_level = 0;
+  // Serial.printf("SLOW_PWM_PIN=%d\n", SLOW_PWM_PIN);
 #endif
 
   // Loop
   for (;;)
   { // Infinite loop
-    ledcWrite(SLOW_PWM_PIN, slow_level += 20);
+    // Serial.printf("ledcWrite=%d\n", slow_level);
+    ledcWrite(SLOW_PMW_CHANNEL, slow_level += 20);
     delay(2000);
   }
 }
@@ -220,7 +223,7 @@ void test1_setup()
   // pinMode(INPUT_PIN,INPUT_PULLUP);
 
   // xTaskCreate(readRotaryEncoderTask, "ReadRotaryEncoder", 2048, NULL, 1, NULL);
-  // xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
+  xTaskCreate(slowPWMPin, "slowPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestPWMPin, "TestPWMPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestDigitalPin, "TestDigitalPin", 2048, NULL, 1, NULL);
   xTaskCreate(TestAnalogPin, "TestAnalogPin", 2048, NULL, 1, NULL);
