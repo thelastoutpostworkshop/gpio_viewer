@@ -22,7 +22,7 @@
 #endif
 #include <esp_partition.h>
 
-// #define NO_PIN_FUNCTIONS
+// #define NO_PIN_FUNCTIONS // This removes the sending of pin functions
 const char *release = "1.5.6";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
@@ -760,8 +760,15 @@ private:
         }
         endPinFunction(&jsonResponse);
 
-        // jsonResponse += ",";
-        // sendRXTXDefaultPins(&jsonResponse);
+        jsonResponse += ",";
+
+        // Touch pins
+        startPinFunction("Touch", &jsonResponse);
+        for (int i = 0; i < TouchPinsCount; i++)
+        {
+            addPinFunction("Touch", TouchPins[i], &jsonResponse);
+        }
+        endPinFunction(&jsonResponse);
 
         jsonResponse += "]}";
 
