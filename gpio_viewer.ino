@@ -18,7 +18,7 @@ struct PWM_PINS
   uint16_t level;
 };
 
-// #define TEST_ESP32_S3
+#define TEST_ESP32_S3
 
 #ifndef TEST_ESP32_S3
 #define ROTARY_PIN_A 23

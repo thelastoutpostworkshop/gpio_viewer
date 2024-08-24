@@ -23,7 +23,7 @@
 #include <esp_partition.h>
 
 // #define NO_PIN_FUNCTIONS // This removes the sending of pin functions
-const char *release = "1.5.6";
+const char *release = "1.5.7-unstable do not use";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
