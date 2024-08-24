@@ -50,6 +50,7 @@ const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #define ROTARY_PUSH_BUTTON 42 // Not used
 
 #define SLOW_PWM_PIN 20
+#define SLOW_PMW_CHANNEL 5
 
 SimpleRotary rotary(ROTARY_PIN_A, ROTARY_PIN_B, ROTARY_PUSH_BUTTON);
 
