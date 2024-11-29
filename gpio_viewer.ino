@@ -1,6 +1,6 @@
 // Test Code for the GPIOViewer development
 // Last tested on:
-// Espressif Arduino Core v3.0.4
+// Espressif Arduino Core v3.0.7
 // ESP Async WebServer 3.3.22
 // AsyncTCP            1.1.4
 //
