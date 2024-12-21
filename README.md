@@ -33,7 +33,7 @@ Add (or change) the following to your platformio.ini file:
 platform = espressif32
 framework = arduino
 lib_deps =
-    https://github.com/dvarrel/AsyncTCP.git
+    https://github.com/mathieucarbou/AsyncTCP.git
     https://github.com/mathieucarbou/AsyncTCP.git
 ```
 
