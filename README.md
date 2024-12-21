@@ -87,6 +87,12 @@ void setup()
 Contributors are welcomed!  If you want to submit pull requests, [here is how you can do it](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project).
 
 ## Troubleshooting
+
+### Last tested to be working on :
+- v3.1.0 [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32)
+- v3.3.1 [Async TCP](https://github.com/mathieucarbou/AsyncTCP)
+- v3.4.5 [ESP Async WebServer](https://github.com/mathieucarbou/ESPAsyncWebServer)
+
 ### Code not compiling
 If your code don't compile, **before submitting an issue:**
 - Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library **and** with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32) 
