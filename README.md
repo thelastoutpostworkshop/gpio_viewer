@@ -93,6 +93,14 @@ Contributors are welcomed!  If you want to submit pull requests, [here is how yo
 - v3.3.1 [Async TCP](https://github.com/mathieucarbou/AsyncTCP)
 - v3.4.5 [ESP Async WebServer](https://github.com/mathieucarbou/ESPAsyncWebServer)
 
+### Conflicts with pin function detection on some boards
+Since version 1.5.6, the library detects pin functions like ADC and Touch, this has been causing problems on some boards, like the XiaoESP32-S3-Sense.
+You can disable pin detection by adding this define before including the library :
+```C++ 
+#define NO_PIN_FUNCTIONS
+#include <gpio_viewer.h>
+```
+
 ### Code not compiling
 If your code don't compile, **before submitting an issue:**
 - Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library **and** with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32) 
