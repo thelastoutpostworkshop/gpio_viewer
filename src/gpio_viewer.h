@@ -1,9 +1,9 @@
 #ifndef _GPIOVIEWER_
 #define _GPIOVIEWER_
-#ifndef WEBSERVER_H
-// Compatiblity with the Wifi Manager if your using it in your project
-#include <WebServer.h>
-#endif
+// #ifndef WEBSERVER_H
+// // Compatiblity with the Wifi Manager if your using it in your project
+// #include <WebServer.h>
+// #endif
 #ifndef WiFi_h
 #include <WiFi.h>
 #endif
