@@ -6,10 +6,13 @@ Latest Features : https://youtu.be/JJzRXcQrl3I
 Documentation : https://github.com/thelastoutpostworkshop/gpio_viewer
 
 // Last tested on:
-// Espressif Arduino Core v3.1.0
-// ESP Async WebServer 3.4.5
-// AsyncTCP            3.3.1
+// Espressif Arduino Core v3.1.1
+// ESP Async WebServer 3.6.0
+// AsyncTCP            3.3.2
 ***/
+
+// Since version 1.5.6, the library detects pin functions like ADC and Touch, this has been causing problems on some boards, like the XiaoESP32-S3-Sense. You can disable pin detection by uncommenting the following line:
+// #define NO_PIN_FUNCTIONS
 
 #include <gpio_viewer.h> // Must me the first include in your project
 GPIOViewer gpio_viewer;
