@@ -1,8 +1,5 @@
 // Test Code for the GPIOViewer development
-// Last tested on:
-// Espressif Arduino Core v3.1.1
-// ESP Async WebServer 3.6.0
-// AsyncTCP            3.3.2
+// Adjust Last tested on in the example.
 //
 #include "src/gpio_viewer.h"
 #include <WiFi.h>
