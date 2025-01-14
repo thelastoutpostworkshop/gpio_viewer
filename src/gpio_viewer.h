@@ -23,7 +23,7 @@
 #include <esp_partition.h>
 
 // #define NO_PIN_FUNCTIONS // This removes the sending of pin functions
-const char *release = "1.5.9";
+const char *release = "1.6.0";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
@@ -181,7 +181,7 @@ public:
             server->addHandler(events);
 
             server->on("/", [this](AsyncWebServerRequest *request)
-                       { request->send_P(200, "text/html", generateIndexHTML().c_str()); });
+                       { request->send(200, "text/html", generateIndexHTML().c_str()); });
 
             server->on("/release", HTTP_GET, [this](AsyncWebServerRequest *request)
                        { sendMinReleaseVersion(request); });
