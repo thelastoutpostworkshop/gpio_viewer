@@ -43,13 +43,18 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 
 #ifdef GPIOVIEWER_ESP32CORE_VERSION_3
 #include "esp32-hal-periman.h"
+#include "soc/gpio_struct.h"
 #else
 extern uint8_t channels_resolution[];
 #endif
 
 String arduinoCoreVersion = "";
 
+#ifdef GPIO_PIN_COUNT
+#define maxGPIOPins GPIO_PIN_COUNT
+#else
 #define maxGPIOPins 49
+#endif
 #define sentIntervalIfNoActivity 1000L // If no activity for this interval, resend to show connection activity
 
 // Global variables to capture PMW pins
@@ -587,8 +592,16 @@ private:
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
             {
-                ADCPins[ADCPinsCount] = i;
-                ADCPinsCount++;
+                if (GPIO.enable & (1 << i))
+                {
+                    // If GPIO has been configured as OUTPUT (for example by SPI), we cannot read it
+                }
+                else
+                {
+                    // This ADC pin can be safely read
+                    ADCPins[ADCPinsCount] = i;
+                    ADCPinsCount++;
+                }
             }
         }
         // Serial.printf("GPIOViewer >> %d pins support ADC on your board\n", ADCPinsCount);
