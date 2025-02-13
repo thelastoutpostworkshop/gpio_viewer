@@ -6,7 +6,7 @@ Latest Features : https://youtu.be/JJzRXcQrl3I
 Documentation : https://github.com/thelastoutpostworkshop/gpio_viewer
 
 // Last tested on:
-// Espressif Arduino Core v3.1.1
+// Espressif Arduino Core v3.1.2
 // ESP Async WebServer 3.7.0
 // AsyncTCP            3.3.5
 ***/
