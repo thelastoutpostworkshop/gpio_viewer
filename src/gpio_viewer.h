@@ -587,7 +587,7 @@ private:
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
             {
-                if (GPIO.enable & (1 << i))
+                if (GPIO.enable1.val & (1 << i))
                 {
                     // If GPIO has been configured as OUTPUT (for example by SPI), we cannot read it
                 }
