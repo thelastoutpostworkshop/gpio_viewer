@@ -244,23 +244,23 @@ private:
     uint8_t TouchPinsCount = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
-// #ifdef GPIOVIEWER_ESP32CORE_VERSION_3
-//     // Read valid pins for the SOC
-//     void readValidPins(void)
-//     {
-//         for (int i = 0; i < maxGPIOPins; i++)
-//         {
-//             if (GPIO_IS_VALID_GPIO(i))
-//             {
-//                 Serial.printf("Pin %d is valid\n", i);
-//             }
-//             else
-//             {
-//                 // The GPIO number is not valid for general I/O operations.
-//             }
-//         }
-//     }
-// #endif
+    // #ifdef GPIOVIEWER_ESP32CORE_VERSION_3
+    //     // Read valid pins for the SOC
+    //     void readValidPins(void)
+    //     {
+    //         for (int i = 0; i < maxGPIOPins; i++)
+    //         {
+    //             if (GPIO_IS_VALID_GPIO(i))
+    //             {
+    //                 Serial.printf("Pin %d is valid\n", i);
+    //             }
+    //             else
+    //             {
+    //                 // The GPIO number is not valid for general I/O operations.
+    //             }
+    //         }
+    //     }
+    // #endif
 
     void sendESPPartition(AsyncWebServerRequest *request)
     {
@@ -610,9 +610,17 @@ private:
         int8_t channel;
         for (int i = 0; i < GPIO_PIN_COUNT; i++)
         {
-            if(!GPIO_IS_VALID_GPIO(i)) {
+            if (!GPIO_IS_VALID_GPIO(i))
+            {
                 continue;
             }
+#ifdef CONFIG_IDF_TARGET_ESP32C3
+            if (i == 5)
+            {
+                // Pin 5 on ESP32C3 appears not supported for ADC
+                continue;
+            }
+#endif
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
             {
