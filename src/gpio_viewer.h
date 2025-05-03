@@ -159,9 +159,9 @@ public:
             Serial.printf("GPIOViewer >> No PSRAM\n");
         }
 
-#ifdef GPIOVIEWER_ESP32CORE_VERSION_3
-        readValidPins();
-#endif
+// #ifdef GPIOVIEWER_ESP32CORE_VERSION_3
+//         readValidPins();
+// #endif
 #if defined(SOC_ADC_SUPPORTED) && defined(GPIOVIEWER_ESP32CORE_VERSION_3)
         readADCPinsConfiguration();
 #endif
@@ -244,23 +244,23 @@ private:
     uint8_t TouchPinsCount = 0;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
-#ifdef GPIOVIEWER_ESP32CORE_VERSION_3
-    // Read valid pins for the SOC
-    void readValidPins(void)
-    {
-        for (int i = 0; i < maxGPIOPins; i++)
-        {
-            if (GPIO_IS_VALID_GPIO(i))
-            {
-                Serial.printf("Pin %d is valid\n", i);
-            }
-            else
-            {
-                // The GPIO number is not valid for general I/O operations.
-            }
-        }
-    }
-#endif
+// #ifdef GPIOVIEWER_ESP32CORE_VERSION_3
+//     // Read valid pins for the SOC
+//     void readValidPins(void)
+//     {
+//         for (int i = 0; i < maxGPIOPins; i++)
+//         {
+//             if (GPIO_IS_VALID_GPIO(i))
+//             {
+//                 Serial.printf("Pin %d is valid\n", i);
+//             }
+//             else
+//             {
+//                 // The GPIO number is not valid for general I/O operations.
+//             }
+//         }
+//     }
+// #endif
 
     void sendESPPartition(AsyncWebServerRequest *request)
     {
