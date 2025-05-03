@@ -608,7 +608,7 @@ private:
         // Serial.println("GPIOViewer >> ADC Supported");
         // Serial.printf("GPIOViewer >> %d ADC available, %d channels each \n", SOC_ADC_PERIPH_NUM, SOC_ADC_MAX_CHANNEL_NUM);
         int8_t channel;
-        for (int i = 0; i < 49; i++)
+        for (int i = 0; i < GPIO_PIN_COUNT; i++)
         {
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
@@ -676,7 +676,7 @@ private:
     {
         // Serial.println("GPIOViewer >> Touch Supported");
         int8_t channel;
-        for (int i = 0; i < 49; i++)
+        for (int i = 0; i < GPIO_PIN_COUNT; i++)
         {
             channel = digitalPinToTouchChannel(i);
             if (channel != -1)
