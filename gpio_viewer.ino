@@ -15,9 +15,9 @@ struct PWM_PINS
   uint16_t level;
 };
 
-#define TEST_ESP32_S3
+// #define TEST_ESP32_S3
+#define TEST_NO_EXTENDED_SOC // example Xiao ESP32-C3
 // #define TEST_ESP32
-// #define TEST_NO_EXTENDED_SOC // example Xiao ESP32-C3
 
 #ifdef TEST_ESP32
 #define ROTARY_PIN_A 23
