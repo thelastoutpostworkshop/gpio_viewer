@@ -610,6 +610,9 @@ private:
         int8_t channel;
         for (int i = 0; i < GPIO_PIN_COUNT; i++)
         {
+            if(!GPIO_IS_VALID_GPIO(i)) {
+                continue;
+            }
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
             {
