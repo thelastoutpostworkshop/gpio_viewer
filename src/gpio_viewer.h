@@ -649,12 +649,9 @@ private:
                     continue;
                 }
 #endif
-                else
-                {
-                    // This ADC pin can be safely read
-                    ADCPins[ADCPinsCount] = i;
-                    ADCPinsCount++;
-                }
+                // This ADC pin can be safely read
+                ADCPins[ADCPinsCount] = i;
+                ADCPinsCount++;
             }
         }
         // Serial.printf("GPIOViewer >> %d pins support ADC on your board\n", ADCPinsCount);
