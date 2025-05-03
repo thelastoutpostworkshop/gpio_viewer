@@ -50,6 +50,11 @@ String arduinoCoreVersion = "";
 #else
 #define maxGPIOPins 49
 #endif
+
+#if defined(GPIO_PIN_COUNT) && (GPIO_PIN_COUNT > 32)
+#define SUPPORT_EXTENDED_GPIO
+#endif
+
 #define sentIntervalIfNoActivity 1000L // If no activity for this interval, resend to show connection activity
 
 // Global variables to capture PMW pins
@@ -247,7 +252,7 @@ private:
         {
             if (GPIO_IS_VALID_GPIO(i))
             {
-                Serial.printf("Pin %d is valid\n",i);
+                Serial.printf("Pin %d is valid\n", i);
             }
             else
             {
@@ -608,10 +613,31 @@ private:
             channel = digitalPinToAnalogChannel(i);
             if (channel != -1)
             {
-                if (GPIO.enable1.val & (1 << i))
+#ifdef SUPPORT_EXTENDED_GPIO
+                if (i >= 32)
+                {
+                    // Check the extended bank using enable1
+                    if (GPIO.enable1.val & (1 << (i - 32)))
+                    {
+                        // Pin is configured as OUTPUT (e.g., SPI may have taken over), skip it
+                        continue;
+                    }
+                }
+                else
+                {
+                    // For pins 0-31, check the base register
+                    if (GPIO.enable1.val & (1 << i))
+                    {
+                        continue;
+                    }
+                }
+#else
+                if (GPIO.enable.val & (1 << i))
                 {
                     // If GPIO has been configured as OUTPUT (for example by SPI), we cannot read it
+                    continue;
                 }
+#endif
                 else
                 {
                     // This ADC pin can be safely read

@@ -15,9 +15,11 @@ struct PWM_PINS
   uint16_t level;
 };
 
-#define TEST_ESP32_S3
+// #define TEST_ESP32_S3
+// #define TEST_ESP32
+#define TEST_NO_EXTENDED_SOC // example Xiao ESP32-C3
 
-#ifndef TEST_ESP32_S3
+#ifdef TEST_ESP32
 #define ROTARY_PIN_A 23
 #define ROTARY_PIN_B 22
 #define ROTARY_PUSH_BUTTON 22 // Not used
@@ -39,7 +41,9 @@ const int resolution = 16;
 
 PWM_PINS test_pwm_pins[] = {{15, 0}, {2, 1}, {0, 2}, {4, 3}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
-#else
+#endif
+
+#ifdef TEST_ESP32_S3
 // Test ESP32-S3
 #define INPUT_PIN 1
 #define ROTARY_PIN_A 41
@@ -63,6 +67,27 @@ const int freq = 1000;
 const int resolution = 10;
 
 PWM_PINS test_pwm_pins[] = {{17, 0, 0}, {18, 1, 0}, {8, 2, 0}, {3, 3, 0}};
+const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
+#endif
+
+#ifdef TEST_NO_EXTENDED_SOC
+#define INPUT_PIN 2
+
+#define SLOW_PWM_PIN 20
+#define SLOW_PMW_CHANNEL 5
+
+int test_digital_pins[] = {3, 4, 6};
+const int testDigitalPinsCount = sizeof(test_digital_pins) / sizeof(test_digital_pins[0]);
+int currentLed = 0; // Start with the first LED
+
+const int analogPinsCount = 1;
+int test_analog_pins[analogPinsCount] = {7};
+int analogValue = 0;
+
+const int freq = 1000;
+const int resolution = 10;
+
+PWM_PINS test_pwm_pins[] = {{10, 0, 0}, {9, 1, 0}, {8, 2, 0}, {20, 3, 0}};
 const int testPWMPinsCount = sizeof(test_pwm_pins) / sizeof(test_pwm_pins[0]);
 #endif
 
@@ -239,31 +264,31 @@ void updateLeds()
   }
 }
 
-void readRotaryEncoderTask(void *pvParameters)
-{
-  for (;;)
-  { // Infinite loop
-    readRotaryEncoder();
-    vTaskDelay(pdMS_TO_TICKS(10)); // Delay for debouncing, adjust as needed
-  }
-}
+// void readRotaryEncoderTask(void *pvParameters)
+// {
+//   for (;;)
+//   { // Infinite loop
+//     readRotaryEncoder();
+//     vTaskDelay(pdMS_TO_TICKS(10)); // Delay for debouncing, adjust as needed
+//   }
+// }
 
-void readRotaryEncoder(void)
-{
-  byte i;
-  i = rotary.rotate();
+// void readRotaryEncoder(void)
+// {
+//   byte i;
+//   i = rotary.rotate();
 
-  if (i == 1)
-  {
-    currentLed = (currentLed - 1 + testDigitalPinsCount) % testDigitalPinsCount;
-    updateLeds();
-    Serial.println("CounterClockwise");
-  }
+//   if (i == 1)
+//   {
+//     currentLed = (currentLed - 1 + testDigitalPinsCount) % testDigitalPinsCount;
+//     updateLeds();
+//     Serial.println("CounterClockwise");
+//   }
 
-  if (i == 2)
-  {
-    currentLed = (currentLed + 1) % testDigitalPinsCount;
-    updateLeds();
-    Serial.println("Clockwise");
-  }
-}
+//   if (i == 2)
+//   {
+//     currentLed = (currentLed + 1) % testDigitalPinsCount;
+//     updateLeds();
+//     Serial.println("Clockwise");
+//   }
+// }
