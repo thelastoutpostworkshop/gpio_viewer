@@ -1,20 +1,17 @@
 profiles:
-  current_version:
-    fqbn: esp32:esp32:esp32s3:UploadSpeed=921600,USBMode=hwcdc,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=240,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,LoopCore=1,EventsCore=1,EraseFlash=none,JTAGAdapter=default,ZigbeeMode=default
-    platforms:
-      - platform: esp32:esp32 (3.2.0)
-        platform_index_url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
-    libraries:
-      - ESP Async WebServer (3.7.10)
-      - Async TCP (3.4.5)
-      - SimpleRotary (1.1.3)
-  next_version:
+  esp32-s3:
     fqbn: esp32:esp32:esp32s3:UploadSpeed=921600,USBMode=hwcdc,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,CPUFreq=240,FlashMode=qio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,PSRAM=disabled,LoopCore=1,EventsCore=1,EraseFlash=none,JTAGAdapter=default,ZigbeeMode=default
     platforms:
       - platform: esp32:esp32 (3.3.0)
         platform_index_url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
     libraries:
-      - ESP Async WebServer (3.7.10)
-      - Async TCP (3.4.6)
+      - ESP Async WebServer (3.8.0)
+      - Async TCP (3.4.7)
       - SimpleRotary (1.1.3)
-default_profile: current_version
+    port: COM7
+    port_config:
+      baudrate: "115200"
+      lineEnding: "\r\n"
+      bits: "8"
+      parity: none
+      stop_bits: one
