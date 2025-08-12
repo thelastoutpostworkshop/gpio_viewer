@@ -98,13 +98,8 @@ Contributors are welcomed! If you want to submit pull requests, [here is how you
 ### Last tested to be working on :
 
 - v3.3.0 [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32)
-<<<<<<< HEAD
 - v3.4.7 [Async TCP](https://github.com/mathieucarbou/AsyncTCP)
 - v3.8.0 [ESP Async WebServer](https://github.com/mathieucarbou/ESPAsyncWebServer)
-=======
-- v3.4.7 [Async TCP](https://github.com/ESP32Async/AsyncTCP)
-- v3.7.10 [ESP Async WebServer](https://github.com/ESP32Async/ESPAsyncWebServer)
->>>>>>> 8d237a4927e1eccc0abace184e22b8b99a35c78c
 
 ### Conflicts with pin function detection on some boards
 
