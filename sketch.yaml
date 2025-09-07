@@ -36,7 +36,7 @@ profiles:
       - platform: esp32:esp32 (3.2.0)
         platform_index_url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
     libraries:
-      - ESP Async WebServer (3.7.10)
+      - ESP Async WebServer (3.6.0)
       - Async TCP (3.4.7)
       - SimpleRotary (1.1.3)
     port: COM7
