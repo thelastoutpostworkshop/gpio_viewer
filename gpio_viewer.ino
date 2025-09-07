@@ -15,10 +15,15 @@ struct PWM_PINS
   uint16_t level;
 };
 
-#define TEST_ESP32_S3
+// #define TEST_ESP32_S3
 // #define TEST_NO_EXTENDED_SOC // example Xiao ESP32-C3
 // #define TEST_ESP32
+#define DEBUG_TEST
 
+#ifdef DEBUG_TEST
+#define POT_PIN 11 // GPIO11 (ADC2_CH0)
+
+#endif
 #ifdef TEST_ESP32
 #define ROTARY_PIN_A 23
 #define ROTARY_PIN_B 22
@@ -97,7 +102,14 @@ void setup()
 
   gpio_viewer.connectToWifi(ssid, password);
 
+#ifdef TEST_ESP32 | TEST_ESP32_S3
   test1_setup();
+#endif
+
+#ifdef DEBUG_TEST
+  analogReadResolution(12);                   // 0–4095
+  analogSetPinAttenuation(POT_PIN, ADC_11db); // full 0–3.3 V span
+#endif
 
 #ifdef TEST_ESP32_S3
   if (psramFound())
@@ -121,9 +133,24 @@ void setup()
 
 void loop()
 {
+#ifdef DEBUG_TEST
+  test_loop_debug();
+#endif
+#ifdef TEST_ESP32 | TEST_ESP32_S3
   test1_loop();
+#endif
 }
 
+void test_loop_debug() {
+  int raw = analogRead(POT_PIN);
+  float volts = raw * (3.3f / 4095.0f);
+
+  Serial.printf("GPIO%d raw=%d  volts=%.3f\n", POT_PIN, raw, volts);
+
+  delay(1000); // once per second
+}
+
+#ifdef TEST_ESP32 | TEST_ESP32_S3
 uint32_t getMaxDutyCycle(int resolution)
 {
   return (1 << resolution) - 1;
@@ -263,6 +290,7 @@ void updateLeds()
     digitalWrite(test_digital_pins[i], i == currentLed ? HIGH : LOW);
   }
 }
+#endif
 
 // void readRotaryEncoderTask(void *pvParameters)
 // {
