@@ -15,10 +15,10 @@ struct PWM_PINS
   uint16_t level;
 };
 
-// #define TEST_ESP32_S3
+#define TEST_ESP32_S3
 // #define TEST_NO_EXTENDED_SOC // example Xiao ESP32-C3
 // #define TEST_ESP32
-#define DEBUG_TEST
+// #define DEBUG_TEST
 
 #ifdef DEBUG_TEST
 #define POT_PIN 11 // GPIO11 (ADC2_CH0)
@@ -102,7 +102,7 @@ void setup()
 
   gpio_viewer.connectToWifi(ssid, password);
 
-#ifdef TEST_ESP32 | TEST_ESP32_S3
+#ifdef TEST_ESP32 || TEST_ESP32_S3
   test1_setup();
 #endif
 
@@ -136,11 +136,12 @@ void loop()
 #ifdef DEBUG_TEST
   test_loop_debug();
 #endif
-#ifdef TEST_ESP32 | TEST_ESP32_S3
+#if defined(TEST_ESP32) || defined(TEST_ESP32_S3)
   test1_loop();
 #endif
 }
 
+#ifdef DEBUG_TEST
 void test_loop_debug() {
   int raw = analogRead(POT_PIN);
   float volts = raw * (3.3f / 4095.0f);
@@ -149,8 +150,9 @@ void test_loop_debug() {
 
   delay(1000); // once per second
 }
+#endif
 
-#ifdef TEST_ESP32 | TEST_ESP32_S3
+#if defined(TEST_ESP32) || defined(TEST_ESP32_S3)
 uint32_t getMaxDutyCycle(int resolution)
 {
   return (1 << resolution) - 1;
