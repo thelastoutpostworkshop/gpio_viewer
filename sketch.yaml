@@ -22,7 +22,7 @@ profiles:
         platform_index_url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
     libraries:
       - ESP Async WebServer (3.8.1)
-      - Async TCP (3.4.8)
+      - Async TCP (3.4.9)
       - SimpleRotary (1.1.3)
     port: COM6
     port_config:
