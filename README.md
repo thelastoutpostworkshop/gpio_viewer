@@ -115,7 +115,7 @@ You can disable pin detection by adding this define before including the library
 
 If your code don't compile, **before submitting an issue:**
 
-- Try placing 
+Try placing this header file
 ```C++
 #include <gpio_viewer.h> 
 ```
