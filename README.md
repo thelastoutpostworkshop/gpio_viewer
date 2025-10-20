@@ -115,11 +115,11 @@ You can disable pin detection by adding this define before including the library
 
 If your code don't compile, **before submitting an issue:**
 
-Try placing this header file
+Try placing this header file after all other includes:
 ```C++
 #include <gpio_viewer.h> 
 ```
-after all other includes
+
 - Compile with the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) of the GPIOViewer Library **and** with the [latest ESP32 boards](https://github.com/espressif/arduino-esp32)
 - See also this [solved issue](https://github.com/thelastoutpostworkshop/gpio_viewer/issues/116)
 
