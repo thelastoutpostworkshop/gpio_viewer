@@ -39,6 +39,7 @@ profiles:
     libraries:
       - ESP Async WebServer (3.8.1)
       - Async TCP (3.4.9)
+      - GPIOViewer (1.6.3)
     port: COM6
     port_config:
       baudrate: "115200"
