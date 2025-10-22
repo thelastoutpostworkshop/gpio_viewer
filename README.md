@@ -81,7 +81,8 @@ void setup()
 
 ## Espressif ESP32 Core SDK Compatibility
 
-- The Espressif ESP32 Arduino Core that is installed in your system will need to be v2.0.5 or greater / v3.0.0 or greater, in order for GPIO viewer to compile properly.
+- The Espressif ESP32 Arduino Core that is installed in your system will need to be v3.0.0 or greater, in order for GPIO viewer to compile properly.
+- If you want support for the Arduino Core v2.x, use version 1.6.3 of the GPIOViewer library.
 - See the official Espressif Systems ESP32 Core documentation located here for more details: https://docs.espressif.com/projects/arduino-esp32/en/latest/
 
 ## Performance
