@@ -31,6 +31,7 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 #include "esp32-hal-periman.h"
 #include "soc/gpio_struct.h"
 #include "soc/soc_caps.h"
+#include <Esp.h>
 #include <esp_chip_info.h>
 #include <esp_system.h>
 #include <esp_idf_version.h>
@@ -323,8 +324,8 @@ private:
 
     void sendESPInfo(AsyncWebServerRequest *request)
     {
-        // const FlashMode_t flashMode = ESP.getFlashChipMode(); // removed, it crashes with ESP32-S3
-        const char *flashMode = "not available";
+        const FlashMode_t flashMode = ESP.getFlashChipMode();
+        const char *flashModeText = flashModeToString(flashMode);
 
         esp_chip_info_t chipInfo;
         esp_chip_info(&chipInfo);
@@ -425,7 +426,7 @@ private:
         appendField("cpu_frequency", String(ESP.getCpuFreqMHz()), true);
         appendField("cycle_count", String(static_cast<unsigned long long>(ESP.getCycleCount())), false);
         appendField("mac", String(ESP.getEfuseMac()), true);
-        appendField("flash_mode", String(flashMode), true);
+        appendField("flash_mode", String(flashModeText), true);
         appendField("flash_chip_size", String(ESP.getFlashChipSize()), false);
         appendField("flash_chip_speed", String(ESP.getFlashChipSpeed()), false);
         appendField("heap_size", String(ESP.getHeapSize()), false);
@@ -562,6 +563,28 @@ private:
         case ESP_RST_RTC_WDT:
             return "RTC_WDT";
 #endif
+        default:
+            return "UNKNOWN";
+        }
+    }
+
+    static const char *flashModeToString(FlashMode_t mode)
+    {
+        switch (mode)
+        {
+        case FM_QIO:
+            return "QIO";
+        case FM_QOUT:
+            return "QOUT";
+        case FM_DIO:
+            return "DIO";
+        case FM_DOUT:
+            return "DOUT";
+        case FM_FAST_READ:
+            return "FAST_READ";
+        case FM_SLOW_READ:
+            return "SLOW_READ";
+        case FM_UNKNOWN:
         default:
             return "UNKNOWN";
         }
