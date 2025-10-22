@@ -22,26 +22,19 @@ const char *release = "1.6.3";
 
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
-#ifdef ESP_ARDUINO_VERSION_MAJOR
-#if ESP_ARDUINO_VERSION_MAJOR == 3
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
 #define GPIOVIEWER_ESP32CORE_VERSION_3
 #else
-#if ESP_ARDUINO_VERSION_MAJOR == 2
-#define GPIOVIEWER_ESP32CORE_VERSION_2
-#else
-#define GPIOVIEWER_ESP32CORE_NOTSUPPORTED
-#endif
-#endif
-#else
-#define GPIOVIEWER_ESP32CORE_NOTSUPPORTED
+#error "GPIOViewer requires Arduino ESP32 core version 3 or newer"
 #endif
 
-#ifdef GPIOVIEWER_ESP32CORE_VERSION_3
 #include "esp32-hal-periman.h"
 #include "soc/gpio_struct.h"
-#else
-extern uint8_t channels_resolution[];
-#endif
+#include <esp_chip_info.h>
+#include <esp_system.h>
+#include <esp_idf_version.h>
+#include <esp_timer.h>
+#include <esp_heap_caps.h>
 
 String arduinoCoreVersion = "";
 
@@ -328,31 +321,133 @@ private:
 
     void sendESPInfo(AsyncWebServerRequest *request)
     {
-
         // const FlashMode_t flashMode = ESP.getFlashChipMode(); // removed, it crashes with ESP32-S3
-        const char *flashMode = "\"not available\"";
+        const char *flashMode = "not available";
 
-        String jsonResponse = "{\"chip_model\": \"" + String(ESP.getChipModel()) + "\",";
-        jsonResponse += "\"cores_count\": \"" + String(ESP.getChipCores()) + "\",";
-        jsonResponse += "\"chip_revision\": \"" + String(ESP.getChipRevision()) + "\",";
-        jsonResponse += "\"cpu_frequency\": \"" + String(ESP.getCpuFreqMHz()) + "\",";
-        jsonResponse += "\"cycle_count\": " + String(ESP.getCycleCount()) + ",";
-        jsonResponse += "\"mac\": \"" + String(ESP.getEfuseMac()) + "\",";
-        jsonResponse += "\"flash_mode\": " + String(flashMode) + ",";
-        jsonResponse += "\"flash_chip_size\": " + String(ESP.getFlashChipSize()) + ",";
-        jsonResponse += "\"flash_chip_speed\": " + String(ESP.getFlashChipSpeed()) + ",";
-        jsonResponse += "\"heap_size\": " + String(ESP.getHeapSize()) + ",";
-        jsonResponse += "\"heap_max_alloc\": " + String(ESP.getMaxAllocHeap()) + ",";
-        jsonResponse += "\"psram_size\": " + String(ESP.getPsramSize()) + ",";
-        jsonResponse += "\"free_psram\": " + String(ESP.getFreePsram()) + ",";
-        jsonResponse += "\"psram_max_alloc\": " + String(ESP.getMaxAllocPsram()) + ",";
-        jsonResponse += "\"free_heap\": " + String(ESP.getFreeHeap()) + ",";
-        jsonResponse += "\"up_time\": \"" + String(millis()) + "\",";
-        jsonResponse += "\"sketch_size\": " + String(ESP.getSketchSize()) + ",";
-        jsonResponse += "\"arduino_core_version\": \"" + arduinoCoreVersion + "\",";
-        jsonResponse += "\"free_sketch\": " + String(ESP.getFreeSketchSpace()) + "";
+        esp_chip_info_t chipInfo;
+        esp_chip_info(&chipInfo);
 
-        jsonResponse += '}';
+        String chipFeatures = "[";
+        bool firstFeature = true;
+        auto appendFeature = [&](const char *name) {
+            if (!firstFeature)
+            {
+                chipFeatures += ",";
+            }
+            firstFeature = false;
+            chipFeatures += "\"";
+            chipFeatures += name;
+            chipFeatures += "\"";
+        };
+
+        if (chipInfo.features & CHIP_FEATURE_WIFI_BGN)
+        {
+            appendFeature("WIFI_BGN");
+        }
+        if (chipInfo.features & CHIP_FEATURE_BLE)
+        {
+            appendFeature("BLE");
+        }
+        if (chipInfo.features & CHIP_FEATURE_BT)
+        {
+            appendFeature("BT");
+        }
+        if (chipInfo.features & CHIP_FEATURE_EMB_FLASH)
+        {
+            appendFeature("EMB_FLASH");
+        }
+        if (chipInfo.features & CHIP_FEATURE_IEEE802154)
+        {
+            appendFeature("IEEE802154");
+        }
+        if (chipInfo.features & CHIP_FEATURE_EMB_PSRAM)
+        {
+            appendFeature("EMB_PSRAM");
+        }
+        chipFeatures += "]";
+
+        String idfVersion = "unknown";
+#if ESP_IDF_VERSION_MAJOR >= 4
+        idfVersion = String(esp_get_idf_version());
+#endif
+
+        const String sdkVersion = String(ESP.getSdkVersion());
+        const String sketchMD5 = ESP.getSketchMD5();
+
+        const uint64_t uptimeUs = static_cast<uint64_t>(esp_timer_get_time());
+        const esp_reset_reason_t resetReason = esp_reset_reason();
+        const char *resetReasonText = resetReasonToString(resetReason);
+
+        const size_t heapFree8bit = heap_caps_get_free_size(MALLOC_CAP_8BIT);
+        const size_t heapFree32bit = heap_caps_get_free_size(MALLOC_CAP_32BIT);
+        const size_t heapLargestBlock = heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
+
+        String jsonResponse = "{";
+        auto appendField = [&](const char *key, const String &value, bool quoted) {
+            if (jsonResponse.length() > 1)
+            {
+                jsonResponse += ",";
+            }
+            jsonResponse += "\"";
+            jsonResponse += key;
+            jsonResponse += "\":";
+            if (quoted)
+            {
+                jsonResponse += "\"";
+            }
+            jsonResponse += value;
+            if (quoted)
+            {
+                jsonResponse += "\"";
+            }
+        };
+        auto appendRawField = [&](const char *key, const String &value) {
+            if (jsonResponse.length() > 1)
+            {
+                jsonResponse += ",";
+            }
+            jsonResponse += "\"";
+            jsonResponse += key;
+            jsonResponse += "\":";
+            jsonResponse += value;
+        };
+
+        appendField("chip_model", String(ESP.getChipModel()), true);
+        appendField("cores_count", String(ESP.getChipCores()), true);
+        appendField("chip_revision", String(ESP.getChipRevision()), true);
+        appendField("cpu_frequency", String(ESP.getCpuFreqMHz()), true);
+        appendField("cycle_count", String(static_cast<unsigned long long>(ESP.getCycleCount())), false);
+        appendField("mac", String(ESP.getEfuseMac()), true);
+        appendField("flash_mode", String(flashMode), true);
+        appendField("flash_chip_size", String(ESP.getFlashChipSize()), false);
+        appendField("flash_chip_speed", String(ESP.getFlashChipSpeed()), false);
+        appendField("heap_size", String(ESP.getHeapSize()), false);
+        appendField("heap_max_alloc", String(ESP.getMaxAllocHeap()), false);
+        appendField("psram_size", String(ESP.getPsramSize()), false);
+        appendField("free_psram", String(ESP.getFreePsram()), false);
+        appendField("psram_max_alloc", String(ESP.getMaxAllocPsram()), false);
+        appendField("free_heap", String(ESP.getFreeHeap()), false);
+        appendField("heap_free_8bit", String(heapFree8bit), false);
+        appendField("heap_free_32bit", String(heapFree32bit), false);
+        appendField("heap_largest_free_block", String(heapLargestBlock), false);
+        appendField("up_time", String(millis()), true);
+        appendField("uptime_us", String(static_cast<unsigned long long>(uptimeUs)), false);
+        appendField("sketch_size", String(ESP.getSketchSize()), false);
+        appendField("free_sketch", String(ESP.getFreeSketchSpace()), false);
+        appendField("arduino_core_version", arduinoCoreVersion, true);
+        appendField("sdk_version", sdkVersion, true);
+#if ESP_IDF_VERSION_MAJOR >= 4
+        appendField("idf_version", idfVersion, true);
+#endif
+        if (sketchMD5.length() > 0)
+        {
+            appendField("sketch_md5", sketchMD5, true);
+        }
+        appendRawField("chip_features", chipFeatures);
+        appendField("reset_reason_code", String(static_cast<int>(resetReason)), false);
+        appendField("reset_reason", String(resetReasonText), true);
+
+        jsonResponse += "}";
         request->send(200, "application/json", jsonResponse);
     }
 
@@ -412,6 +507,53 @@ private:
             Serial.println("GPIOViewer >> ESP32 is not connected to WiFi.");
         }
         return false;
+    }
+
+    static const char *resetReasonToString(esp_reset_reason_t reason)
+    {
+        switch (reason)
+        {
+        case ESP_RST_UNKNOWN:
+            return "UNKNOWN";
+        case ESP_RST_POWERON:
+            return "POWERON";
+        case ESP_RST_EXT:
+            return "EXT";
+        case ESP_RST_SW:
+            return "SW";
+        case ESP_RST_PANIC:
+            return "PANIC";
+        case ESP_RST_INT_WDT:
+            return "INT_WDT";
+        case ESP_RST_TASK_WDT:
+            return "TASK_WDT";
+        case ESP_RST_WDT:
+            return "WDT";
+        case ESP_RST_DEEPSLEEP:
+            return "DEEPSLEEP";
+        case ESP_RST_BROWNOUT:
+            return "BROWNOUT";
+        case ESP_RST_SDIO:
+            return "SDIO";
+#ifdef ESP_RST_USB
+        case ESP_RST_USB:
+            return "USB";
+#endif
+#ifdef ESP_RST_JTAG
+        case ESP_RST_JTAG:
+            return "JTAG";
+#endif
+#ifdef ESP_RST_EFUSE
+        case ESP_RST_EFUSE:
+            return "EFUSE";
+#endif
+#ifdef ESP_RST_RTC_WDT
+        case ESP_RST_RTC_WDT:
+            return "RTC_WDT";
+#endif
+        default:
+            return "UNKNOWN";
+        }
     }
 
     void printPWNTraps()
