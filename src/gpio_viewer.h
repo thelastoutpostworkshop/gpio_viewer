@@ -30,11 +30,13 @@ const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller
 
 #include "esp32-hal-periman.h"
 #include "soc/gpio_struct.h"
+#include "soc/soc_caps.h"
 #include <esp_chip_info.h>
 #include <esp_system.h>
 #include <esp_idf_version.h>
 #include <esp_timer.h>
 #include <esp_heap_caps.h>
+#include <math.h>
 
 String arduinoCoreVersion = "";
 
@@ -382,6 +384,11 @@ private:
         const size_t heapFree32bit = heap_caps_get_free_size(MALLOC_CAP_32BIT);
         const size_t heapLargestBlock = heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
 
+        float temperatureC = NAN;
+#if defined(CONFIG_IDF_TARGET_ESP32) || (defined(SOC_TEMP_SENSOR_SUPPORTED) && SOC_TEMP_SENSOR_SUPPORTED)
+        temperatureC = temperatureRead();
+#endif
+
         String jsonResponse = "{";
         auto appendField = [&](const char *key, const String &value, bool quoted) {
             if (jsonResponse.length() > 1)
@@ -446,6 +453,10 @@ private:
         appendRawField("chip_features", chipFeatures);
         appendField("reset_reason_code", String(static_cast<int>(resetReason)), false);
         appendField("reset_reason", String(resetReasonText), true);
+        if (!isnan(temperatureC))
+        {
+            appendField("temperature_c", String(temperatureC, 2), false);
+        }
 
         jsonResponse += "}";
         request->send(200, "application/json", jsonResponse);
