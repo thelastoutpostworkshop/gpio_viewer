@@ -267,35 +267,36 @@ private:
         String jsonResponse = "["; // Start of JSON array
         bool firstEntry = true;    // Used to format the JSON array correctly
 
-        esp_partition_iterator_t iter = esp_partition_find(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_ANY, NULL);
+        auto appendPartitions = [&](esp_partition_type_t type) {
+            esp_partition_iterator_t iter = esp_partition_find(type, ESP_PARTITION_SUBTYPE_ANY, NULL);
 
-        // Loop through partitions
-        while (iter != NULL)
-        {
-            const esp_partition_t *partition = esp_partition_get(iter);
-
-            // Add comma before the next entry if it's not the first
-            if (!firstEntry)
+            while (iter != NULL)
             {
-                jsonResponse += ",";
+                const esp_partition_t *partition = esp_partition_get(iter);
+
+                if (!firstEntry)
+                {
+                    jsonResponse += ",";
+                }
+                firstEntry = false;
+
+                // Append partition information in JSON format
+                jsonResponse += "{";
+                jsonResponse += "\"label\":\"" + String(partition->label) + "\",";
+                jsonResponse += "\"type\":" + String(partition->type) + ",";
+                jsonResponse += "\"subtype\":" + String(partition->subtype) + ",";
+                jsonResponse += "\"address\":\"0x" + String(partition->address, HEX) + "\",";
+                jsonResponse += "\"size\":" + String(partition->size);
+                jsonResponse += "}";
+
+                iter = esp_partition_next(iter); // Move to next partition
             }
-            firstEntry = false;
 
-            // Append partition information in JSON format
-            jsonResponse += "{";
-            jsonResponse += "\"label\":\"" + String(partition->label) + "\",";
-            jsonResponse += "\"type\":" + String(partition->type) + ",";
-            jsonResponse += "\"subtype\":" + String(partition->subtype) + ",";
-            jsonResponse += "\"address\":\"0x" + String(partition->address, HEX) + "\",";
-            jsonResponse += "\"size\":" + String(partition->size);
-            jsonResponse += "}";
+            esp_partition_iterator_release(iter); // Clean up iterator
+        };
 
-            // Move to next partition
-            iter = esp_partition_next(iter);
-        }
-
-        // Clean up the iterator
-        esp_partition_iterator_release(iter);
+        appendPartitions(ESP_PARTITION_TYPE_DATA);
+        appendPartitions(ESP_PARTITION_TYPE_APP);
 
         jsonResponse += "]"; // End of JSON array
 
