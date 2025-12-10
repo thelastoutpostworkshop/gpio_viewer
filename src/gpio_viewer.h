@@ -3,6 +3,9 @@
 #ifndef WiFi_h
 #include <WiFi.h>
 #endif
+#ifndef ESPmDNS_h
+#include <ESPmDNS.h>
+#endif
 #ifndef _ESPAsyncWebServer_H_
 #include <ESPAsyncWebServer.h>
 #endif
@@ -209,6 +212,18 @@ public:
 
             server->begin();
 
+            // Initialize mDNS ...
+            if (!MDNS.begin("GPIOViewer")) {
+                Serial.println("Error setting up MDNS responder!");
+                while(1) {
+                    delay(1000);
+                }
+            }
+
+            // ... and Advertise the GPIOViewer service details
+            MDNS.addService("http", "tcp", this->port);
+
+            // Print out GPIOViewer service details
             Serial.print("GPIOViewer >> Web Application URL is: http://");
             Serial.print(WiFi.localIP());
             Serial.print(":");
