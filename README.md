@@ -42,7 +42,7 @@ lib_deps =
 
 > ℹ️ You can also get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
 > ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!<br>
-> ℹ️ The URL to the web GPIO viewer application is printed on the serial monitor<br>
+> ℹ️ The **GPIOViewer** application can be accessed using the URL **http://gpioviewer.local:8080** - or with the port number used in a **setPort()** function call. In addition the IP Address form of the URL is printed on the serial monitor.<br>
 
 ```c
 #include <gpio_viewer.h> // Must me the first include in your project
