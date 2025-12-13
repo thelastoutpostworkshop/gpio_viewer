@@ -222,7 +222,7 @@ public:
             {
                 // ... and Advertise the GPIOViewer service details
                 MDNS.addService("http", "tcp", this->port);
-                Serial.printf("GPIOViewer >> mDNS URL is: http://%s.local:%u\n", mdnsHostname.c_str(), port);
+                Serial.printf("GPIOViewer >> Web Application mDNS URL is: http://%s.local:%u\n", mdnsHostname.c_str(), port);
             }
             else
             {
