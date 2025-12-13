@@ -42,7 +42,6 @@ lib_deps =
 
 > ℹ️ You can also get examples provided with the library in the Arduino IDE through the menu `File > Examples > GPIOViewer`<br>
 > ℹ️ You only need to include the library, declare the GPIOViewer and call begin() at the end of your setup, and that's it!<br>
-> ℹ️ The **GPIOViewer** application can be accessed using the URL **http://gpioviewer.local:8080** - or with the port number used in a **setPort()** function call. In addition the IP Address form of the URL is printed on the serial monitor.<br>
 
 ```c
 #include <gpio_viewer.h> // Must me the first include in your project
@@ -65,7 +64,8 @@ void setup()
 ```
 
 > ℹ️ The default HTTP port is **8080** and default sampling interval is **100ms**<br>
-> ℹ️ Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported)
+> ℹ️ Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported)<br>
+> ℹ️ The **GPIOViewer** application supports **mDNS**. If available on your network, you can access it at **http://gpioviewer.local:8080** (with the port number used in a **setPort()**). If mDNS is unavailable/blocked, use the **IP address URL** printed on the serial monitor (with the port number used in a **setPort()**).<br>
 
 ## GPIO Supported
 

@@ -21,7 +21,7 @@
 #endif
 #include <esp_partition.h>
 
-const char *release = "1.7.0";
+const char *release = "1.7.1";
 
 // Hostname for mDNS
 String mdnsHostname = "gpioviewer";
