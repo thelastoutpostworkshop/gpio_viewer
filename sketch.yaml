@@ -8,7 +8,7 @@ profiles:
       - ESP Async WebServer (3.9.2)
       - Async TCP (3.4.9)
       - SimpleRotary (1.1.3)
-    port: COM5
+    port: COM14
     port_config:
       baudrate: "115200"
       lineEnding: "\r\n"

@@ -23,6 +23,10 @@
 
 const char *release = "1.7.0";
 
+// Hostname for mDNS
+String mdnsHostname = "gpioviewer";
+
+// Web application assets
 const String baseURL = "https://thelastoutpostworkshop.github.io/microcontroller_devkit/gpio_viewer_1_5/";
 
 #if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
@@ -213,15 +217,17 @@ public:
             server->begin();
 
             // Initialize mDNS ...
-            if (!MDNS.begin("GPIOViewer")) {
-                Serial.println("Error setting up MDNS responder!");
-                while(1) {
-                    delay(1000);
-                }
+            bool mdnsStarted = MDNS.begin(mdnsHostname.c_str());
+            if (mdnsStarted)
+            {
+                // ... and Advertise the GPIOViewer service details
+                MDNS.addService("http", "tcp", this->port);
+                Serial.printf("GPIOViewer >> mDNS URL is: http://%s.local:%u\n", mdnsHostname.c_str(), port);
             }
-
-            // ... and Advertise the GPIOViewer service details
-            MDNS.addService("http", "tcp", this->port);
+            else
+            {
+                Serial.println("GPIOViewer >> mDNS unavailable; use the IP address URL instead.");
+            }
 
             // Print out GPIOViewer service details
             Serial.print("GPIOViewer >> Web Application URL is: http://");
@@ -278,7 +284,8 @@ private:
         String jsonResponse = "["; // Start of JSON array
         bool firstEntry = true;    // Used to format the JSON array correctly
 
-        auto appendPartitions = [&](esp_partition_type_t type) {
+        auto appendPartitions = [&](esp_partition_type_t type)
+        {
             esp_partition_iterator_t iter = esp_partition_find(type, ESP_PARTITION_SUBTYPE_ANY, NULL);
 
             while (iter != NULL)
@@ -347,7 +354,8 @@ private:
 
         String chipFeatures = "[";
         bool firstFeature = true;
-        auto appendFeature = [&](const char *name) {
+        auto appendFeature = [&](const char *name)
+        {
             if (!firstFeature)
             {
                 chipFeatures += ",";
@@ -406,7 +414,8 @@ private:
 #endif
 
         String jsonResponse = "{";
-        auto appendField = [&](const char *key, const String &value, bool quoted) {
+        auto appendField = [&](const char *key, const String &value, bool quoted)
+        {
             if (jsonResponse.length() > 1)
             {
                 jsonResponse += ",";
@@ -424,7 +433,8 @@ private:
                 jsonResponse += "\"";
             }
         };
-        auto appendRawField = [&](const char *key, const String &value) {
+        auto appendRawField = [&](const char *key, const String &value)
+        {
             if (jsonResponse.length() > 1)
             {
                 jsonResponse += ",";
