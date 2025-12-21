@@ -35,7 +35,7 @@ platform = espressif32
 framework = arduino
 lib_deps =
     https://github.com/mathieucarbou/AsyncTCP.git
-    https://github.com/mathieucarbou/AsyncTCP.git
+    https://github.com/thelastoutpostworkshop/gpio_viewer.git
 ```
 
 ## Usage
