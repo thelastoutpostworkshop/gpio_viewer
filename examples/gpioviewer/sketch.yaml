@@ -5,9 +5,9 @@ profiles:
       - platform: esp32:esp32 (3.3.5)
         platform_index_url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
     libraries:
-      - ESP Async WebServer (3.9.3)
-      - Async TCP (3.4.9)
-      - GPIOViewer (1.6.3)
+      - ESP Async WebServer (3.9.4)
+      - Async TCP (3.4.10)
+      - GPIOViewer (1.7.1)
     port: COM6
     port_config:
       baudrate: "115200"
