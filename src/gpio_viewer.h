@@ -127,6 +127,11 @@ public:
         this->samplingInterval = samplingInterval;
     }
 
+    void setSkipPeripheralPins(bool skipPeripheralPins)
+    {
+        this->skipPeripheralPins = skipPeripheralPins;
+    }
+
     void connectToWifi(const char *ssid, const char *password)
     {
         WiFi.begin(ssid, password);
@@ -259,6 +264,7 @@ private:
     uint8_t ADCPinsCount = 0;
     uint8_t TouchPins[maxGPIOPins];
     uint8_t TouchPinsCount = 0;
+    bool skipPeripheralPins = true;
     String freeRAM = formatBytes(ESP.getFreeSketchSpace());
 
     // #ifdef GPIOVIEWER_ESP32CORE_VERSION_3
@@ -803,6 +809,108 @@ private:
         }
         return false;
     }
+
+    bool isPinOnPeripheralBus(int gpioNum)
+    {
+        // Skip pins owned by active peripherals to avoid interfering reads.
+#ifdef ESP32_BUS_TYPE_I2C_MASTER_SDA
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_I2C_MASTER_SDA) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_I2C_MASTER_SCL
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_I2C_MASTER_SCL) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_I2C_SLAVE_SDA
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_I2C_SLAVE_SDA) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_I2C_SLAVE_SCL
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_I2C_SLAVE_SCL) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_MASTER_SCK
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_MASTER_SCK) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_MASTER_MISO
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_MASTER_MISO) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_MASTER_MOSI
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_MASTER_MOSI) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_MASTER_SS
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_MASTER_SS) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_SLAVE_SCK
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_SLAVE_SCK) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_SLAVE_MISO
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_SLAVE_MISO) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_SLAVE_MOSI
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_SLAVE_MOSI) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_SPI_SLAVE_SS
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_SPI_SLAVE_SS) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_UART_RX
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_UART_RX) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_UART_TX
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_UART_TX) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_UART_RTS
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_UART_RTS) != NULL)
+        {
+            return true;
+        }
+#endif
+#ifdef ESP32_BUS_TYPE_UART_CTS
+        if (perimanGetPinBus(gpioNum, ESP32_BUS_TYPE_UART_CTS) != NULL)
+        {
+            return true;
+        }
+#endif
+        return false;
+    }
 #ifdef SOC_ADC_SUPPORTED
     void
     readADCPinsConfiguration(void)
@@ -919,6 +1027,13 @@ private:
             *pintype = PWMPin;
 
             return ledc_value;
+        }
+
+        if (skipPeripheralPins && isPinOnPeripheralBus(gpioNum))
+        {
+            *pintype = digitalPin;
+            *originalValue = 0;
+            return 0;
         }
 
 #ifdef SOC_ADC_SUPPORTED

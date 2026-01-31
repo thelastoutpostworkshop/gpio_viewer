@@ -29,6 +29,7 @@ void setup()
 
   // Must be at the end of your setup
   // gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set default is 100ms
+  // gpio_viewer.setSkipPeripheralPins(false); // Default true: skip I2C/SPI/UART pins owned by peripherals
   gpio_viewer.begin();
 }
 

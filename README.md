@@ -60,11 +60,13 @@ void setup()
 
   // Must be at the end of your setup
   // gpio_viewer.setSamplingInterval(25); // You can set the sampling interval in ms, if not set default is 100ms
+  // gpio_viewer.setSkipPeripheralPins(false); // Default true: skip I2C/SPI/UART pins owned by peripherals
   gpio_viewer.begin();
 }
 ```
 
 > ℹ️ The default HTTP port is **8080** and default sampling interval is **100ms**<br>
+> ℹ️ By default, GPIOViewer skips pins owned by active I2C/SPI/UART peripherals (ESP32 core v3+). Use **setSkipPeripheralPins(false)** to monitor them anyway.<br>
 > ℹ️ Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported)<br>
 > ℹ️ The **GPIOViewer** application supports **mDNS**. If available on your network, you can access it at **http://gpioviewer.local:8080** (with the port number used in a **setPort()**). If mDNS is unavailable/blocked, use the **IP address URL** printed on the serial monitor (with the port number used in a **setPort()**).<br>
 

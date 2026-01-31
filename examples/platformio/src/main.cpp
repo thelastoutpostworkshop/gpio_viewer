@@ -15,6 +15,7 @@ void setup() {
 
   gpioViewer.connectToWifi(WIFI_SSID, WIFI_PASS);
   gpioViewer.setSamplingInterval(125);
+  // gpioViewer.setSkipPeripheralPins(false); // Default true: skip I2C/SPI/UART pins owned by peripherals
   gpioViewer.begin();
 }
 
