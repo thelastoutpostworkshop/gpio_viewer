@@ -18,8 +18,8 @@
 > by Espressif Systems in your Board Manager<br>
 
 - Install the **GPIOViewer Library with the Arduino IDE Library Manager** or Download the [latest stable release](https://github.com/thelastoutpostworkshop/gpio_viewer/releases/latest) and install the library in the Arduino IDE : `Sketch > Include Library > Add ZIP Library...`
-- Install [ESPAsyncWebServer](https://github.com/mathieucarbou/ESPAsyncWebServer) using the Arduino IDE Library Manager
-- Install the the [Async TCP](https://github.com/mathieucarbou/AsyncTCP) using the Arduino IDE Library Manager.
+- Install [ESPAsyncWebServer](https://github.com/ESP32Async/ESPAsyncWebServer) using the Arduino IDE Library Manager
+- Install the the [Async TCP](https://github.com/ESP32Async/AsyncTCP) using the Arduino IDE Library Manager.
 
 ### Installation VSCode + PlatformIO
 
