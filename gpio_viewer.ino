@@ -102,7 +102,7 @@ void setup()
 
   gpio_viewer.connectToWifi(ssid, password);
 
-#ifdef TEST_ESP32 || TEST_ESP32_S3
+#if defined(TEST_ESP32) || defined(TEST_ESP32_S3)
   test1_setup();
 #endif
 
