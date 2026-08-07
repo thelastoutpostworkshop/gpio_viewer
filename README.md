@@ -100,7 +100,7 @@ Contributors are welcomed! If you want to submit pull requests, [here is how you
 
 ### Last tested to be working on :
 
-- v3.3.10 [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32)
+- v3.3.11 [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32)
 - v3.4.10 [Async TCP](https://github.com/ESP32Async/AsyncTCP)
 - v3.11.1 [ESP Async WebServer](https://github.com/ESP32Async/ESPAsyncWebServer)
 
