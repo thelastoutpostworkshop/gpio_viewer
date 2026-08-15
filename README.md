@@ -23,21 +23,23 @@
 
 ### Installation VSCode + PlatformIO
 
-> ℹ️ Make sure you have the [latest ESP32 boards](https://github.com/espressif/arduino-esp32)
-> by Espressif Systems in your Platforms<br>
+> ℹ️ GPIOViewer requires Arduino-ESP32 core **3.x or newer**. PlatformIO's official `espressif32` platform currently uses Arduino-ESP32 core 2.x, even when it is up to date. Use the core-3-compatible `pioarduino` platform below.<br>
 
-- Install the **GPIOViewer Library using PlateformIO Libraries**
-
-Add (or change) the following to your platformio.ini file:
+Add (or change) the following in your `platformio.ini` file. Replace `<your-esp32-board>` with your board's PlatformIO board ID (for example, `esp32dev`):
 
 ```
-platform = espressif32
+[env:your_board]
+platform = https://github.com/pioarduino/platform-espressif32/releases/download/stable/platform-espressif32.zip
+board = <your-esp32-board>
 framework = arduino
+
 lib_deps =
     https://github.com/ESP32Async/ESPAsyncWebServer.git
     https://github.com/ESP32Async/AsyncTCP.git
     https://github.com/thelastoutpostworkshop/gpio_viewer.git
 ```
+
+After changing the platform, run **PlatformIO: Clean** and build the project again so PlatformIO downloads the new platform. Every Arduino sketch also requires both a `setup()` and a `loop()` function, even when `loop()` is empty.
 
 ## Usage
 
