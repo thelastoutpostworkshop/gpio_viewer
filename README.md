@@ -72,6 +72,15 @@ void setup()
 > ℹ️ Wifi must be in mode WIFI_STA (WIFI_AP and WIFI_AP_STA are not supported)<br>
 > ℹ️ The **GPIOViewer** application supports **mDNS**. If available on your network, you can access it at **http://gpioviewer.local:8080** (with the port number used in a **setPort()**). If mDNS is unavailable/blocked, use the **IP address URL** printed on the serial monitor (with the port number used in a **setPort()**).<br>
 
+> ℹ️ **mDNS name vs. router hostname:** GPIOViewer registers `gpioviewer.local` for mDNS access but does not change the Wi-Fi/DHCP hostname. Your router may display a default name such as `esp32c3-16975C` even when `http://gpioviewer.local:8080` works correctly.
+
+To also change the Wi-Fi/DHCP hostname, call `WiFi.setHostname()` in your `setup()` before starting Wi-Fi, including before any `WiFi.mode()`, `WiFi.begin()`, or `connectToWifi()` call:
+
+```cpp
+WiFi.setHostname("gpioviewer"); // Do not include ".local"
+gpio_viewer.connectToWifi("Your SSID network", "Your WiFi Password");
+```
+
 ## GPIO Supported
 
 - Digital
